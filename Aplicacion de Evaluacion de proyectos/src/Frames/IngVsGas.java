@@ -123,10 +123,11 @@ public class IngVsGas extends javax.swing.JFrame {
         return tabla_ingresos;
     }
 
-    public void calculo_total(JTable tabla, String datos[]) {
+    public void calculo_total(JTable tabla) {
 
         double total = 0;
-        datos[0] = "Total";
+        ArrayList datos = new ArrayList();
+        datos.add("Total");
 
         try {
             //chequea si la row Total existe y la borra 
@@ -139,7 +140,7 @@ public class IngVsGas extends javax.swing.JFrame {
             //acumula la suma de los valores
 
             for (int i = 1; i <= Principal.longevidad; i++) {
-                for (int j = 0; j < tabla.getRowCount() - 1; j++) {
+                for (int j = 0; j < tabla.getRowCount(); j++) {
                     //convierte los datos null de la primera columna en string para evitar null exceptions 
                     if (tabla.getValueAt(j, 0) == null) {
                         Tabla.get_modelo(tabla).setValueAt("", j, 0);
@@ -152,11 +153,11 @@ public class IngVsGas extends javax.swing.JFrame {
                     }
                 }
 
-                datos[i] = String.valueOf(total);
+                datos.add(total);
                 total = 0;
             }
 
-            Tabla.get_modelo(tabla).addRow(datos);
+            Tabla.get_modelo(tabla).addRow(datos.toArray());
         } catch (ArrayIndexOutOfBoundsException e) {
 
         }
@@ -518,7 +519,7 @@ public class IngVsGas extends javax.swing.JFrame {
             Tabla.importar(ingresosiva, tabla_ingresos);
         }
         Tabla.filas_defecto(tabla_ingresos, 30);
-        calculo_total(tabla_ingresos, datos_ing);
+        calculo_total(tabla_ingresos);
 
     }//GEN-LAST:event_jComboBoxivaingItemStateChanged
 
@@ -533,7 +534,7 @@ public class IngVsGas extends javax.swing.JFrame {
             Tabla.importar(egresosiva, tabla_egresos);
         }
         Tabla.filas_defecto(tabla_egresos, 30);
-        calculo_total(tabla_egresos, datos_eg);
+        calculo_total(tabla_egresos);
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
     private void jComboBoxivaegMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxivaegMouseClicked
@@ -548,7 +549,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
         System.out.println("Propiedad de ingresos cambiada");
-        calculo_total(tabla_ingresos, datos_ing);
+        calculo_total(tabla_ingresos);
         ebitda.set_ing(datos_ing);
         ebitda.filas_datos_ebitda();
     }//GEN-LAST:event_tabla_ingresosPropertyChange
@@ -619,7 +620,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
         System.out.println("Propiedad de egresos cambiada");
-        calculo_total(tabla_egresos, datos_eg);
+        calculo_total(tabla_egresos);
         ebitda.set_eg(datos_eg);
         ebitda.filas_datos_ebitda();
     }//GEN-LAST:event_tabla_egresosPropertyChange
