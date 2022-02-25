@@ -55,6 +55,12 @@ public class IngVsGas extends javax.swing.JFrame {
     private String datos_ing[] = new String[50];
     private String datos_eg[] = new String[50];
     private File directorio = new File("C:\\Project evaluator\\IngVsGas");
+    private ArrayList<Double> total_ing = new ArrayList();
+    private ArrayList<Double> total_ing_iva = new ArrayList();
+    private ArrayList<Double> total_eg = new ArrayList();
+    private ArrayList<Double> total_eg_iva = new ArrayList();
+    private ArrayList suma_totales_ing = new ArrayList();
+    private ArrayList suma_totales_eg = new ArrayList();
 
     private File ingresos = new File("C:\\Project evaluator\\IngVsGas\\ingresos.txt");
     private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
@@ -127,7 +133,6 @@ public class IngVsGas extends javax.swing.JFrame {
 
         double total = 0;
         ArrayList datos = new ArrayList();
-        datos.add("Total");
 
         try {
             //chequea si la row Total existe y la borra 
@@ -157,10 +162,36 @@ public class IngVsGas extends javax.swing.JFrame {
                 total = 0;
             }
 
+            if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
+                total_ing = (ArrayList<Double>) datos.clone();
+            } else {
+                total_ing_iva = (ArrayList<Double>) datos.clone();
+            }
+            if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA")) {
+                total_eg = (ArrayList<Double>) datos.clone();
+            } else {
+                total_eg_iva = (ArrayList<Double>) datos.clone();;
+            }
+
+            int tam = datos.size();
+
+            suma_totales(tam);
+            datos.add(0, "Total");
             Tabla.get_modelo(tabla).addRow(datos.toArray());
         } catch (ArrayIndexOutOfBoundsException e) {
 
         }
+    }
+
+    public void suma_totales(int tam) {
+
+        for (int i = 0; i < total_ing.size(); i++) {
+
+            suma_totales_ing.add(total_ing.get(i) + total_ing_iva.get(i));
+            suma_totales_eg.add(total_eg.get(i) + total_eg_iva.get(i));
+            System.out.print(suma_totales_ing.get(i));
+        }
+
     }
 
     /**
