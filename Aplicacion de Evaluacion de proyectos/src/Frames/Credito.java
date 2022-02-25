@@ -80,7 +80,6 @@ public class Credito extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Crédito");
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(900, 690));
         setSize(new java.awt.Dimension(900, 690));
 
         txtcredito.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
@@ -89,6 +88,7 @@ public class Credito extends javax.swing.JFrame {
 
         scrollcredito.setBackground(new java.awt.Color(255, 255, 255));
 
+        tabla_pagcredito.setBackground(new java.awt.Color(255, 255, 255));
         tabla_pagcredito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -128,6 +128,7 @@ public class Credito extends javax.swing.JFrame {
 
         scrolldatcredito.setBackground(new java.awt.Color(255, 255, 255));
 
+        tabla_datcredito.setBackground(new java.awt.Color(255, 255, 255));
         tabla_datcredito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -156,10 +157,10 @@ public class Credito extends javax.swing.JFrame {
                         .addComponent(btn_guardar)
                         .addGap(80, 80, 80))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(scrollcredito, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
                             .addComponent(scrolldatcredito, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(99, 99, 99))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,10 +173,10 @@ public class Credito extends javax.swing.JFrame {
                         .addComponent(btn_quitarfila_cred))
                     .addComponent(txtcredito))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollcredito, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollcredito, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                 .addGap(49, 49, 49)
-                .addComponent(scrolldatcredito, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addComponent(scrolldatcredito, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addGap(85, 85, 85))
         );
 
         pack();

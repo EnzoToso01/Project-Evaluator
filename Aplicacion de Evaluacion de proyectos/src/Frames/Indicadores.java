@@ -70,13 +70,13 @@ public class Indicadores extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Indicadores");
         setBackground(new java.awt.Color(240, 255, 255));
-        setPreferredSize(new java.awt.Dimension(900, 690));
         setSize(new java.awt.Dimension(900, 690));
 
         txtindicadores.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         txtindicadores.setForeground(new java.awt.Color(240, 255, 255));
         txtindicadores.setText("Indicadores");
 
+        tabla_indicadores.setBackground(new java.awt.Color(255, 255, 255));
         tabla_indicadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -117,8 +117,8 @@ public class Indicadores extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(scroll_indicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+                        .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -168,11 +168,11 @@ public class Indicadores extends javax.swing.JFrame {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        File indicadores = new File("C:\\Project evaluator\\indicadores.txt");
-        //Declaro la tabla por ser método privado y paso por parametro para el método exportar
-        JTable tabla = getTabla_indicadores();
+       
+        // paso por parametro para el método exportar
+        
         try {
-            Tabla.exportar(indicadores, tabla);
+            Tabla.exportar(indicadores, tabla_indicadores);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");

@@ -4,8 +4,14 @@
  */
 package Frames;
 
+import aplicacion.de.evaluacion.de.proyectos.Tabla;
 import java.awt.Color;
+import java.io.File;
+import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +22,8 @@ public class Riesgo extends javax.swing.JFrame {
     /**
      * Creates new form Riesgo
      */
+    private File riesgos = new File("C:\\Project evaluator\\riesgos.txt");
+    
     public Riesgo() {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -34,16 +42,28 @@ public class Riesgo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        scroll_riesg = new javax.swing.JScrollPane();
+        tabla_riesgos = new javax.swing.JTable();
         txtriesgos = new javax.swing.JLabel();
         btn_añadirfila_riesg = new javax.swing.JButton();
         btn_quitarfila_riesg = new javax.swing.JButton();
         btn_guardar = new javax.swing.JButton();
-        scroll_riesg = new javax.swing.JScrollPane();
-        tabla_riesgos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
+
+        tabla_riesgos.setBackground(new java.awt.Color(255, 255, 255));
+        tabla_riesgos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Factor de Riesgo", "Categoría", "Probabilidad", "Impacto", "Exposición", "Efecto", "Valor", "Respuesta", "Valor Riesgo", "Contingencia", "Responsable", "Fecha Mitigación"
+            }
+        ));
+        tabla_riesgos.setShowGrid(true);
+        scroll_riesg.setViewportView(tabla_riesgos);
 
         txtriesgos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
         txtriesgos.setForeground(new java.awt.Color(240, 255, 255));
@@ -70,17 +90,6 @@ public class Riesgo extends javax.swing.JFrame {
             }
         });
 
-        tabla_riesgos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Indicador"
-            }
-        ));
-        tabla_riesgos.setShowGrid(true);
-        scroll_riesg.setViewportView(tabla_riesgos);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,8 +98,8 @@ public class Riesgo extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(scroll_riesg, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(scroll_riesg, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+                        .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtriesgos, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 288, Short.MAX_VALUE)
@@ -104,14 +113,13 @@ public class Riesgo extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_guardar)
-                        .addComponent(btn_añadirfila_riesg)
-                        .addComponent(btn_quitarfila_riesg))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_guardar)
+                    .addComponent(btn_añadirfila_riesg)
+                    .addComponent(btn_quitarfila_riesg)
                     .addComponent(txtriesgos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(scroll_riesg, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                 .addGap(7, 7, 7))
         );
@@ -119,6 +127,16 @@ public class Riesgo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JTable getTabla_riesgos() {
+        return tabla_riesgos;
+    }
+
+    public File getRiesgos() {
+        return riesgos;
+    }
+    
+    
+    
     private void btn_añadirfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_riesgActionPerformed
         // TODO add your handling code here
         //Añade filas a ingresos
@@ -140,11 +158,11 @@ public class Riesgo extends javax.swing.JFrame {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        File indicadores = new File("C:\\Project evaluator\\indicadores.txt");
+      
         //Declaro la tabla por ser método privado y paso por parametro para el método exportar
-        JTable tabla = getTabla_indicadores();
+        
         try {
-            Tabla.exportar(indicadores, tabla);
+            Tabla.exportar(riesgos, tabla_riesgos);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");

@@ -217,6 +217,7 @@ public class IngVsGas extends javax.swing.JFrame {
         txtegresos.setForeground(new java.awt.Color(240, 255, 255));
         txtegresos.setText("Egresos del Proyecto");
 
+        tabla_ingresos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_ingresos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -260,6 +261,7 @@ public class IngVsGas extends javax.swing.JFrame {
         });
         scroll_ingresos.setViewportView(tabla_ingresos);
 
+        tabla_egresos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_egresos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

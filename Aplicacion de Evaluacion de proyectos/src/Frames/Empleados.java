@@ -74,6 +74,7 @@ public class Empleados extends javax.swing.JFrame {
         txtsueldos.setForeground(new java.awt.Color(240, 255, 255));
         txtsueldos.setText("Sueldos");
 
+        tabla_sueldos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_sueldos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -153,8 +154,8 @@ public class Empleados extends javax.swing.JFrame {
                         .addComponent(btn_guardar)
                         .addGap(67, 67, 67))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(scroll_ebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(scroll_ebitda, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -170,8 +171,8 @@ public class Empleados extends javax.swing.JFrame {
                     .addComponent(btn_quitarfila_emp)
                     .addComponent(btn_guardar)
                     .addComponent(txtsueldos))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                .addComponent(scroll_ebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(136, 136, 136)
+                .addComponent(scroll_ebitda, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
                 .addGap(16, 16, 16))
         );
 

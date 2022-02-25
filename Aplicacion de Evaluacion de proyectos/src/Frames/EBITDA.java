@@ -113,6 +113,7 @@ public class EBITDA extends javax.swing.JFrame {
         txtebitda.setForeground(new java.awt.Color(240, 255, 255));
         txtebitda.setText("EBITDA");
 
+        tabla_ebitda.setBackground(new java.awt.Color(255, 255, 255));
         tabla_ebitda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

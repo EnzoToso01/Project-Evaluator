@@ -29,7 +29,7 @@ public class Principal extends javax.swing.JFrame {
     Impuestos impuestos = new Impuestos();
     EBITDA ebitda = new EBITDA();
     IngVsGas ingvsgas = new IngVsGas(ebitda);
-    Riesgo riesgo= new Riesgo();
+    Riesgo riesgo = new Riesgo();
 
     /**
      * Creates new form Principal
@@ -597,7 +597,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_indicadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_indicadoresMouseClicked
         // TODO add your handling code here:
-
+        ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
         indicadores.setVisible(true);
 
         Tabla.inicializar(indicadores.getTabla_indicadores());
@@ -658,7 +658,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_empleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseClicked
         // TODO add your handling code here:
-
+        ((DefaultTableModel) empleados.getTabla_sueldos().getModel()).setRowCount(0);
         empleados.setVisible(true);
         empleados.inicializar_combo();
         empleados.importar_emp();
@@ -833,7 +833,9 @@ public class Principal extends javax.swing.JFrame {
     private void btn_riesgoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_riesgoMouseClicked
         // TODO add your handling code here:
         riesgo.setVisible(true);
-        
+        Tabla.inicializar(riesgo.getTabla_riesgos());
+        Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
+
     }//GEN-LAST:event_btn_riesgoMouseClicked
 
     private void btn_riesgoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_riesgoMouseEntered
@@ -854,17 +856,18 @@ public class Principal extends javax.swing.JFrame {
 
     private void panel_riesgoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_riesgoMouseClicked
         // TODO add your handling code here:
+
     }//GEN-LAST:event_panel_riesgoMouseClicked
 
     private void panel_riesgoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_riesgoMouseEntered
         // TODO add your handling code here:
+
     }//GEN-LAST:event_panel_riesgoMouseEntered
 
     private void panel_riesgoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_riesgoMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_panel_riesgoMouseExited
 
-    
     /**
      * @param args the command line arguments
      */
