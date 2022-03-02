@@ -59,8 +59,6 @@ public class IngVsGas extends javax.swing.JFrame {
     private ArrayList<Double> total_ing_iva = new ArrayList();
     private ArrayList<Double> total_eg = new ArrayList();
     private ArrayList<Double> total_eg_iva = new ArrayList();
-    private ArrayList suma_totales_ing = new ArrayList();
-    private ArrayList suma_totales_eg = new ArrayList();
 
     private File ingresos = new File("C:\\Project evaluator\\IngVsGas\\ingresos.txt");
     private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
@@ -133,17 +131,35 @@ public class IngVsGas extends javax.swing.JFrame {
 
         double total = 0;
         ArrayList datos = new ArrayList();
+        ArrayList suma_totales_ing = new ArrayList();
+        ArrayList suma_totales_eg = new ArrayList();
+        //añade valores por defecto a los arraylist de totales
+        for (int i = 0; i < Principal.longevidad; i++) {
+
+            total_ing.add(0.0);
+            total_ing_iva.add(0.0);
+            total_eg.add(0.0);
+            total_eg_iva.add(0.0);
+            suma_totales_ing.add(0.0);
+            suma_totales_eg.add(0.0);
+        }
 
         try {
-            //chequea si la row Total existe y la borra 
+            //chequea si las rows Totales existen y las borra 
             for (int i = 0; i < tabla.getRowCount(); i++) {
                 if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total")) {
                     Tabla.get_modelo(tabla).removeRow(i);
 
                 }
             }
-            //acumula la suma de los valores
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total (Con IVA)")) {
+                    Tabla.get_modelo(tabla).removeRow(i);
 
+                }
+            }
+
+            //acumula la suma de los valores
             for (int i = 1; i <= Principal.longevidad; i++) {
                 for (int j = 0; j < tabla.getRowCount(); j++) {
                     //convierte los datos null de la primera columna en string para evitar null exceptions 
@@ -162,6 +178,7 @@ public class IngVsGas extends javax.swing.JFrame {
                 total = 0;
             }
 
+            //iguala los arrays a el array datos segun corresponda
             if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
                 total_ing = (ArrayList<Double>) datos.clone();
             } else {
@@ -172,26 +189,26 @@ public class IngVsGas extends javax.swing.JFrame {
             } else {
                 total_eg_iva = (ArrayList<Double>) datos.clone();;
             }
+            // realiza la suma de los totales
+            for (int i = 0; i < Principal.longevidad; i++) {
+                suma_totales_ing.set(i, total_ing.get(i) + total_ing_iva.get(i));
+                suma_totales_eg.set(i, total_eg.get(i) + total_eg_iva.get(i));
+            }
 
-            int tam = datos.size();
-
-            suma_totales(tam);
+            //añade los totales a las tablas
             datos.add(0, "Total");
             Tabla.get_modelo(tabla).addRow(datos.toArray());
+            suma_totales_ing.add(0, "Total (Con IVA)");
+             suma_totales_eg.add(0, "Total (Con IVA)");
+            if (jComboBoxivaing.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_ingresos)) {
+                Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
+            }else if (jComboBoxivaing.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_egresos)){
+             Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
+            }
+
         } catch (ArrayIndexOutOfBoundsException e) {
-
+            System.err.println("Error en Calculo Total");
         }
-    }
-
-    public void suma_totales(int tam) {
-
-        for (int i = 0; i < total_ing.size(); i++) {
-
-            suma_totales_ing.add(total_ing.get(i) + total_ing_iva.get(i));
-            suma_totales_eg.add(total_eg.get(i) + total_eg_iva.get(i));
-            System.out.print(suma_totales_ing.get(i));
-        }
-
     }
 
     /**
