@@ -52,14 +52,13 @@ public class IngVsGas extends javax.swing.JFrame {
     /**
      * Creates new form IngVsGas
      */
-    private String datos_ing[] = new String[50];
-    private String datos_eg[] = new String[50];
     private File directorio = new File("C:\\Project evaluator\\IngVsGas");
     private ArrayList<Double> total_ing = new ArrayList();
     private ArrayList<Double> total_ing_iva = new ArrayList();
     private ArrayList<Double> total_eg = new ArrayList();
     private ArrayList<Double> total_eg_iva = new ArrayList();
-
+    private ArrayList suma_totales_ing = new ArrayList();
+    private ArrayList suma_totales_eg = new ArrayList();
     private File ingresos = new File("C:\\Project evaluator\\IngVsGas\\ingresos.txt");
     private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
     private File egresos = new File("C:\\Project evaluator\\IngVsGas\\egresos.txt");
@@ -95,14 +94,6 @@ public class IngVsGas extends javax.swing.JFrame {
 
     }
 
-    public String[] getDatos_ing() {
-        return datos_ing;
-    }
-
-    public String[] getDatos_eg() {
-        return datos_eg;
-    }
-
     public File getIngresos() {
         return ingresos;
     }
@@ -131,8 +122,6 @@ public class IngVsGas extends javax.swing.JFrame {
 
         double total = 0;
         ArrayList datos = new ArrayList();
-        ArrayList suma_totales_ing = new ArrayList();
-        ArrayList suma_totales_eg = new ArrayList();
         //añade valores por defecto a los arraylist de totales
         for (int i = 0; i < Principal.longevidad; i++) {
 
@@ -199,11 +188,14 @@ public class IngVsGas extends javax.swing.JFrame {
             datos.add(0, "Total");
             Tabla.get_modelo(tabla).addRow(datos.toArray());
             suma_totales_ing.add(0, "Total (Con IVA)");
-             suma_totales_eg.add(0, "Total (Con IVA)");
+            suma_totales_eg.add(0, "Total (Con IVA)");
+
             if (jComboBoxivaing.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_ingresos)) {
                 Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
-            }else if (jComboBoxivaing.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_egresos)){
-             Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
+
+            } else if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_egresos)) {
+                Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
+
             }
 
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -567,6 +559,7 @@ public class IngVsGas extends javax.swing.JFrame {
             Tabla.importar(ingresosiva, tabla_ingresos);
         }
         Tabla.filas_defecto(tabla_ingresos, 30);
+
         calculo_total(tabla_ingresos);
 
     }//GEN-LAST:event_jComboBoxivaingItemStateChanged
@@ -582,6 +575,7 @@ public class IngVsGas extends javax.swing.JFrame {
             Tabla.importar(egresosiva, tabla_egresos);
         }
         Tabla.filas_defecto(tabla_egresos, 30);
+
         calculo_total(tabla_egresos);
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
@@ -596,10 +590,18 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
-        System.out.println("Propiedad de ingresos cambiada");
+
         calculo_total(tabla_ingresos);
-        ebitda.set_ing(datos_ing);
-        ebitda.filas_datos_ebitda();
+
+        //setea datos de Ebitda
+        for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
+            if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Ingresos")) {
+                Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
+            }
+        }
+        ebitda.setIngresos(suma_totales_ing);
+
+
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
 
@@ -667,10 +669,16 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
-        System.out.println("Propiedad de egresos cambiada");
+
         calculo_total(tabla_egresos);
-        ebitda.set_eg(datos_eg);
-        ebitda.filas_datos_ebitda();
+        //setea datos de ebitda
+        for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
+            if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Egresos")) {
+                Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
+            }
+        }
+        ebitda.setEgresos(suma_totales_eg);
+
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
     /**
