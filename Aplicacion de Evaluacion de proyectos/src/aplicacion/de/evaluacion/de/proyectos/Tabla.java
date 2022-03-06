@@ -117,7 +117,7 @@ public class Tabla {
 
     public static void filas_defecto(JTable tabla, int num) {
         //añade filas si no hay ninguna en la tabla
-        if (tabla.getRowCount() <= 1) {
+        if (tabla.getRowCount() <= 2) {
             DefaultTableModel tblmodel = (DefaultTableModel) tabla.getModel();
             tblmodel.setRowCount(num);
         }

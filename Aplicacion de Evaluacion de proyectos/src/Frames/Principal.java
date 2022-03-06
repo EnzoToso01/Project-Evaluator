@@ -564,7 +564,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
         ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
-        ingvsgas.setVisible(true);
+
         //inicializa ing y eg
         Tabla.inicializar(ingvsgas.getTabla_ingresos());
         Tabla.inicializar(ingvsgas.getTabla_egresos());
@@ -572,13 +572,12 @@ public class Principal extends javax.swing.JFrame {
         //imp ing y eg
         Tabla.importar(ingvsgas.getIngresos(), ingvsgas.getTabla_ingresos());
         Tabla.importar(ingvsgas.getEgresos(), ingvsgas.getTabla_egresos());
-
         Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
         Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
         //actualiza totales        
         ingvsgas.calculo_total(ingvsgas.getTabla_ingresos());
         ingvsgas.calculo_total(ingvsgas.getTabla_egresos());
-
+        ingvsgas.setVisible(true);
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
 
     private void btn_IngVsGasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseEntered

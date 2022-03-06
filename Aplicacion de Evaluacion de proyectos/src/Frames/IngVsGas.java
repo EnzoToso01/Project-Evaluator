@@ -142,7 +142,7 @@ public class IngVsGas extends javax.swing.JFrame {
                 }
             }
             for (int i = 0; i < tabla.getRowCount(); i++) {
-                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total (Con IVA)")) {
+                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total Final")) {
                     Tabla.get_modelo(tabla).removeRow(i);
 
                 }
@@ -187,13 +187,13 @@ public class IngVsGas extends javax.swing.JFrame {
             //añade los totales a las tablas
             datos.add(0, "Total");
             Tabla.get_modelo(tabla).addRow(datos.toArray());
-            suma_totales_ing.add(0, "Total (Con IVA)");
-            suma_totales_eg.add(0, "Total (Con IVA)");
+            suma_totales_ing.add(0, "Total Final");
+            suma_totales_eg.add(0, "Total Final");
 
-            if (jComboBoxivaing.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_ingresos)) {
+            if (tabla.equals(tabla_ingresos)) {
                 Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
 
-            } else if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA") && tabla.equals(tabla_egresos)) {
+            } else if (tabla.equals(tabla_egresos)) {
                 Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
 
             }
@@ -398,6 +398,11 @@ public class IngVsGas extends javax.swing.JFrame {
                 jComboBoxivaegMouseClicked(evt);
             }
         });
+        jComboBoxivaeg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxivaegActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -494,7 +499,7 @@ public class IngVsGas extends javax.swing.JFrame {
         // TODO add your handling code here
         //Añade filas a ingresos
         Vector<?> rowData = null;
-        Tabla.get_modelo(tabla_ingresos).addRow(rowData);
+        Tabla.get_modelo(tabla_ingresos).insertRow(0, rowData);
 
     }//GEN-LAST:event_btn_añadirfila_ingActionPerformed
 
@@ -512,7 +517,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private void btn_añadirfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_egActionPerformed
         // TODO add your handling code here:   
         Vector<?> rowData = null;
-        Tabla.get_modelo(tabla_egresos).addRow(rowData);
+        Tabla.get_modelo(tabla_egresos).insertRow(0,rowData);
     }//GEN-LAST:event_btn_añadirfila_egActionPerformed
 
     private void btn_quitarfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_egActionPerformed
@@ -533,11 +538,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private void jComboBoxivaingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxivaingMouseClicked
         // TODO add your handling code here:
         //exporta al cambiar de tabla con el combobox
-        if (jComboBoxivaing.getSelectedIndex() == 0) {
-            Tabla.exportar(ingresos, tabla_ingresos);
-        } else {
-            Tabla.exportar(ingresosiva, tabla_ingresos);
-        }
+
     }//GEN-LAST:event_jComboBoxivaingMouseClicked
 
 
@@ -581,15 +582,17 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void jComboBoxivaegMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxivaegMouseClicked
         // TODO add your handling code here:
-        if (jComboBoxivaeg.getSelectedIndex() == 0) {
-            Tabla.exportar(egresos, tabla_egresos);
-        } else {
-            Tabla.exportar(egresosiva, tabla_egresos);
-        }
+
     }//GEN-LAST:event_jComboBoxivaegMouseClicked
 
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
+        //guarda al realizar cualquier cambio
+        if (jComboBoxivaing.getSelectedIndex() == 0) {
+            Tabla.exportar(ingresos, tabla_ingresos);
+        } else {
+            Tabla.exportar(ingresosiva, tabla_ingresos);
+        }
 
         calculo_total(tabla_ingresos);
 
@@ -669,6 +672,12 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
+        //guarda al realizar cualquier cambio
+        if (jComboBoxivaeg.getSelectedIndex() == 0) {
+            Tabla.exportar(egresos, tabla_egresos);
+        } else {
+            Tabla.exportar(egresosiva, tabla_egresos);
+        }
 
         calculo_total(tabla_egresos);
         //setea datos de ebitda
@@ -680,6 +689,10 @@ public class IngVsGas extends javax.swing.JFrame {
         ebitda.setEgresos(suma_totales_eg);
 
     }//GEN-LAST:event_tabla_egresosPropertyChange
+
+    private void jComboBoxivaegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxivaegActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxivaegActionPerformed
 
     /**
      * @param args the command line arguments
