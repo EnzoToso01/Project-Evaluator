@@ -65,6 +65,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private File egresosiva = new File("C:\\Project evaluator\\IngVsGas\\egresos (IVA).txt");
     EBITDA ebitda = new EBITDA();
 
+
     public IngVsGas() {
     }
 
@@ -240,8 +241,14 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -510,14 +517,14 @@ public class IngVsGas extends javax.swing.JFrame {
         if (tabla_ingresos.getSelectedRowCount() == 1) {
             Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
         } else {
-            Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getRowCount() - 1);
+            Tabla.get_modelo(tabla_ingresos).removeRow(0);
         }
     }//GEN-LAST:event_btn_quitarfila_ingActionPerformed
 
     private void btn_añadirfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_egActionPerformed
         // TODO add your handling code here:   
         Vector<?> rowData = null;
-        Tabla.get_modelo(tabla_egresos).insertRow(0,rowData);
+        Tabla.get_modelo(tabla_egresos).insertRow(0, rowData);
     }//GEN-LAST:event_btn_añadirfila_egActionPerformed
 
     private void btn_quitarfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_egActionPerformed
@@ -526,7 +533,7 @@ public class IngVsGas extends javax.swing.JFrame {
         if (tabla_egresos.getSelectedRowCount() == 1) {
             Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
         } else {
-            Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getRowCount() - 1);
+            Tabla.get_modelo(tabla_egresos).removeRow(0);
         }
     }//GEN-LAST:event_btn_quitarfila_egActionPerformed
 
@@ -587,24 +594,26 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
-        //guarda al realizar cualquier cambio
-        if (jComboBoxivaing.getSelectedIndex() == 0) {
-            Tabla.exportar(ingresos, tabla_ingresos);
-        } else {
-            Tabla.exportar(ingresosiva, tabla_ingresos);
-        }
-
-        calculo_total(tabla_ingresos);
-
-        //setea datos de Ebitda
-        for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
-            if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Ingresos")) {
-                Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
+        //guarda al realizar cualquier cambio 
+        if (Principal.import_ingeg == true) {
+       
+            if (jComboBoxivaing.getSelectedIndex() == 0) {
+                Tabla.exportar(ingresos, tabla_ingresos);
+            } else {
+                Tabla.exportar(ingresosiva, tabla_ingresos);
             }
+
+            calculo_total(tabla_ingresos);
+
+            //setea datos de Ebitda
+            for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
+                if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Ingresos")) {
+                    Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
+                }
+            }
+            ebitda.setIngresos(suma_totales_ing);
+            ebitda.calculo_ebitda();
         }
-        ebitda.setIngresos(suma_totales_ing);
-
-
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
 
@@ -673,6 +682,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio
+         if (Principal.import_ingeg == true) {
         if (jComboBoxivaeg.getSelectedIndex() == 0) {
             Tabla.exportar(egresos, tabla_egresos);
         } else {
@@ -687,12 +697,23 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         }
         ebitda.setEgresos(suma_totales_eg);
-
+         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
     private void jComboBoxivaegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxivaegActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxivaegActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO adding
+      
+
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

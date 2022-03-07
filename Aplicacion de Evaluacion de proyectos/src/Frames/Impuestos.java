@@ -60,28 +60,28 @@ public class Impuestos extends javax.swing.JFrame {
         return indimpuestos;
     }
 
-    public void filas_datos(JTable tablaimp, JTable tablaindimp) {
+    public void filas_datos_impuestos(JTable tablaimp, JTable tablaindimp) {
         //inicializa los datos de las filas de la tabla
-        if (tablaimp.getRowCount() < 1) {
+        if (tabla_impuestos.getRowCount() < 1) {
 
-            DefaultTableModel tblmodel = (DefaultTableModel) tabla_impuestos.getModel();
             String dato1[] = {"Impuesto a las ganancias"};
             String dato2[] = {"IVA Ventas"};
             String dato3[] = {"IVA Compras"};
             String dato4[] = {"Montotributo/RI"};
             String dato5[] = {"Ingresos Brutos"};
             String dato6[] = {"Total de impuestos"};
-            tblmodel.addRow(dato1);
-            tblmodel.addRow(dato2);
-            tblmodel.addRow(dato3);
-            tblmodel.addRow(dato4);
-            tblmodel.addRow(dato5);
-            tblmodel.addRow(dato6);
-            Tabla.filas_defecto(tablaimp, 10);
+            Tabla.get_modelo(tabla_impuestos).addRow(dato1);
+            Tabla.get_modelo(tabla_impuestos).addRow(dato2);
+            Tabla.get_modelo(tabla_impuestos).addRow(dato3);
+            Tabla.get_modelo(tabla_impuestos).addRow(dato4);
+            Tabla.get_modelo(tabla_impuestos).addRow(dato5);
+            Tabla.get_modelo(tabla_impuestos).addRow(dato6);
+
+            Tabla.filas_defecto(tabla_impuestos, 10);
         }
 
         //inicializa los datos de las filas de la tabla
-        if (tablaindimp.getRowCount() < 1) {
+        if (tabla_indimpuestos.getRowCount() < 1) {
 
             DefaultTableModel tblmodel2 = (DefaultTableModel) tabla_indimpuestos.getModel();
             String dato1[] = {"Tasa de descuento"};
@@ -95,17 +95,17 @@ public class Impuestos extends javax.swing.JFrame {
             String dato9[] = {"Contribuciones patronales"};
             String dato10[] = {"Obra Social"};
 
-            tblmodel2.addRow(dato1);
-            tblmodel2.addRow(dato2);
-            tblmodel2.addRow(dato3);
-            tblmodel2.addRow(dato4);
-            tblmodel2.addRow(dato5);
-            tblmodel2.addRow(dato6);
-            tblmodel2.addRow(dato7);
-            tblmodel2.addRow(dato8);
-            tblmodel2.addRow(dato9);
-            tblmodel2.addRow(dato10);
-            Tabla.filas_defecto(tablaindimp, 10);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato3);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato4);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato5);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato6);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato7);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato8);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato9);
+            Tabla.get_modelo(tabla_indimpuestos).addRow(dato10);
+            Tabla.filas_defecto(tabla_indimpuestos, 10);
         }
     }
 

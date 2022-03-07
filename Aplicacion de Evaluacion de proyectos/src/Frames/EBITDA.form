@@ -48,8 +48,8 @@
               <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="scroll_ebitda" min="-2" pref="857" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+              <Component id="scroll_ebitda" pref="857" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -64,9 +64,9 @@
                   <Component id="btn_añadirfila_ebi" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_quitarfila_ebi" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="scroll_ebitda" min="-2" pref="594" max="-2" attributes="0"/>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="scroll_ebitda" pref="594" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

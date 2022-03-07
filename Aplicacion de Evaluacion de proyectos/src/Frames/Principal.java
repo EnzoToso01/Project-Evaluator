@@ -23,13 +23,14 @@ import javax.swing.table.DefaultTableModel;
 public class Principal extends javax.swing.JFrame {
 
     public static int longevidad = 5;
-    Indicadores indicadores = new Indicadores();
-    Empleados empleados = new Empleados();
-    Credito credito = new Credito();
-    Impuestos impuestos = new Impuestos();
-    EBITDA ebitda = new EBITDA();
-    IngVsGas ingvsgas = new IngVsGas(ebitda);
-    Riesgo riesgo = new Riesgo();
+    public static boolean import_ingeg = false;
+    private Indicadores indicadores = new Indicadores();
+    private Empleados empleados = new Empleados();
+    private Credito credito = new Credito();
+    private Impuestos impuestos = new Impuestos();
+    private EBITDA ebitda = new EBITDA();
+    private IngVsGas ingvsgas = new IngVsGas(ebitda);
+    private Riesgo riesgo = new Riesgo();
 
     /**
      * Creates new form Principal
@@ -554,6 +555,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void btn_IngVsGasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_IngVsGasActionPerformed
         // TODO add your handling code here:
 
@@ -562,6 +564,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_IngVsGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseClicked
         // TODO add your handling code here:
+
         ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
         ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
 
@@ -572,6 +575,8 @@ public class Principal extends javax.swing.JFrame {
         //imp ing y eg
         Tabla.importar(ingvsgas.getIngresos(), ingvsgas.getTabla_ingresos());
         Tabla.importar(ingvsgas.getEgresos(), ingvsgas.getTabla_egresos());
+        import_ingeg = true;
+
         Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
         Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
         //actualiza totales        
@@ -633,7 +638,7 @@ public class Principal extends javax.swing.JFrame {
         Tabla.inicializar(ebitda.getTabla_ebitda());
         Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
         //inicializa datos
-
+        ebitda.filas_datos_ebitda();
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
     private void btn_EBITDAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseEntered
@@ -690,7 +695,7 @@ public class Principal extends javax.swing.JFrame {
         Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
         Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
         //añade filas por defecto si no hay ninguna en la tabla
-        impuestos.filas_datos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
+        impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
     }//GEN-LAST:event_btn_impuestosMouseClicked
 
     private void btn_impuestosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseEntered
