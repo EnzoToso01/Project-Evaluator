@@ -65,7 +65,6 @@ public class IngVsGas extends javax.swing.JFrame {
     private File egresosiva = new File("C:\\Project evaluator\\IngVsGas\\egresos (IVA).txt");
     EBITDA ebitda = new EBITDA();
 
-
     public IngVsGas() {
     }
 
@@ -117,6 +116,14 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public JTable getTabla_ingresos() {
         return tabla_ingresos;
+    }
+
+    public ArrayList getSuma_totales_ing() {
+        return suma_totales_ing;
+    }
+
+    public ArrayList getSuma_totales_eg() {
+        return suma_totales_eg;
     }
 
     public void calculo_total(JTable tabla) {
@@ -596,7 +603,7 @@ public class IngVsGas extends javax.swing.JFrame {
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio 
         if (Principal.import_ingeg == true) {
-       
+
             if (jComboBoxivaing.getSelectedIndex() == 0) {
                 Tabla.exportar(ingresos, tabla_ingresos);
             } else {
@@ -611,8 +618,9 @@ public class IngVsGas extends javax.swing.JFrame {
                     Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
                 }
             }
+           
             ebitda.setIngresos(suma_totales_ing);
-            ebitda.calculo_ebitda();
+            ebitda.filas_datos_ebitda();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -682,22 +690,24 @@ public class IngVsGas extends javax.swing.JFrame {
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio
-         if (Principal.import_ingeg == true) {
-        if (jComboBoxivaeg.getSelectedIndex() == 0) {
-            Tabla.exportar(egresos, tabla_egresos);
-        } else {
-            Tabla.exportar(egresosiva, tabla_egresos);
-        }
-
-        calculo_total(tabla_egresos);
-        //setea datos de ebitda
-        for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
-            if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Egresos")) {
-                Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
+        if (Principal.import_ingeg == true) {
+            if (jComboBoxivaeg.getSelectedIndex() == 0) {
+                Tabla.exportar(egresos, tabla_egresos);
+            } else {
+                Tabla.exportar(egresosiva, tabla_egresos);
             }
+
+            calculo_total(tabla_egresos);
+            //setea datos de ebitda
+            for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
+                if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Egresos")) {
+                    Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
+                }
+            }
+            
+            ebitda.setEgresos(suma_totales_eg);
+            ebitda.filas_datos_ebitda();
         }
-        ebitda.setEgresos(suma_totales_eg);
-         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
     private void jComboBoxivaegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxivaegActionPerformed
@@ -706,7 +716,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO adding
-      
+
 
     }//GEN-LAST:event_formWindowOpened
 

@@ -638,7 +638,7 @@ public class Principal extends javax.swing.JFrame {
         Tabla.inicializar(ebitda.getTabla_ebitda());
         Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
         //inicializa datos
-        ebitda.filas_datos_ebitda();
+       
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
     private void btn_EBITDAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseEntered

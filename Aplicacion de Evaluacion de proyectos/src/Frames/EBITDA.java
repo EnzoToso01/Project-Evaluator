@@ -25,9 +25,10 @@ public class EBITDA extends javax.swing.JFrame {
      * Creates new form EBITDA
      */
     private File ebitda = new File("C:\\Project evaluator\\ebitda.txt");
-    private ArrayList ingresos = new ArrayList();
-    private ArrayList egresos = new ArrayList();
+    private ArrayList<Double> ingresos = new ArrayList();
+    private ArrayList<Double> egresos = new ArrayList();
     private ArrayList Arr_ebitda = new ArrayList();
+    private ArrayList aux = new ArrayList();
 
     public EBITDA() {
         initComponents();
@@ -190,16 +191,27 @@ public class EBITDA extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void setIngresos(ArrayList ingresos) {
+        ingresos.set(0, "Ingresos");
+        System.out.println(ingresos);
+        if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 0) {
+            Tabla.get_modelo(tabla_EBITDA).insertRow(0, ingresos.toArray());
+        } else {
+            Tabla.get_modelo(tabla_EBITDA).addRow(ingresos.toArray());
+        }
+        ingresos.remove(0);
         this.ingresos = ingresos;
-        this.ingresos.add(0, "Ingresos");
-        Tabla.get_modelo(tabla_EBITDA).insertRow(0, ingresos.toArray());
     }
 
     public void setEgresos(ArrayList egresos) {
-
+        egresos.set(0, "Egresos");
+        System.out.println(egresos);
+        if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 1) {
+            Tabla.get_modelo(tabla_EBITDA).insertRow(1, egresos.toArray());
+        } else {
+            Tabla.get_modelo(tabla_EBITDA).addRow(egresos.toArray());
+        }
+        egresos.remove(0);
         this.egresos = egresos;
-        this.egresos.add(0, "Egresos");
-        Tabla.get_modelo(tabla_EBITDA).insertRow(1, egresos.toArray());
     }
 
     public File getEbitda() {
@@ -212,41 +224,21 @@ public class EBITDA extends javax.swing.JFrame {
 
     public void filas_datos_ebitda() {
 
-        //inicializa los datos de las filas de la tabla
-        if (tabla_EBITDA.getRowCount() < 3) {
-
-            String dato4[] = {"Ingresos Brutos"};
-            String dato5[] = {"IVA"};
-            String dato6[] = {"Intereses Préstamo"};
-            String dato7[] = {"Ganancias"};
-            String dato8[] = {"Subtotal sin Ganancias"};
-            String dato9[] = {"Amortizaciones/Depresiaciones"};
-            String dato10[] = {"Subtotal con amortización"};
-            String dato11[] = {"Total con Ing/Iva/Interes/Gan"};
-
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato4);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato5);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato6);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato7);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato8);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato9);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato10);
-            Tabla.get_modelo(tabla_EBITDA).addRow(dato11);
-
-            Tabla.filas_defecto(tabla_EBITDA, 10);
-        }
-
     }
 
     public void calculo_ebitda() {
 
-        for (int i = 1; i < Principal.longevidad; i++) {
-            Arr_ebitda.add(Double.parseDouble((String) tabla_EBITDA.getValueAt(0, i)) - Double.parseDouble((String) tabla_EBITDA.getValueAt(1, i)));
+        for (int i = 0; i < Principal.longevidad; i++) {
+            System.out.print(ingresos.get(i) + "//");
+
+            System.out.println("");
+            Arr_ebitda.add(ingresos.get(i) - egresos.get(i));
         }
         Arr_ebitda.add(0, "EBITDA");
+
         System.out.print(Arr_ebitda);
-        Tabla.get_modelo(tabla_EBITDA).insertRow(2, calculo_ebitda().toArray());
-        
+        Tabla.get_modelo(tabla_EBITDA).insertRow(2, Arr_ebitda.toArray());
+
     }
 
 
