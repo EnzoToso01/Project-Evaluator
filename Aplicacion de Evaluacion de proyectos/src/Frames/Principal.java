@@ -580,8 +580,9 @@ public class Principal extends javax.swing.JFrame {
         Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
         Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
         //actualiza totales        
-        ingvsgas.calculo_total(ingvsgas.getTabla_ingresos());
-        ingvsgas.calculo_total(ingvsgas.getTabla_egresos());
+        ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
+        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+       // ingvsgas.calculo_total(ingvsgas.getTabla_egresos());
         ingvsgas.setVisible(true);
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
 
@@ -826,8 +827,9 @@ public class Principal extends javax.swing.JFrame {
         Tabla.inicializar(ingvsgas.getTabla_egresos());
 
         //actualiza totales        
-        ingvsgas.calculo_total(ingvsgas.getTabla_ingresos());
-        ingvsgas.calculo_total(ingvsgas.getTabla_egresos());
+        ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
+        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+       
     }//GEN-LAST:event_añosvidaActionPerformed
 
     private void añosvidaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_añosvidaPropertyChange

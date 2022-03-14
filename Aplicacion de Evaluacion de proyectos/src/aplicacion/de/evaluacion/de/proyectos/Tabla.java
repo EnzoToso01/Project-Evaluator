@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -127,5 +128,14 @@ public class Tabla {
         DefaultTableModel tblmodel = (DefaultTableModel) tabla.getModel();
         return tblmodel;
     }
+    
+      public static ArrayList get_fila(JTable tabla, int num_fila) {
+        ArrayList fila = new ArrayList();
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            fila.add(tabla.getValueAt(num_fila, i));
+        }
+        return fila;
+    }
+
 
 }

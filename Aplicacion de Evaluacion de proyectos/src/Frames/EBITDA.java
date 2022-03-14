@@ -192,7 +192,7 @@ public class EBITDA extends javax.swing.JFrame {
 
     public void setIngresos(ArrayList ingresos) {
         ingresos.set(0, "Ingresos");
-        System.out.println(ingresos);
+       
         if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 0) {
             Tabla.get_modelo(tabla_EBITDA).insertRow(0, ingresos.toArray());
         } else {
@@ -200,11 +200,12 @@ public class EBITDA extends javax.swing.JFrame {
         }
         ingresos.remove(0);
         this.ingresos = ingresos;
+      
     }
 
     public void setEgresos(ArrayList egresos) {
         egresos.set(0, "Egresos");
-        System.out.println(egresos);
+       
         if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 1) {
             Tabla.get_modelo(tabla_EBITDA).insertRow(1, egresos.toArray());
         } else {
@@ -228,17 +229,13 @@ public class EBITDA extends javax.swing.JFrame {
 
     public void calculo_ebitda() {
 
-        for (int i = 0; i < Principal.longevidad; i++) {
-            System.out.print(ingresos.get(i) + "//");
-
-            System.out.println("");
-            Arr_ebitda.add(ingresos.get(i) - egresos.get(i));
-        }
-        Arr_ebitda.add(0, "EBITDA");
-
-        System.out.print(Arr_ebitda);
-        Tabla.get_modelo(tabla_EBITDA).insertRow(2, Arr_ebitda.toArray());
-
+        
+        System.out.println("--------");
+        System.out.println("Ingresos");
+        System.out.println(this.ingresos);
+        System.out.println("Egresos");
+        System.out.println(this.egresos);
+        System.out.println("--------");
     }
 
 
