@@ -12,6 +12,7 @@ import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -201,12 +202,13 @@ public class IngVsGas extends javax.swing.JFrame {
             }
             // realiza la suma de los totales
             for (int i = 0; i < Principal.longevidad; i++) {
-                suma_totales_ing.set(i, total_ing.get(i) + total_ing_iva.get(i));
+                suma_totales_ing.add(i, total_ing.get(i) + total_ing_iva.get(i));
 
             }
             //añade los totales a las tablas
             suma_totales_ing.add(0, "Total Final");
             Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
+            //setea ingresos en ebitda
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total de Ingresos");
@@ -249,6 +251,7 @@ public class IngVsGas extends javax.swing.JFrame {
             //añade los totales a las tablas
             suma_totales_eg.add(0, "Total Final");
             Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
+            //setea el egreso en ebitda
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total de Egresos");
@@ -759,9 +762,13 @@ public class IngVsGas extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxivaegActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+
         // TODO adding
-
-
+        calculo_total_ing(tabla_ingresos);
+        calculo_total_eg(tabla_egresos);
+        ebitda.setIngresos(suma_totales_ing);
+        ebitda.setEgresos(suma_totales_eg);
+        ebitda.calculo_ebitda();
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

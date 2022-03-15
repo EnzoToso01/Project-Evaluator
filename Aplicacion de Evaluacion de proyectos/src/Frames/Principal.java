@@ -582,6 +582,8 @@ public class Principal extends javax.swing.JFrame {
         //actualiza totales        
         ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
         ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+          
+        
        // ingvsgas.calculo_total(ingvsgas.getTabla_egresos());
         ingvsgas.setVisible(true);
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
