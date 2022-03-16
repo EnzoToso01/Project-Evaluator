@@ -95,6 +95,14 @@ public class IngVsGas extends javax.swing.JFrame {
 
     }
 
+    public JComboBox<String> getjComboBoxivaeg() {
+        return jComboBoxivaeg;
+    }
+
+    public JComboBox<String> getjComboBoxivaing() {
+        return jComboBoxivaing;
+    }
+
     public File getIngresos() {
         return ingresos;
     }
@@ -208,6 +216,7 @@ public class IngVsGas extends javax.swing.JFrame {
             //añade los totales a las tablas
             suma_totales_ing.add(0, "Total Final");
             Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
+            
             //setea ingresos en ebitda
 
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -611,11 +620,11 @@ public class IngVsGas extends javax.swing.JFrame {
     private void jComboBoxivaingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxivaingItemStateChanged
         // TODO add your handling code here:
 
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_ingresos.getModel();
-        tblmodel.setRowCount(0);
+        Tabla.get_modelo(tabla_ingresos).setRowCount(0);
 
         //importa la nueva tabla
         if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
+
             Tabla.importar(ingresos, tabla_ingresos);
         } else {
             Tabla.importar(ingresosiva, tabla_ingresos);
@@ -665,9 +674,11 @@ public class IngVsGas extends javax.swing.JFrame {
                     Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
                 }
             }
-
+            System.out.println(suma_totales_ing);
             ebitda.setIngresos(suma_totales_ing);
+
             ebitda.calculo_ebitda();
+            ebitda.calculo_ing_brutos();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -754,6 +765,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
+            ebitda.calculo_ing_brutos();
         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
@@ -768,7 +780,6 @@ public class IngVsGas extends javax.swing.JFrame {
         calculo_total_eg(tabla_egresos);
         ebitda.setIngresos(suma_totales_ing);
         ebitda.setEgresos(suma_totales_eg);
-        ebitda.calculo_ebitda();
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -799,4 +810,5 @@ public class IngVsGas extends javax.swing.JFrame {
     private Object get_modelo(JTable tabla) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

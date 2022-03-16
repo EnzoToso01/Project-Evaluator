@@ -34,6 +34,16 @@ public class Impuestos extends javax.swing.JFrame {
     //declara el archivo a importar o exportar por los métodos de Tabla
     private File impuestos = new File("C:\\Project evaluator\\impuestos.txt");
     private File indimpuestos = new File("C:\\Project evaluator\\indicadores impuestos.txt");
+    public static double tas_desc = 0.02;
+    public static double tas_int = 0.97;
+    public static double tas_pob = 0.02;
+    public static double inf_men = 0.05;
+    public static double inf_an = 0.34;
+    public static double ing_b = 0.04;
+    public static double iva = 0.21;
+    public static double gan = 0.35;
+    public static double cont_p = 0.26;
+    public static double ob_s = 0.11;
 
     public Impuestos() {
         initComponents();
@@ -43,6 +53,8 @@ public class Impuestos extends javax.swing.JFrame {
         getContentPane().setBackground(c);
 
     }
+
+ 
 
     public JTable getTabla_impuestos() {
         return tabla_impuestos;
@@ -84,16 +96,16 @@ public class Impuestos extends javax.swing.JFrame {
         if (tabla_indimpuestos.getRowCount() < 1) {
 
             DefaultTableModel tblmodel2 = (DefaultTableModel) tabla_indimpuestos.getModel();
-            String dato1[] = {"Tasa de descuento"};
-            String dato2[] = {"Tasa de interés"};
-            String dato3[] = {"Tasa de crecimiento de la población"};
-            String dato4[] = {"Inflación Mensual"};
-            String dato5[] = {"Inflación Anual"};
-            String dato6[] = {"Ingresos Brutos"};
-            String dato7[] = {"IVA"};
-            String dato8[] = {"Ganancias"};
-            String dato9[] = {"Contribuciones patronales"};
-            String dato10[] = {"Obra Social"};
+            String dato1[] = {"Tasa de descuento", "0.02"};
+            String dato2[] = {"Tasa de interés", "0.97"};
+            String dato3[] = {"Tasa de crecimiento de la población", "0.02"};
+            String dato4[] = {"Inflación Mensual", "0.05"};
+            String dato5[] = {"Inflación Anual", "0.34"};
+            String dato6[] = {"Ingresos Brutos", "0.04"};
+            String dato7[] = {"IVA", "0.21"};
+            String dato8[] = {"Ganancias", "0.35"};
+            String dato9[] = {"Contribuciones patronales", "0.26"};
+            String dato10[] = {"Obra Social", "0.11"};
 
             Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
             Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
@@ -299,4 +311,5 @@ public class Impuestos extends javax.swing.JFrame {
     private javax.swing.JTable tabla_indimpuestos;
     private javax.swing.JLabel txtimpuestos;
     // End of variables declaration//GEN-END:variables
+
 }
