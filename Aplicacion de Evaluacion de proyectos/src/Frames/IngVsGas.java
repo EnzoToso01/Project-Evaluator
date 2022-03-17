@@ -187,8 +187,8 @@ public class IngVsGas extends javax.swing.JFrame {
         try {
             //añade valores por defecto a los arraylist de totales
             if (total_ing.isEmpty() == true && total_ing_iva.isEmpty() == true && suma_totales_ing.isEmpty() == true) {
-                for (int i = 0; i < Principal.longevidad; i++) {
 
+                for (int i = 0; i <= Principal.longevidad; i++) {
                     total_ing.add(0.0);
                     total_ing_iva.add(0.0);
                     suma_totales_ing.add(0.0);
@@ -209,16 +209,13 @@ public class IngVsGas extends javax.swing.JFrame {
                 Tabla.get_modelo(tabla).addRow(aux.toArray());
             }
             // realiza la suma de los totales
-            for (int i = 0; i < Principal.longevidad; i++) {
-                suma_totales_ing.add(i, total_ing.get(i) + total_ing_iva.get(i));
-
+            suma_totales_ing.set(0, "Total Final");
+            for (int i = 1; i < Principal.longevidad; i++) {
+                suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
             }
             //añade los totales a las tablas
-            suma_totales_ing.add(0, "Total Final");
             Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
-            
-            //setea ingresos en ebitda
-
+           
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total de Ingresos");
         }
@@ -231,8 +228,8 @@ public class IngVsGas extends javax.swing.JFrame {
         try {
             //añade valores por defecto a los arraylist de totales
             if (total_eg.isEmpty() == true && total_eg_iva.isEmpty() == true && suma_totales_eg.isEmpty() == true) {
-                for (int i = 0; i < Principal.longevidad; i++) {
 
+                for (int i = 0; i <= Principal.longevidad; i++) {
                     total_eg.add(0.0);
                     total_eg_iva.add(0.0);
                     suma_totales_eg.add(0.0);
@@ -253,15 +250,13 @@ public class IngVsGas extends javax.swing.JFrame {
                 Tabla.get_modelo(tabla).addRow(aux.toArray());
             }
             // realiza la suma de los totales
-            for (int i = 0; i < Principal.longevidad; i++) {
-                suma_totales_eg.set(i, total_eg.get(i) + total_eg_iva.get(i));
-
+            suma_totales_eg.set(0, "Total Final");
+            for (int i = 1; i < Principal.longevidad; i++) {
+                suma_totales_eg.set(i, total_eg.get(i - 1) + total_eg_iva.get(i - 1));
             }
             //añade los totales a las tablas
-            suma_totales_eg.add(0, "Total Final");
             Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
-            //setea el egreso en ebitda
-
+            
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total de Egresos");
         }
@@ -674,7 +669,7 @@ public class IngVsGas extends javax.swing.JFrame {
                     Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
                 }
             }
-            System.out.println(suma_totales_ing);
+           
             ebitda.setIngresos(suma_totales_ing);
 
             ebitda.calculo_ebitda();
