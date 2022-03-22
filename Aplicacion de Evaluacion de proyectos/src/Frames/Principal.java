@@ -29,7 +29,7 @@ public class Principal extends javax.swing.JFrame {
     private Credito credito = new Credito();
     private Impuestos impuestos = new Impuestos();
     private EBITDA ebitda = new EBITDA();
-    private IngVsGas ingvsgas = new IngVsGas(ebitda);
+    private IngVsGas ingvsgas = new IngVsGas(ebitda,impuestos);
     private Riesgo riesgo = new Riesgo();
 
     /**

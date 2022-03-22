@@ -64,12 +64,13 @@ public class IngVsGas extends javax.swing.JFrame {
     private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
     private File egresos = new File("C:\\Project evaluator\\IngVsGas\\egresos.txt");
     private File egresosiva = new File("C:\\Project evaluator\\IngVsGas\\egresos (IVA).txt");
-    EBITDA ebitda = new EBITDA();
+    EBITDA ebitda;
+    Impuestos impuestos;
 
     public IngVsGas() {
     }
 
-    public IngVsGas(EBITDA ebitda) {
+    public IngVsGas(EBITDA ebitda,Impuestos impuestos) {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,7 +81,7 @@ public class IngVsGas extends javax.swing.JFrame {
         directorio.mkdirs();
         //paso el objeto ebitda para poder modificar la tabla desde ingvsgas
         this.ebitda = ebitda;
-
+        this.impuestos=impuestos;
     }
 
     public static void main(String args[]) {
@@ -290,28 +291,12 @@ public class IngVsGas extends javax.swing.JFrame {
         setBackground(new java.awt.Color(56, 80, 113));
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                formMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
-            }
-        });
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
-            }
-        });
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                formKeyTyped(evt);
             }
         });
 
@@ -336,33 +321,9 @@ public class IngVsGas extends javax.swing.JFrame {
         tabla_ingresos.setShowGrid(true);
         tabla_ingresos.setUpdateSelectionOnSort(false);
         tabla_ingresos.setVerifyInputWhenFocusTarget(false);
-        tabla_ingresos.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tabla_ingresosFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tabla_ingresosFocusLost(evt);
-            }
-        });
-        tabla_ingresos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_ingresosMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tabla_ingresosMouseEntered(evt);
-            }
-        });
         tabla_ingresos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tabla_ingresosPropertyChange(evt);
-            }
-        });
-        tabla_ingresos.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tabla_ingresosKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tabla_ingresosKeyTyped(evt);
             }
         });
         scroll_ingresos.setViewportView(tabla_ingresos);
@@ -378,16 +339,6 @@ public class IngVsGas extends javax.swing.JFrame {
         ));
         tabla_egresos.setShowGrid(true);
         tabla_egresos.setSurrendersFocusOnKeystroke(true);
-        tabla_egresos.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tabla_egresosFocusGained(evt);
-            }
-        });
-        tabla_egresos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_egresosMouseClicked(evt);
-            }
-        });
         tabla_egresos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tabla_egresosPropertyChange(evt);
@@ -436,36 +387,11 @@ public class IngVsGas extends javax.swing.JFrame {
                 jComboBoxivaingItemStateChanged(evt);
             }
         });
-        jComboBoxivaing.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBoxivaingMouseClicked(evt);
-            }
-        });
-        jComboBoxivaing.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxivaingActionPerformed(evt);
-            }
-        });
-        jComboBoxivaing.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jComboBoxivaingPropertyChange(evt);
-            }
-        });
 
         jComboBoxivaeg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin IVA", "Con IVA" }));
         jComboBoxivaeg.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBoxivaegItemStateChanged(evt);
-            }
-        });
-        jComboBoxivaeg.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBoxivaegMouseClicked(evt);
-            }
-        });
-        jComboBoxivaeg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxivaegActionPerformed(evt);
             }
         });
 
@@ -595,22 +521,6 @@ public class IngVsGas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_quitarfila_egActionPerformed
 
-    private void jComboBoxivaingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxivaingActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jComboBoxivaingActionPerformed
-
-    private void jComboBoxivaingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxivaingMouseClicked
-        // TODO add your handling code here:
-        //exporta al cambiar de tabla con el combobox
-
-    }//GEN-LAST:event_jComboBoxivaingMouseClicked
-
-
-    private void jComboBoxivaingPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxivaingPropertyChange
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jComboBoxivaingPropertyChange
 
     private void jComboBoxivaingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxivaingItemStateChanged
         // TODO add your handling code here:
@@ -645,11 +555,6 @@ public class IngVsGas extends javax.swing.JFrame {
         calculo_total_eg(tabla_egresos);
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
-    private void jComboBoxivaegMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxivaegMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jComboBoxivaegMouseClicked
-
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio 
@@ -674,71 +579,12 @@ public class IngVsGas extends javax.swing.JFrame {
 
             ebitda.calculo_ebitda();
             ebitda.calculo_ing_brutos();
+            impuestos.iva_ventas(total_ing_iva);    
+            impuestos.iva_compras(total_eg_iva);
+            ebitda.calculo_iva();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
-
-    private void tabla_ingresosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_ingresosKeyPressed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_tabla_ingresosKeyPressed
-
-    private void tabla_ingresosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_ingresosKeyTyped
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_tabla_ingresosKeyTyped
-
-    private void tabla_ingresosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_ingresosMouseClicked
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_tabla_ingresosMouseClicked
-
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_formMouseClicked
-
-    private void tabla_egresosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_egresosMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabla_egresosMouseClicked
-
-    private void tabla_ingresosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_ingresosMouseEntered
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_tabla_ingresosMouseEntered
-
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_formMouseEntered
-
-    private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_formKeyTyped
-
-    private void tabla_ingresosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabla_ingresosFocusLost
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_tabla_ingresosFocusLost
-
-    private void tabla_ingresosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabla_ingresosFocusGained
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_tabla_ingresosFocusGained
-
-    private void tabla_egresosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabla_egresosFocusGained
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_tabla_egresosFocusGained
 
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
@@ -761,12 +607,11 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
             ebitda.calculo_ing_brutos();
+            impuestos.iva_ventas(total_ing_iva);
+            impuestos.iva_compras(total_eg_iva);
+            ebitda.calculo_iva();
         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
-
-    private void jComboBoxivaegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxivaegActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxivaegActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
@@ -776,11 +621,6 @@ public class IngVsGas extends javax.swing.JFrame {
         ebitda.setIngresos(suma_totales_ing);
         ebitda.setEgresos(suma_totales_eg);
     }//GEN-LAST:event_formWindowOpened
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

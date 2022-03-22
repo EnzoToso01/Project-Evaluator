@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +45,8 @@ public class Impuestos extends javax.swing.JFrame {
     public static double gan = 0.35;
     public static double cont_p = 0.26;
     public static double ob_s = 0.11;
+    public static ArrayList iva_c = new ArrayList();
+    public static ArrayList iva_v = new ArrayList();
 
     public Impuestos() {
         initComponents();
@@ -53,8 +56,6 @@ public class Impuestos extends javax.swing.JFrame {
         getContentPane().setBackground(c);
 
     }
-
- 
 
     public JTable getTabla_impuestos() {
         return tabla_impuestos;
@@ -96,16 +97,16 @@ public class Impuestos extends javax.swing.JFrame {
         if (tabla_indimpuestos.getRowCount() < 1) {
 
             DefaultTableModel tblmodel2 = (DefaultTableModel) tabla_indimpuestos.getModel();
-            String dato1[] = {"Tasa de descuento", "0.02"};
-            String dato2[] = {"Tasa de interés", "0.97"};
-            String dato3[] = {"Tasa de crecimiento de la población", "0.02"};
-            String dato4[] = {"Inflación Mensual", "0.05"};
-            String dato5[] = {"Inflación Anual", "0.34"};
-            String dato6[] = {"Ingresos Brutos", "0.04"};
-            String dato7[] = {"IVA", "0.21"};
-            String dato8[] = {"Ganancias", "0.35"};
-            String dato9[] = {"Contribuciones patronales", "0.26"};
-            String dato10[] = {"Obra Social", "0.11"};
+            String dato1[] = {"Tasa de descuento", String.valueOf(tas_desc * 100)};
+            String dato2[] = {"Tasa de interés", String.valueOf(tas_int * 100)};
+            String dato3[] = {"Tasa de crecimiento de la población", String.valueOf(tas_pob * 100)};
+            String dato4[] = {"Inflación Mensual", String.valueOf(inf_men * 100)};
+            String dato5[] = {"Inflación Anual", String.valueOf(inf_an * 100)};
+            String dato6[] = {"Ingresos Brutos", String.valueOf(ing_b * 100)};
+            String dato7[] = {"IVA", String.valueOf(iva * 100)};
+            String dato8[] = {"Ganancias", String.valueOf(gan * 100)};
+            String dato9[] = {"Contribuciones patronales", String.valueOf(cont_p * 100)};
+            String dato10[] = {"Obra Social", String.valueOf(ob_s * 100)};
 
             Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
             Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
@@ -192,6 +193,11 @@ public class Impuestos extends javax.swing.JFrame {
             }
         ));
         tabla_indimpuestos.setShowGrid(true);
+        tabla_indimpuestos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabla_indimpuestosPropertyChange(evt);
+            }
+        });
         scroll_indimpuestos.setViewportView(tabla_indimpuestos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,6 +271,56 @@ public class Impuestos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void tabla_indimpuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indimpuestosPropertyChange
+        // TODO add your handling code here:
+        if (tabla_indimpuestos.getRowCount() > 0) {
+
+            tas_desc = Double.parseDouble((String) tabla_indimpuestos.getValueAt(0, 1)) / 100;
+            tas_int = Double.parseDouble((String) tabla_indimpuestos.getValueAt(1, 1)) / 100;
+            tas_pob = Double.parseDouble((String) tabla_indimpuestos.getValueAt(2, 1)) / 100;
+            inf_men = Double.parseDouble((String) tabla_indimpuestos.getValueAt(3, 1)) / 100;
+            inf_an = Double.parseDouble((String) tabla_indimpuestos.getValueAt(4, 1)) / 100;
+            ing_b = Double.parseDouble((String) tabla_indimpuestos.getValueAt(5, 1)) / 100;
+            iva = Double.parseDouble((String) tabla_indimpuestos.getValueAt(6, 1)) / 100;
+            gan = Double.parseDouble((String) tabla_indimpuestos.getValueAt(7, 1)) / 100;
+            cont_p = Double.parseDouble((String) tabla_indimpuestos.getValueAt(8, 1)) / 100;
+            ob_s = Double.parseDouble((String) tabla_indimpuestos.getValueAt(9, 1)) / 100;
+        }
+    }//GEN-LAST:event_tabla_indimpuestosPropertyChange
+
+    public void iva_ventas(ArrayList ing_iva) {
+        iva_v.clear();
+        iva_v.add(0, "IVA Ventas");
+
+        for (int i = 0; i < Principal.longevidad; i++) {
+            iva_v.add((double) ing_iva.get(i) * iva);
+        }
+
+        if (tabla_impuestos.getRowCount() > 1) {
+            Tabla.get_modelo(tabla_impuestos).removeRow(1);
+            Tabla.get_modelo(tabla_impuestos).insertRow(1, iva_v.toArray());
+        } else {
+            Tabla.get_modelo(tabla_impuestos).addRow(iva_v.toArray());
+        }
+    }
+
+    public void iva_compras(ArrayList eg_iva) {
+        iva_c.clear();
+        iva_c.add(0, "IVA Compras");
+
+        for (int i = 0; i < Principal.longevidad; i++) {
+            iva_c.add((double) eg_iva.get(i) * iva);
+        }
+
+        if (tabla_impuestos.getRowCount() > 2) {
+            Tabla.get_modelo(tabla_impuestos).removeRow(2);
+            Tabla.get_modelo(tabla_impuestos).insertRow(2, iva_c.toArray());
+        } else {
+            Tabla.get_modelo(tabla_impuestos).addRow(iva_c.toArray());
+        }
+
+    }
 
     /**
      * @param args the command line arguments
