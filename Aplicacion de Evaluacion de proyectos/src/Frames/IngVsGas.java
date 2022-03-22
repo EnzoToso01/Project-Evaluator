@@ -70,7 +70,7 @@ public class IngVsGas extends javax.swing.JFrame {
     public IngVsGas() {
     }
 
-    public IngVsGas(EBITDA ebitda,Impuestos impuestos) {
+    public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -81,7 +81,7 @@ public class IngVsGas extends javax.swing.JFrame {
         directorio.mkdirs();
         //paso el objeto ebitda para poder modificar la tabla desde ingvsgas
         this.ebitda = ebitda;
-        this.impuestos=impuestos;
+        this.impuestos = impuestos;
     }
 
     public static void main(String args[]) {
@@ -216,7 +216,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
             //añade los totales a las tablas
             Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
-           
+
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total de Ingresos");
         }
@@ -257,7 +257,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
             //añade los totales a las tablas
             Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
-            
+
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total de Egresos");
         }
@@ -574,14 +574,20 @@ public class IngVsGas extends javax.swing.JFrame {
                     Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
                 }
             }
-           
+            Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             ebitda.setIngresos(suma_totales_ing);
-
+            ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
             ebitda.calculo_ing_brutos();
-            impuestos.iva_ventas(total_ing_iva);    
+            impuestos.iva_ventas(total_ing_iva);
             impuestos.iva_compras(total_eg_iva);
             ebitda.calculo_iva();
+            ebitda.calculo_intereses();
+            ebitda.calculo_subt_s_gan();
+            ebitda.calculo_amortizaciones();
+            ebitda.calculo_sub_c_amort();
+            ebitda.calculo_ganancias();
+            ebitda.calculo_total();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -603,13 +609,20 @@ public class IngVsGas extends javax.swing.JFrame {
                     Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
                 }
             }
-
+            Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);         
+            ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
             ebitda.calculo_ing_brutos();
             impuestos.iva_ventas(total_ing_iva);
             impuestos.iva_compras(total_eg_iva);
             ebitda.calculo_iva();
+            ebitda.calculo_intereses();
+            ebitda.calculo_subt_s_gan();
+            ebitda.calculo_amortizaciones();
+            ebitda.calculo_sub_c_amort();
+            ebitda.calculo_ganancias();
+             ebitda.calculo_total();
         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
