@@ -47,6 +47,7 @@ public class Impuestos extends javax.swing.JFrame {
     public static double ob_s = 0.11;
     public static ArrayList iva_c = new ArrayList();
     public static ArrayList iva_v = new ArrayList();
+    private ArrayList calc_total = new ArrayList();
 
     public Impuestos() {
         initComponents();
@@ -320,6 +321,57 @@ public class Impuestos extends javax.swing.JFrame {
             Tabla.get_modelo(tabla_impuestos).addRow(iva_c.toArray());
         }
 
+    }
+
+    public void ganancias() {
+
+        if (tabla_impuestos.getRowCount() > 0) {
+            Tabla.get_modelo(tabla_impuestos).removeRow(0);
+            Tabla.get_modelo(tabla_impuestos).insertRow(0, EBITDA.arr_ganancias.toArray());
+        } else {
+            Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ganancias.toArray());
+        }
+
+    }
+
+    public void ing_b() {
+
+        if (tabla_impuestos.getRowCount() > 4) {
+            Tabla.get_modelo(tabla_impuestos).removeRow(4);
+            Tabla.get_modelo(tabla_impuestos).insertRow(4, EBITDA.arr_ing_br.toArray());
+        } else {
+            Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ing_br.toArray());
+        }
+    }
+
+    public void calculo_total_imp() {
+        double total = 0;
+        calc_total.clear();
+        calc_total.add(0,"Total de Impuestos");
+        //acumula la suma de los valores
+        for (int i = 1; i <= Principal.longevidad; i++) {
+            for (int j = 0; j < tabla_impuestos.getRowCount(); j++) {
+                //convierte los datos null de la primera columna en string para evitar null exceptions 
+                if (tabla_impuestos.getValueAt(j, 0) == null) {
+                    Tabla.get_modelo(tabla_impuestos).setValueAt("", j, 0);
+                }
+                if (tabla_impuestos.getValueAt(j, i) != null) {
+                    if (!tabla_impuestos.getValueAt(j, i).equals("") && !tabla_impuestos.getValueAt(j, 0).equals("Total de Impuestos")) {
+                        total = total + Double.parseDouble(tabla_impuestos.getValueAt(j, i).toString());
+                    }
+                }
+            }
+            
+            calc_total.add(total);
+            total = 0;
+        }
+
+        if (tabla_impuestos.getRowCount() > 5) {
+            Tabla.get_modelo(tabla_impuestos).removeRow(5);
+            Tabla.get_modelo(tabla_impuestos).insertRow(5, calc_total.toArray());
+        } else {
+            Tabla.get_modelo(tabla_impuestos).addRow(calc_total.toArray());
+        }
     }
 
     /**

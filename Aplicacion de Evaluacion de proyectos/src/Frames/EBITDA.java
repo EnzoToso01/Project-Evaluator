@@ -28,10 +28,10 @@ public class EBITDA extends javax.swing.JFrame {
     private ArrayList<Double> ingresos = new ArrayList();
     private ArrayList<Double> egresos = new ArrayList();
     private ArrayList arr_ebitda = new ArrayList();
-    private ArrayList arr_ing_br = new ArrayList();
+    public static ArrayList arr_ing_br = new ArrayList();
     private ArrayList arr_iva = new ArrayList();
     private ArrayList arr_intereses = new ArrayList();
-    private ArrayList arr_ganancias = new ArrayList();
+    public static ArrayList arr_ganancias = new ArrayList();
     private ArrayList arr_sub_s_gan = new ArrayList();
     private ArrayList arr_amort = new ArrayList();
     private ArrayList arr_sub_c_amort = new ArrayList();

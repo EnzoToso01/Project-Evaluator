@@ -578,7 +578,7 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
-            ebitda.calculo_ing_brutos();
+            ebitda.calculo_ing_brutos();       
             impuestos.iva_ventas(total_ing_iva);
             impuestos.iva_compras(total_eg_iva);
             ebitda.calculo_iva();
@@ -587,7 +587,10 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.calculo_amortizaciones();
             ebitda.calculo_sub_c_amort();
             ebitda.calculo_ganancias();
+            impuestos.ganancias();
             ebitda.calculo_total();
+            impuestos.ing_b();
+            impuestos.calculo_total_imp();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -613,7 +616,7 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
-            ebitda.calculo_ing_brutos();
+            ebitda.calculo_ing_brutos();       
             impuestos.iva_ventas(total_ing_iva);
             impuestos.iva_compras(total_eg_iva);
             ebitda.calculo_iva();
@@ -622,7 +625,10 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.calculo_amortizaciones();
             ebitda.calculo_sub_c_amort();
             ebitda.calculo_ganancias();
-             ebitda.calculo_total();
+            impuestos.ganancias();
+            ebitda.calculo_total();
+            impuestos.ing_b();
+            impuestos.calculo_total_imp();
         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
