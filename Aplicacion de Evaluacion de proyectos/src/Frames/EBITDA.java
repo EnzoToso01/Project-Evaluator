@@ -213,9 +213,7 @@ public class EBITDA extends javax.swing.JFrame {
             Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
 
-        System.out.println("INGRESOS");
-        System.out.println(this.ingresos);
-        System.out.println("");
+       
     }
 
     public void setEgresos(ArrayList egresos) {
@@ -230,9 +228,7 @@ public class EBITDA extends javax.swing.JFrame {
         } else {
             Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
-        System.out.println("EGRESOS");
-        System.out.println(this.egresos);
-        System.out.println("");
+       
     }
 
     public File getEbitda() {

@@ -349,6 +349,7 @@ public class Impuestos extends javax.swing.JFrame {
         calc_total.clear();
         calc_total.add(0,"Total de Impuestos");
         //acumula la suma de los valores
+        try{
         for (int i = 1; i <= Principal.longevidad; i++) {
             for (int j = 0; j < tabla_impuestos.getRowCount(); j++) {
                 //convierte los datos null de la primera columna en string para evitar null exceptions 
@@ -364,6 +365,9 @@ public class Impuestos extends javax.swing.JFrame {
             
             calc_total.add(total);
             total = 0;
+        }
+        }catch(IndexOutOfBoundsException e){
+        
         }
 
         if (tabla_impuestos.getRowCount() > 5) {
