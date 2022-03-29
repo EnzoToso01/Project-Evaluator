@@ -64,13 +64,12 @@ public class IngVsGas extends javax.swing.JFrame {
     private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
     private File egresos = new File("C:\\Project evaluator\\IngVsGas\\egresos.txt");
     private File egresosiva = new File("C:\\Project evaluator\\IngVsGas\\egresos (IVA).txt");
-    EBITDA ebitda;
-    Impuestos impuestos;
+    EBITDA ebitda = new EBITDA();
+    Impuestos impuestos= new Impuestos();
+
+   
 
     public IngVsGas() {
-    }
-
-    public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -79,9 +78,8 @@ public class IngVsGas extends javax.swing.JFrame {
         getContentPane().setBackground(c);
         //crea el directorio para ingvsgas
         directorio.mkdirs();
-        //paso el objeto ebitda para poder modificar la tabla desde ingvsgas
-        this.ebitda = ebitda;
-        this.impuestos = impuestos;
+      
+       
     }
 
     public static void main(String args[]) {
@@ -96,6 +94,14 @@ public class IngVsGas extends javax.swing.JFrame {
 
     }
 
+    public EBITDA getEbitda() {
+        return ebitda;
+    }
+
+    public Impuestos getImpuestos() {
+        return impuestos;
+    }
+    
     public JComboBox<String> getjComboBoxivaeg() {
         return jComboBoxivaeg;
     }
@@ -136,6 +142,24 @@ public class IngVsGas extends javax.swing.JFrame {
         return suma_totales_eg;
     }
 
+    public ArrayList<Double> getTotal_ing() {
+        return total_ing;
+    }
+
+    public ArrayList<Double> getTotal_ing_iva() {
+        return total_ing_iva;
+    }
+
+    public ArrayList<Double> getTotal_eg() {
+        return total_eg;
+    }
+
+    public ArrayList<Double> getTotal_eg_iva() {
+        return total_eg_iva;
+    }
+
+    
+    
     public ArrayList calculo_datos(JTable tabla) {
 
         double total = 0;
@@ -568,12 +592,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
             calculo_total_ing(tabla_ingresos);
 
-            //setea datos de Ebitda
-            for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
-                if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Ingresos")) {
-                    Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
-                }
-            }
+            //setea datos de Ebitda    
             Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);
@@ -606,12 +625,9 @@ public class IngVsGas extends javax.swing.JFrame {
             }
 
             calculo_total_eg(tabla_egresos);
-            //setea datos de ebitda
-            for (int i = 0; i < ebitda.getTabla_ebitda().getRowCount(); i++) {
-                if (ebitda.getTabla_ebitda().getValueAt(i, 0) != null && ebitda.getTabla_ebitda().getValueAt(i, 0).equals("Egresos")) {
-                    Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(i);
-                }
-            }
+         
+            
+            //setea datos ebitda
             Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);         
             ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);

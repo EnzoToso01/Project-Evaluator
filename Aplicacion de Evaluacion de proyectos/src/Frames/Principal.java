@@ -27,9 +27,7 @@ public class Principal extends javax.swing.JFrame {
     private Indicadores indicadores = new Indicadores();
     private Empleados empleados = new Empleados();
     private Credito credito = new Credito();
-    private Impuestos impuestos = new Impuestos();
-    private EBITDA ebitda = new EBITDA();
-    private IngVsGas ingvsgas = new IngVsGas(ebitda, impuestos);
+    private IngVsGas ingvsgas = new IngVsGas();
     private Riesgo riesgo = new Riesgo();
 
     /**
@@ -555,9 +553,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public Impuestos getImpuestos() {
-        return impuestos;
-    }
+   
 
     private void btn_IngVsGasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_IngVsGasActionPerformed
         // TODO add your handling code here:
@@ -645,10 +641,28 @@ public class Principal extends javax.swing.JFrame {
     private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
         // TODO add your handling code here:
 
-        ebitda.setVisible(true);
-        Tabla.inicializar(ebitda.getTabla_ebitda());
-        Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
- 
+        Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
+        Tabla.inicializar(ingvsgas.getEbitda().getTabla_ebitda());
+        Tabla.importar(ingvsgas.getEbitda().getEbitda(), ingvsgas.getEbitda().getTabla_ebitda());
+        ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
+        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+        ingvsgas.getEbitda().calculo_ebitda();
+     /*   ebitda.calculo_ebitda();
+        ebitda.calculo_ing_brutos();
+        impuestos.iva_ventas(ingvsgas.getTotal_ing_iva());
+        impuestos.iva_compras(ingvsgas.getTotal_eg_iva());
+        ebitda.calculo_iva();
+        ebitda.calculo_intereses();
+        ebitda.calculo_subt_s_gan();
+        ebitda.calculo_amortizaciones();
+        ebitda.calculo_sub_c_amort();
+        ebitda.calculo_ganancias();
+        impuestos.ganancias();
+        ebitda.calculo_total();
+        impuestos.ing_b();
+        impuestos.calculo_total_imp(); */
+        ingvsgas.getEbitda().setVisible(true);
+
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
     private void btn_EBITDAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseEntered
@@ -712,12 +726,12 @@ public class Principal extends javax.swing.JFrame {
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
         // TODO add your handling code here:
 
-        impuestos.setVisible(true);
-        Tabla.inicializar(impuestos.getTabla_impuestos());
-        Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
-        Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
+        ingvsgas.getImpuestos().setVisible(true);
+        Tabla.inicializar(ingvsgas.getImpuestos().getTabla_impuestos());
+        Tabla.importar(ingvsgas.getImpuestos().getImpuestos(), ingvsgas.getImpuestos().getTabla_impuestos());
+        Tabla.importar(ingvsgas.getImpuestos().getIndimpuestos(), ingvsgas.getImpuestos().getTabla_indimpuestos());
         //añade filas por defecto si no hay ninguna en la tabla
-        impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
+        ingvsgas.getImpuestos().filas_datos_impuestos(ingvsgas.getImpuestos().getTabla_impuestos(), ingvsgas.getImpuestos().getTabla_indimpuestos());
     }//GEN-LAST:event_btn_impuestosMouseClicked
 
     private void btn_impuestosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseEntered
