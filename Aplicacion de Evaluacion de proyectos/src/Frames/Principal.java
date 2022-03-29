@@ -686,6 +686,8 @@ public class Principal extends javax.swing.JFrame {
         empleados.tasas(empleados.getTas_ob());
         empleados.tasas(empleados.getTas_ley());
         empleados.tasas(empleados.getTas_sec());
+        empleados.total_desc();
+        empleados.total_neto();
         empleados.setVisible(true);
     }//GEN-LAST:event_btn_empleadosMouseClicked
 

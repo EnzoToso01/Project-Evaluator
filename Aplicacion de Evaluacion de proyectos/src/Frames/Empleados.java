@@ -136,10 +136,10 @@ public class Empleados extends javax.swing.JFrame {
 
     public void tasas(double tasa) {
         try {
-            tas_jub = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 0)))/100;
-            tas_ob = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 1)))/100;
-            tas_ley = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 2)))/100;
-            tas_sec = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 3)))/100;
+            tas_jub = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 0))) / 100;
+            tas_ob = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 1))) / 100;
+            tas_ley = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 2))) / 100;
+            tas_sec = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 3))) / 100;
 
             for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
 
@@ -156,6 +156,32 @@ public class Empleados extends javax.swing.JFrame {
             }
         } catch (NullPointerException | NumberFormatException e) {
         }
+    }
+
+    public void total_desc() {
+
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
+                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
+            } catch (NullPointerException | NumberFormatException e) {
+
+            }
+        }
+
+    }
+    
+     public void total_neto() {
+
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
+                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
+            } catch (NullPointerException | NumberFormatException e) {
+
+            }
+        }
+
     }
 
     /**
@@ -431,6 +457,8 @@ public class Empleados extends javax.swing.JFrame {
         tasas(tas_ob);
         tasas(tas_ley);
         tasas(tas_sec);
+        total_desc();
+        total_neto();
 
     }//GEN-LAST:event_tabla_sueldosPropertyChange
 
