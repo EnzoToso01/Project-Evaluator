@@ -646,8 +646,8 @@ public class Principal extends javax.swing.JFrame {
         Tabla.importar(ingvsgas.getEbitda().getEbitda(), ingvsgas.getEbitda().getTabla_ebitda());
         ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
         ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
-        ingvsgas.getEbitda().calculo_ebitda();
-     /*   ebitda.calculo_ebitda();
+      /*  ingvsgas.getEbitda().calculo_ebitda();
+        ebitda.calculo_ebitda();
         ebitda.calculo_ing_brutos();
         impuestos.iva_ventas(ingvsgas.getTotal_ing_iva());
         impuestos.iva_compras(ingvsgas.getTotal_eg_iva());
