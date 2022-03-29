@@ -25,6 +25,11 @@ public class Empleados extends javax.swing.JFrame {
      */
     private File directorio = new File("C:\\Project evaluator\\sueldos");
     private File tasas = new File("C:\\Project evaluator\\sueldos\\tasas.txt");
+    private boolean imp_tas = false;
+    private double tas_jub;
+    private double tas_ob;
+    private double tas_ley;
+    private double tas_sec;
 
     public Empleados() {
         initComponents();
@@ -33,7 +38,15 @@ public class Empleados extends javax.swing.JFrame {
         Color c = new Color(56, 80, 113);
         getContentPane().setBackground(c);
         directorio.mkdirs();
-       
+
+    }
+
+    public boolean getImp_tas() {
+        return imp_tas;
+    }
+
+    public void setImp_tas(boolean imp_tas) {
+        this.imp_tas = imp_tas;
     }
 
     public JTable getTabla_sueldos() {
@@ -46,6 +59,22 @@ public class Empleados extends javax.swing.JFrame {
 
     public JTable getTabla_tasas() {
         return tabla_tasas;
+    }
+
+    public double getTas_jub() {
+        return tas_jub;
+    }
+
+    public double getTas_ob() {
+        return tas_ob;
+    }
+
+    public double getTas_ley() {
+        return tas_ley;
+    }
+
+    public double getTas_sec() {
+        return tas_sec;
     }
 
     public void importar_emp() {
@@ -64,9 +93,9 @@ public class Empleados extends javax.swing.JFrame {
     public void total_sueldos() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.valueOf((String) Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1)) + Double.valueOf((String) Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2));
+                double result = Double.valueOf(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
                 Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
-            } catch (NullPointerException e) {
+            } catch (NullPointerException | NumberFormatException e) {
 
             }
         }
@@ -75,9 +104,9 @@ public class Empleados extends javax.swing.JFrame {
     public void antiguedad() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = 84.64 * Double.valueOf((String) Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4));
+                double result = 84.64 * Double.valueOf(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4)));
                 Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 5);
-            } catch (NullPointerException e) {
+            } catch (NullPointerException | NumberFormatException e) {
 
             }
         }
@@ -86,9 +115,9 @@ public class Empleados extends javax.swing.JFrame {
     public void presentismo() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = 0.0833 * (double) (Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3));
+                double result = 0.0833 * Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)));
                 Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 6);
-            } catch (NullPointerException e) {
+            } catch (NullPointerException | NumberFormatException e) {
 
             }
         }
@@ -97,11 +126,35 @@ public class Empleados extends javax.swing.JFrame {
     public void bruto() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = (double) Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3) + (double) Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5) + (double) Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6);
+                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
                 Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
-            } catch (NullPointerException e) {
+            } catch (NullPointerException | NumberFormatException e) {
 
             }
+        }
+    }
+
+    public void tasas(double tasa) {
+        try {
+            tas_jub = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 0)))/100;
+            tas_ob = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 1)))/100;
+            tas_ley = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 2)))/100;
+            tas_sec = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 3)))/100;
+
+            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+
+                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) * tasa;
+                if (tasa == tas_jub) {
+                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 8);
+                } else if (tasa == tas_ob) {
+                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 9);
+                } else if (tasa == tas_ley) {
+                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 10);
+                } else if (tasa == tas_sec) {
+                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 11);
+                }
+            }
+        } catch (NullPointerException | NumberFormatException e) {
         }
     }
 
@@ -368,15 +421,29 @@ public class Empleados extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
+
         total_sueldos();
         antiguedad();
         presentismo();
         bruto();
+        Tabla.filas_defecto(tabla_tasas, 1);
+        tasas(tas_jub);
+        tasas(tas_ob);
+        tasas(tas_ley);
+        tasas(tas_sec);
+
     }//GEN-LAST:event_tabla_sueldosPropertyChange
 
     private void tabla_tasasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_tasasPropertyChange
         // TODO add your handling code here:
-         // ARREGLAR AL GUARDAR Tabla.exportar(tasas, tabla_tasas);
+        Tabla.filas_defecto(tabla_tasas, 1);
+        if (imp_tas == true) {
+            Tabla.exportar(tasas, tabla_tasas);
+        }
+        tasas(tas_jub);
+        tasas(tas_ob);
+        tasas(tas_ley);
+        tasas(tas_sec);
     }//GEN-LAST:event_tabla_tasasPropertyChange
 
     public void inicializar_combo() {
@@ -400,16 +467,24 @@ public class Empleados extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Empleados.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Empleados.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Empleados.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Empleados.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

@@ -648,15 +648,7 @@ public class Principal extends javax.swing.JFrame {
         ebitda.setVisible(true);
         Tabla.inicializar(ebitda.getTabla_ebitda());
         Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
-        //inicializa datos
-        /*  ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
-        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
-        ebitda.setIngresos(ingvsgas.getSuma_totales_ing());
-        ebitda.setEgresos(ingvsgas.getSuma_totales_eg());
-        ebitda.calculo_ebitda();
-        ebitda.calculo_ing_brutos();
-        ebitda.calculo_intereses(); */
-
+ 
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
     private void btn_EBITDAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseEntered
@@ -680,7 +672,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_empleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseClicked
         // TODO add your handling code here:
-         empleados.setVisible(true);
+        Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
         Tabla.importar(empleados.getTasas(), empleados.getTabla_tasas());
         Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
         empleados.inicializar_combo();
@@ -689,7 +681,12 @@ public class Principal extends javax.swing.JFrame {
         empleados.antiguedad();
         empleados.presentismo();
         empleados.bruto();
-
+        empleados.setImp_tas(true);
+        empleados.tasas(empleados.getTas_jub());
+        empleados.tasas(empleados.getTas_ob());
+        empleados.tasas(empleados.getTas_ley());
+        empleados.tasas(empleados.getTas_sec());
+        empleados.setVisible(true);
     }//GEN-LAST:event_btn_empleadosMouseClicked
 
     private void btn_empleadosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseEntered
@@ -707,7 +704,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_empleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_empleadosActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btn_empleadosActionPerformed
 
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
