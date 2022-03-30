@@ -39,7 +39,6 @@ public class Tabla {
         //Asigna los años del proyecto a las tablas
         //Se salta las columnas ya agregadas para no rehacerlas o resta las columnas cortadas
         DefaultTableModel tbl = get_modelo(tabla);
-
         for (int i = tbl.getColumnCount(); i <= Principal.longevidad; i++) {
             tbl.addColumn("Año " + i);
         }
