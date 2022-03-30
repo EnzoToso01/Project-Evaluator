@@ -170,8 +170,8 @@ public class Empleados extends javax.swing.JFrame {
         }
 
     }
-    
-     public void total_neto() {
+
+    public void total_neto() {
 
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
@@ -345,14 +345,15 @@ public class Empleados extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(txttotalsueldos)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtsueldos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_añadirfila_emp)
                         .addComponent(btn_quitarfila_emp)
-                        .addComponent(btn_guardar)))
+                        .addComponent(btn_guardar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtsueldos)))
                 .addGap(40, 40, 40)
                 .addComponent(scroll_ebitda1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
@@ -392,19 +393,22 @@ public class Empleados extends javax.swing.JFrame {
     private void btn_añadirfila_empActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_empActionPerformed
         // TODO add your handling code here
         //Añade filas a imp
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_sueldos.getModel();
+       
         Vector<?> rowData = null;
-        tblmodel.addRow(rowData);
+       Tabla.get_modelo(tabla_sueldos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_empActionPerformed
 
     private void btn_quitarfila_empActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_empActionPerformed
         // TODO add your handling code here:
         //Quita filas a imp, si no se selecciona una fila,se elimina la ultima
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_sueldos.getModel();
-        if (tabla_sueldos.getSelectedRowCount() == 1) {
-            tblmodel.removeRow(tabla_sueldos.getSelectedRow());
+      
+        if (tabla_sueldos.getSelectedRowCount() >= 1) {
+            do {
+               Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
+            } while (tabla_sueldos.getSelectedRowCount() >= 1);
+
         } else {
-            tblmodel.removeRow(tabla_sueldos.getRowCount() - 1);
+           Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_empActionPerformed
 

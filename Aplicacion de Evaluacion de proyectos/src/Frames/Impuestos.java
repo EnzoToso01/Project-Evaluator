@@ -140,6 +140,8 @@ public class Impuestos extends javax.swing.JFrame {
         btn_guardar = new javax.swing.JButton();
         scroll_indimpuestos = new javax.swing.JScrollPane();
         tabla_indimpuestos = new javax.swing.JTable();
+        btn_añadirfila_indimp = new javax.swing.JButton();
+        btn_quitarfila_indimp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Impuestos");
@@ -201,6 +203,20 @@ public class Impuestos extends javax.swing.JFrame {
         });
         scroll_indimpuestos.setViewportView(tabla_indimpuestos);
 
+        btn_añadirfila_indimp.setText("añadir fila");
+        btn_añadirfila_indimp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirfila_indimpActionPerformed(evt);
+            }
+        });
+
+        btn_quitarfila_indimp.setText("quitar fila");
+        btn_quitarfila_indimp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarfila_indimpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -219,6 +235,12 @@ public class Impuestos extends javax.swing.JFrame {
                     .addComponent(scroll_indimpuestos)
                     .addComponent(scroll_impuestos))
                 .addGap(17, 17, 17))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_añadirfila_indimp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_quitarfila_indimp)
+                .addGap(173, 173, 173))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,8 +253,12 @@ public class Impuestos extends javax.swing.JFrame {
                     .addComponent(txtimpuestos))
                 .addGap(19, 19, 19)
                 .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scroll_indimpuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_añadirfila_indimp)
+                    .addComponent(btn_quitarfila_indimp))
+                .addGap(18, 18, 18)
+                .addComponent(scroll_indimpuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
@@ -241,20 +267,22 @@ public class Impuestos extends javax.swing.JFrame {
 
     private void btn_añadirfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_impActionPerformed
         // TODO add your handling code here
-        //Añade filas a imp
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_impuestos.getModel();
+        //Añade filas a imp  
         Vector<?> rowData = null;
-        tblmodel.addRow(rowData);
+       Tabla.get_modelo(tabla_impuestos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_impActionPerformed
 
     private void btn_quitarfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_impActionPerformed
         // TODO add your handling code here:
         //Quita filas a imp, si no se selecciona una fila,se elimina la ultima
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_impuestos.getModel();
-        if (tabla_impuestos.getSelectedRowCount() == 1) {
-            tblmodel.removeRow(tabla_impuestos.getSelectedRow());
+     
+        if (tabla_impuestos.getSelectedRowCount() >= 1) {
+            do {
+               Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
+            } while (tabla_impuestos.getSelectedRowCount() >= 1);
+           
         } else {
-            tblmodel.removeRow(tabla_impuestos.getRowCount() - 1);
+            Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_impActionPerformed
 
@@ -289,6 +317,25 @@ public class Impuestos extends javax.swing.JFrame {
             ob_s = Double.parseDouble((String) tabla_indimpuestos.getValueAt(9, 1)) / 100;
         }
     }//GEN-LAST:event_tabla_indimpuestosPropertyChange
+
+    private void btn_añadirfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_indimpActionPerformed
+        // TODO add your handling code here:
+          //Añade filas a imp
+        Vector<?> rowData = null;
+        Tabla.get_modelo(tabla_indimpuestos).addRow(rowData);
+    }//GEN-LAST:event_btn_añadirfila_indimpActionPerformed
+
+    private void btn_quitarfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indimpActionPerformed
+        // TODO add your handling code here:
+          if (tabla_indimpuestos.getSelectedRowCount() >= 1) {
+            do {
+               Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getSelectedRow());
+            } while (tabla_indimpuestos.getSelectedRowCount() >= 1);
+           
+        } else {
+            Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getRowCount() - 1);
+        }
+    }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
 
     public void iva_ventas(ArrayList ing_iva) {
         iva_v.clear();
@@ -415,8 +462,10 @@ public class Impuestos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_imp;
+    private javax.swing.JButton btn_añadirfila_indimp;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_imp;
+    private javax.swing.JButton btn_quitarfila_indimp;
     private javax.swing.JScrollPane scroll_impuestos;
     private javax.swing.JScrollPane scroll_indimpuestos;
     private javax.swing.JTable tabla_impuestos;

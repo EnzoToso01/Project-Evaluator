@@ -24,8 +24,8 @@ public class Credito extends javax.swing.JFrame {
      * Creates new form Crédito
      */
     //declara el archivo a importar o exportar por los métodos de Tabla
-   private File pagcredito = new File("C:\\Project evaluator\\credito.txt");
-   private File datcredito = new File("C:\\Project evaluator\\datos credito.txt");
+    private File pagcredito = new File("C:\\Project evaluator\\credito.txt");
+    private File datcredito = new File("C:\\Project evaluator\\datos credito.txt");
 
     public Credito() {
         initComponents();
@@ -33,7 +33,6 @@ public class Credito extends javax.swing.JFrame {
         //determina el color del fondo
         Color c = new Color(56, 80, 113);
         getContentPane().setBackground(c);
-   
 
     }
 
@@ -189,25 +188,27 @@ public class Credito extends javax.swing.JFrame {
     public File getDatcredito() {
         return datcredito;
     }
-    
-    
-    
+
+
     private void btn_añadirfila_credActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_credActionPerformed
         // TODO add your handling code here
         //Añade filas a credito
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_pagcredito.getModel();
+       
         Vector<?> rowData = null;
-        tblmodel.addRow(rowData);
+       Tabla.get_modelo(tabla_pagcredito).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_credActionPerformed
 
     private void btn_quitarfila_credActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_credActionPerformed
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_pagcredito.getModel();
-        if (tabla_pagcredito.getSelectedRowCount() == 1) {
-            tblmodel.removeRow(tabla_pagcredito.getSelectedRow());
+        
+        if (tabla_pagcredito.getSelectedRowCount() >= 1) {
+            do {
+                Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
+            } while (tabla_pagcredito.getSelectedRowCount() >= 1);
+
         } else {
-            tblmodel.removeRow(tabla_pagcredito.getRowCount() - 1);
+            Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_credActionPerformed
 

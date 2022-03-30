@@ -32,15 +32,15 @@ public class Indicadores extends javax.swing.JFrame {
     /**
      * Creates new form Indicadores
      */
-   private File indicadores = new File("C:\\Project evaluator\\indicadores.txt");
-    
+    private File indicadores = new File("C:\\Project evaluator\\indicadores.txt");
+
     public Indicadores() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
         Color c = new Color(56, 80, 113);
         getContentPane().setBackground(c);
-   
+
     }
 
     public JTable getTabla_indicadores() {
@@ -150,27 +150,27 @@ public class Indicadores extends javax.swing.JFrame {
     private void btn_añadirfila_indActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_indActionPerformed
         // TODO add your handling code here
         //Añade filas a ingresos
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_indicadores.getModel();
         Vector<?> rowData = null;
-        tblmodel.addRow(rowData);
+        Tabla.get_modelo(tabla_indicadores).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_indActionPerformed
 
     private void btn_quitarfila_indActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indActionPerformed
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_indicadores.getModel();
-        if (tabla_indicadores.getSelectedRowCount() == 1) {
-            tblmodel.removeRow(tabla_indicadores.getSelectedRow());
+
+        if (tabla_indicadores.getSelectedRowCount() >= 1) {
+            do {
+                Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getSelectedRow());
+            } while (tabla_indicadores.getSelectedRowCount() >= 1);
         } else {
-            tblmodel.removeRow(tabla_indicadores.getRowCount() - 1);
+            Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_indActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-       
+
         // paso por parametro para el método exportar
-        
         try {
             Tabla.exportar(indicadores, tabla_indicadores);
             JOptionPane.showMessageDialog(null, "datos guardados");
