@@ -38,6 +38,39 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Principal().setVisible(true);
+
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -553,17 +586,14 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
 
     private void btn_IngVsGasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_IngVsGasActionPerformed
         // TODO add your handling code here:
 
-
     }//GEN-LAST:event_btn_IngVsGasActionPerformed
 
     private void btn_IngVsGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseClicked
-        // TODO add your handling code here:
-
+        // TODO add your handling code here:  
         ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
         ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
 
@@ -644,24 +674,52 @@ public class Principal extends javax.swing.JFrame {
         Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
         Tabla.inicializar(ingvsgas.getEbitda().getTabla_ebitda());
         Tabla.importar(ingvsgas.getEbitda().getEbitda(), ingvsgas.getEbitda().getTabla_ebitda());
+        //para inicializar ingvsgas
+        ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
+        ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
+
+        //inicializa ing y eg
+        Tabla.inicializar(ingvsgas.getTabla_ingresos());
+        Tabla.inicializar(ingvsgas.getTabla_egresos());
+
+        //imp ing eg con iva
+        ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
+        ingvsgas.getjComboBoxivaeg().setSelectedItem("Con IVA");
+        ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
+        ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
+
+        //imp ing y eg
+        ingvsgas.getjComboBoxivaing().setSelectedItem("Sin IVA");
+        ingvsgas.getjComboBoxivaeg().setSelectedItem("Sin IVA");
+
+        //actualiza totales        
         ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
         ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
-      /*  ingvsgas.getEbitda().calculo_ebitda();
-        ebitda.calculo_ebitda();
-        ebitda.calculo_ing_brutos();
-        impuestos.iva_ventas(ingvsgas.getTotal_ing_iva());
-        impuestos.iva_compras(ingvsgas.getTotal_eg_iva());
-        ebitda.calculo_iva();
-        ebitda.calculo_intereses();
-        ebitda.calculo_subt_s_gan();
-        ebitda.calculo_amortizaciones();
-        ebitda.calculo_sub_c_amort();
-        ebitda.calculo_ganancias();
-        impuestos.ganancias();
-        ebitda.calculo_total();
-        impuestos.ing_b();
-        impuestos.calculo_total_imp(); */
+        import_ingeg = true;
+
+        Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
+        Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
+
+        //inicializa datos Ebitda
+        Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
+        ingvsgas.getEbitda().setIngresos(ingvsgas.getSuma_totales_ing());
+        ingvsgas.getEbitda().setEgresos(ingvsgas.getSuma_totales_eg());
+        ingvsgas.getEbitda().calculo_ebitda();
+        ingvsgas.getEbitda().calculo_ing_brutos();
+        ingvsgas.getImpuestos().iva_ventas(ingvsgas.getTotal_ing_iva());
+        ingvsgas.getImpuestos().iva_compras(ingvsgas.getTotal_eg_iva());
+        ingvsgas.getEbitda().calculo_iva();
+        ingvsgas.getEbitda().calculo_intereses();
+        ingvsgas.getEbitda().calculo_subt_s_gan();
+        ingvsgas.getEbitda().calculo_amortizaciones();
+        ingvsgas.getEbitda().calculo_sub_c_amort();
+        ingvsgas.getEbitda().calculo_ganancias();
+        ingvsgas.getImpuestos().ganancias();
+        ingvsgas.getEbitda().calculo_total();
+        ingvsgas.getImpuestos().ing_b();
+        ingvsgas.getImpuestos().calculo_total_imp();
         ingvsgas.getEbitda().setVisible(true);
+
 
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
@@ -912,37 +970,6 @@ public class Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Principal().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel JLabelFondo;

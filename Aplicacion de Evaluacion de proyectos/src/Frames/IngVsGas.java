@@ -65,9 +65,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private File egresos = new File("C:\\Project evaluator\\IngVsGas\\egresos.txt");
     private File egresosiva = new File("C:\\Project evaluator\\IngVsGas\\egresos (IVA).txt");
     EBITDA ebitda = new EBITDA();
-    Impuestos impuestos= new Impuestos();
-
-   
+    Impuestos impuestos = new Impuestos();
 
     public IngVsGas() {
         initComponents();
@@ -78,8 +76,7 @@ public class IngVsGas extends javax.swing.JFrame {
         getContentPane().setBackground(c);
         //crea el directorio para ingvsgas
         directorio.mkdirs();
-      
-       
+
     }
 
     public static void main(String args[]) {
@@ -101,7 +98,7 @@ public class IngVsGas extends javax.swing.JFrame {
     public Impuestos getImpuestos() {
         return impuestos;
     }
-    
+
     public JComboBox<String> getjComboBoxivaeg() {
         return jComboBoxivaeg;
     }
@@ -158,8 +155,6 @@ public class IngVsGas extends javax.swing.JFrame {
         return total_eg_iva;
     }
 
-    
-    
     public ArrayList calculo_datos(JTable tabla) {
 
         double total = 0;
@@ -522,8 +517,11 @@ public class IngVsGas extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Quita filas a ingresos (se quita la ultima por defecto)
 
-        if (tabla_ingresos.getSelectedRowCount() == 1) {
-            Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
+        if (tabla_ingresos.getSelectedRowCount() >= 1) {
+            do {
+                Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
+            } while (tabla_ingresos.getSelectedRowCount() >= 1);
+
         } else {
             Tabla.get_modelo(tabla_ingresos).removeRow(0);
         }
@@ -538,8 +536,11 @@ public class IngVsGas extends javax.swing.JFrame {
     private void btn_quitarfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_egActionPerformed
         // TODO add your handling code here:
 
-        if (tabla_egresos.getSelectedRowCount() == 1) {
-            Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
+        if (tabla_egresos.getSelectedRowCount() >= 1) {
+            do {
+                Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
+            } while (tabla_egresos.getSelectedRowCount() >= 1);
+
         } else {
             Tabla.get_modelo(tabla_egresos).removeRow(0);
         }
@@ -597,7 +598,7 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
-            ebitda.calculo_ing_brutos();       
+            ebitda.calculo_ing_brutos();
             impuestos.iva_ventas(total_ing_iva);
             impuestos.iva_compras(total_eg_iva);
             ebitda.calculo_iva();
@@ -625,14 +626,13 @@ public class IngVsGas extends javax.swing.JFrame {
             }
 
             calculo_total_eg(tabla_egresos);
-         
-            
+
             //setea datos ebitda
-            Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);         
+            Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             ebitda.setIngresos(suma_totales_ing);
             ebitda.setEgresos(suma_totales_eg);
             ebitda.calculo_ebitda();
-            ebitda.calculo_ing_brutos();       
+            ebitda.calculo_ing_brutos();
             impuestos.iva_ventas(total_ing_iva);
             impuestos.iva_compras(total_eg_iva);
             ebitda.calculo_iva();

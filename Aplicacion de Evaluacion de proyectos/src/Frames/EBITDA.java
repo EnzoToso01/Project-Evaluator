@@ -205,15 +205,13 @@ public class EBITDA extends javax.swing.JFrame {
         aux = (ArrayList) this.ingresos.clone();
         aux.add(0, "Ingresos");
 
-        if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 0) {
-
+        if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 0) {        
+            Tabla.get_modelo(tabla_EBITDA).removeRow(0);
             Tabla.get_modelo(tabla_EBITDA).insertRow(0, aux.toArray());
         } else {
-
             Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
 
-       
     }
 
     public void setEgresos(ArrayList egresos) {
@@ -223,12 +221,13 @@ public class EBITDA extends javax.swing.JFrame {
         this.egresos.remove(0);
         aux = (ArrayList) this.egresos.clone();
         aux.add(0, "Egresos");
-        if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 1) {
+        if (Tabla.get_modelo(tabla_EBITDA).getRowCount() > 1) {        
+            Tabla.get_modelo(tabla_EBITDA).removeRow(1);
             Tabla.get_modelo(tabla_EBITDA).insertRow(1, aux.toArray());
         } else {
             Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
-       
+
     }
 
     public File getEbitda() {
@@ -414,8 +413,10 @@ public class EBITDA extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
 
-        if (tabla_EBITDA.getSelectedRowCount() == 1) {
-            Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
+        if (tabla_EBITDA.getSelectedRowCount() >= 1) {
+            do {
+                Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
+            } while (tabla_EBITDA.getSelectedRowCount() >= 1);
         } else {
             Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
         }
