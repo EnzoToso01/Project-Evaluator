@@ -44,7 +44,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="total_sueldos" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="jtf_total_sueldos" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                           <Component id="txttotalsueldos" alignment="0" pref="178" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -75,7 +75,7 @@
                       <Component id="btn_guardar" alignment="3" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="total_sueldos" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtf_total_sueldos" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="combo_años" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtsueldos" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -216,7 +216,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="total_sueldos">
+    <Component class="javax.swing.JTextField" name="jtf_total_sueldos">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

@@ -32,7 +32,7 @@ import javax.swing.table.TableColumn;
 public class Tabla {
 
     public Tabla() {
-        
+
     }
 
     public static void inicializar(JTable tabla) {
@@ -40,21 +40,24 @@ public class Tabla {
         //Se salta las columnas ya agregadas para no rehacerlas o resta las columnas cortadas
         DefaultTableModel tbl = get_modelo(tabla);
 
-        System.out.println("------");
+        for (int i = tbl.getColumnCount(); i <= Principal.longevidad; i++) {
+            tbl.addColumn("Año " + i);
+        }
 
-        if (Principal.longevidad > tbl.getColumnCount() - 1) {
+        /*    if (Principal.longevidad > tbl.getColumnCount()) {
             for (int i = tbl.getColumnCount(); i <= Principal.longevidad; i++) {
                 tbl.addColumn("Año " + i);
-
             }
         } else if (Principal.longevidad < tbl.getColumnCount() - 1) {
             //remueve las ultimas columnas que ya no corresponden 
-            for (int i = 1; i <= ((tbl.getColumnCount() - 1) - Principal.longevidad); i++) {
-                TableColumn col = tabla.getColumnModel().getColumn(tabla.getColumnCount() - 1);
-                tabla.getColumnModel().removeColumn(col);
+            if (tbl.getColumnCount() - 1 > 0) {
+                for (int i = 1; i <= (tbl.getColumnCount() - 1 - Principal.longevidad); i++) {
+                    TableColumn col = tabla.getColumnModel().getColumn(tabla.getColumnCount() - 1);
+                    tabla.getColumnModel().removeColumn(col);
+                }
             }
         }
-
+         */
     }
 
     public static void importar(File archivo, JTable tabla) {
@@ -128,14 +131,13 @@ public class Tabla {
         DefaultTableModel tblmodel = (DefaultTableModel) tabla.getModel();
         return tblmodel;
     }
-    
-      public static ArrayList get_fila(JTable tabla, int num_fila) {
+
+    public static ArrayList get_fila(JTable tabla, int num_fila) {
         ArrayList fila = new ArrayList();
         for (int i = 0; i < tabla.getColumnCount(); i++) {
             fila.add(tabla.getValueAt(num_fila, i));
         }
         return fila;
     }
-
 
 }

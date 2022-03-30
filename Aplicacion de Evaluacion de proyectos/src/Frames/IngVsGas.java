@@ -204,82 +204,84 @@ public class IngVsGas extends javax.swing.JFrame {
 
         ArrayList aux = new ArrayList();
 
-        try {
-            //añade valores por defecto a los arraylist de totales
-            if (total_ing.isEmpty() == true && total_ing_iva.isEmpty() == true && suma_totales_ing.isEmpty() == true) {
+        //añade valores por defecto a los arraylist de totales
+        if (total_ing.isEmpty() == true && total_ing_iva.isEmpty() == true && suma_totales_ing.isEmpty() == true) {
 
-                for (int i = 0; i <= Principal.longevidad; i++) {
-                    total_ing.add(0.0);
-                    total_ing_iva.add(0.0);
-                    suma_totales_ing.add(0.0);
-                }
+            for (int i = 0; i <= Principal.longevidad; i++) {
+                total_ing.add(0.0);
+                total_ing_iva.add(0.0);
+                suma_totales_ing.add(0.0);
             }
-            //iguala los arrays a el array datos segun corresponda
-            if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
-                total_ing = (ArrayList<Double>) calculo_datos(tabla).clone();
-                aux.clear();
-                aux.addAll(total_ing);
-                aux.add(0, "Total");
-                Tabla.get_modelo(tabla).addRow(aux.toArray());
-            } else {
-                total_ing_iva = (ArrayList<Double>) calculo_datos(tabla).clone();
-                aux.clear();
-                aux.addAll(total_ing_iva);
-                aux.add(0, "Total");
-                Tabla.get_modelo(tabla).addRow(aux.toArray());
-            }
-            // realiza la suma de los totales
-            suma_totales_ing.set(0, "Total Final");
-            for (int i = 1; i < Principal.longevidad; i++) {
-                suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
-            }
-            //añade los totales a las tablas
-            Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Error en Calculo Total de Ingresos");
         }
+        //iguala los arrays a el array datos segun corresponda
+        if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
+            total_ing = (ArrayList<Double>) calculo_datos(tabla).clone();
+            aux.clear();
+            aux.addAll(total_ing);
+            aux.add(0, "Total");
+            Tabla.get_modelo(tabla).addRow(aux.toArray());
+        } else {
+            total_ing_iva = (ArrayList<Double>) calculo_datos(tabla).clone();
+            aux.clear();
+            aux.addAll(total_ing_iva);
+            aux.add(0, "Total");
+            Tabla.get_modelo(tabla).addRow(aux.toArray());
+        }
+        // realiza la suma de los totales
+        suma_totales_ing.set(0, "Total Final");
+        //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
+        for (int i = 1; i < Principal.longevidad; i++) {
+            try {
+                suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
+            } catch (IndexOutOfBoundsException e) {
+                suma_totales_ing.add(0.0);
+            }
+        }
+        //añade los totales a las tablas
+        Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
+
     }
 
     public void calculo_total_eg(JTable tabla) {
 
         ArrayList aux = new ArrayList();
 
-        try {
-            //añade valores por defecto a los arraylist de totales
-            if (total_eg.isEmpty() == true && total_eg_iva.isEmpty() == true && suma_totales_eg.isEmpty() == true) {
+        //añade valores por defecto a los arraylist de totales
+        if (total_eg.isEmpty() == true && total_eg_iva.isEmpty() == true && suma_totales_eg.isEmpty() == true) {
 
-                for (int i = 0; i <= Principal.longevidad; i++) {
-                    total_eg.add(0.0);
-                    total_eg_iva.add(0.0);
-                    suma_totales_eg.add(0.0);
-                }
+            for (int i = 0; i <= Principal.longevidad; i++) {
+                total_eg.add(0.0);
+                total_eg_iva.add(0.0);
+                suma_totales_eg.add(0.0);
             }
-            //iguala los arrays a el array datos segun corresponda
-            if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA")) {
-                total_eg = (ArrayList<Double>) calculo_datos(tabla).clone();
-                aux.clear();
-                aux.addAll(total_eg);
-                aux.add(0, "Total");
-                Tabla.get_modelo(tabla).addRow(aux.toArray());
-            } else {
-                total_eg_iva = (ArrayList<Double>) calculo_datos(tabla).clone();
-                aux.clear();
-                aux.addAll(total_eg_iva);
-                aux.add(0, "Total");
-                Tabla.get_modelo(tabla).addRow(aux.toArray());
-            }
-            // realiza la suma de los totales
-            suma_totales_eg.set(0, "Total Final");
-            for (int i = 1; i < Principal.longevidad; i++) {
-                suma_totales_eg.set(i, total_eg.get(i - 1) + total_eg_iva.get(i - 1));
-            }
-            //añade los totales a las tablas
-            Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Error en Calculo Total de Egresos");
         }
+        //iguala los arrays a el array datos segun corresponda
+        if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA")) {
+            total_eg = (ArrayList<Double>) calculo_datos(tabla).clone();
+            aux.clear();
+            aux.addAll(total_eg);
+            aux.add(0, "Total");
+            Tabla.get_modelo(tabla).addRow(aux.toArray());
+        } else {
+            total_eg_iva = (ArrayList<Double>) calculo_datos(tabla).clone();
+            aux.clear();
+            aux.addAll(total_eg_iva);
+            aux.add(0, "Total");
+            Tabla.get_modelo(tabla).addRow(aux.toArray());
+        }
+        // realiza la suma de los totales
+        suma_totales_eg.set(0, "Total Final");
+        //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
+        for (int i = 1; i < Principal.longevidad; i++) {
+            try {
+                suma_totales_eg.set(i, total_eg.get(i - 1) + total_eg_iva.get(i - 1));
+            } catch (IndexOutOfBoundsException e) {
+                suma_totales_eg.add(0.0);
+            }
+        }
+        //añade los totales a las tablas
+        Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
+
     }
 
     /**

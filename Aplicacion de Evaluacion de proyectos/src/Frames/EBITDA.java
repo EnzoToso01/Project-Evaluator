@@ -239,6 +239,7 @@ public class EBITDA extends javax.swing.JFrame {
     }
 
     public void calculo_ebitda() {
+        try{
         arr_ebitda.clear();
         if (arr_ebitda.isEmpty() == true) {
             arr_ebitda.add(0, "EBITDA");
@@ -256,6 +257,10 @@ public class EBITDA extends javax.swing.JFrame {
             Tabla.get_modelo(tabla_EBITDA).insertRow(2, arr_ebitda.toArray());
         } else {
             Tabla.get_modelo(tabla_EBITDA).addRow(arr_ebitda.toArray());
+        }
+        
+        }catch(Exception e){
+            System.err.println("Error en Calculo de EBITDA");
         }
     }
 

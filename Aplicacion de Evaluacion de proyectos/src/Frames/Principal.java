@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import sun.jvm.hotspot.runtime.PerfMemory;
 
 /**
  *
@@ -701,26 +702,29 @@ public class Principal extends javax.swing.JFrame {
         Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
 
         //inicializa datos Ebitda
-        Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
-        ingvsgas.getEbitda().setIngresos(ingvsgas.getSuma_totales_ing());
-        ingvsgas.getEbitda().setEgresos(ingvsgas.getSuma_totales_eg());
-        ingvsgas.getEbitda().calculo_ebitda();
-        ingvsgas.getEbitda().calculo_ing_brutos();
-        ingvsgas.getImpuestos().iva_ventas(ingvsgas.getTotal_ing_iva());
-        ingvsgas.getImpuestos().iva_compras(ingvsgas.getTotal_eg_iva());
-        ingvsgas.getEbitda().calculo_iva();
-        ingvsgas.getEbitda().calculo_intereses();
-        ingvsgas.getEbitda().calculo_subt_s_gan();
-        ingvsgas.getEbitda().calculo_amortizaciones();
-        ingvsgas.getEbitda().calculo_sub_c_amort();
-        ingvsgas.getEbitda().calculo_ganancias();
-        ingvsgas.getImpuestos().ganancias();
-        ingvsgas.getEbitda().calculo_total();
-        ingvsgas.getImpuestos().ing_b();
-        ingvsgas.getImpuestos().calculo_total_imp();
-        ingvsgas.getEbitda().setVisible(true);
+        try {
+            Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
+            ingvsgas.getEbitda().setIngresos(ingvsgas.getSuma_totales_ing());
+            ingvsgas.getEbitda().setEgresos(ingvsgas.getSuma_totales_eg());
+            ingvsgas.getEbitda().calculo_ebitda();
+            ingvsgas.getEbitda().calculo_ing_brutos();
+            ingvsgas.getImpuestos().iva_ventas(ingvsgas.getTotal_ing_iva());
+            ingvsgas.getImpuestos().iva_compras(ingvsgas.getTotal_eg_iva());
+            ingvsgas.getEbitda().calculo_iva();
+            ingvsgas.getEbitda().calculo_intereses();
+            ingvsgas.getEbitda().calculo_subt_s_gan();
+            ingvsgas.getEbitda().calculo_amortizaciones();
+            ingvsgas.getEbitda().calculo_sub_c_amort();
+            ingvsgas.getEbitda().calculo_ganancias();
+            ingvsgas.getImpuestos().ganancias();
+            ingvsgas.getEbitda().calculo_total();
+            ingvsgas.getImpuestos().ing_b();
+            ingvsgas.getImpuestos().calculo_total_imp();
+            ingvsgas.getEbitda().setVisible(true);
 
-
+        } catch (Exception e) {
+            System.err.println("Error en calculo de EBITDA");
+        }
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
     private void btn_EBITDAMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseEntered
@@ -760,6 +764,7 @@ public class Principal extends javax.swing.JFrame {
         empleados.tasas(empleados.getTas_sec());
         empleados.total_desc();
         empleados.total_neto();
+        empleados.getJtf_total_sueldos().setText(String.valueOf(empleados.calculo_total_sueldos()));
         empleados.setVisible(true);
     }//GEN-LAST:event_btn_empleadosMouseClicked
 
@@ -907,21 +912,48 @@ public class Principal extends javax.swing.JFrame {
     private void añosvidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añosvidaActionPerformed
         // TODO add your handling code here:
         // Se obtienen los años de vida del proyecto para las demas clases
-        int longev = 5;
+        boolean cont = true;
         try {
-            longev = Integer.parseInt(añosvida.getText());
-        } catch (Exception e) {
+            longevidad = Integer.parseInt(añosvida.getText());
+            if (longevidad > 0) {
+                Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
+                Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
+
+                ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
+                ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
+
+                //inicializa ing y eg
+                Tabla.inicializar(ingvsgas.getTabla_ingresos());
+                Tabla.inicializar(ingvsgas.getTabla_egresos());
+                //imp ing eg con iva
+                ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
+                ingvsgas.getjComboBoxivaeg().setSelectedItem("Con IVA");
+                ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
+                ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
+
+                //imp ing y eg
+                ingvsgas.getjComboBoxivaing().setSelectedItem("Sin IVA");
+                ingvsgas.getjComboBoxivaeg().setSelectedItem("Sin IVA");
+
+                import_ingeg = true;
+
+                Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
+                Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
+            } else {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
+            cont = false;
         }
-        longevidad = longev;
 
-        //inicializa ing y eg
-        Tabla.inicializar(ingvsgas.getTabla_ingresos());
-        Tabla.inicializar(ingvsgas.getTabla_egresos());
+        if (cont == true) {
+            //inicializa ing y eg
 
-        //actualiza totales        
-        ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
-        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+            //actualiza totales 
+            /*   ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
+            ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());*/
+        }
 
     }//GEN-LAST:event_añosvidaActionPerformed
 
