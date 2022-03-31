@@ -60,6 +60,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private ArrayList<Double> total_eg_iva = new ArrayList();
     private ArrayList suma_totales_ing = new ArrayList();
     private ArrayList suma_totales_eg = new ArrayList();
+    private ArrayList arr_sueldos = new ArrayList();
     private File ingresos = new File("C:\\Project evaluator\\IngVsGas\\ingresos.txt");
     private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
     private File egresos = new File("C:\\Project evaluator\\IngVsGas\\egresos.txt");
@@ -76,7 +77,6 @@ public class IngVsGas extends javax.swing.JFrame {
         getContentPane().setBackground(c);
         //crea el directorio para ingvsgas
         directorio.mkdirs();
-
     }
 
     public static void main(String args[]) {
@@ -185,7 +185,7 @@ public class IngVsGas extends javax.swing.JFrame {
                     }
                     if (tabla.getValueAt(j, i) != null) {
                         if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total")) {
-                            total = total + Double.parseDouble(tabla.getValueAt(j, i).toString());
+                            total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
                         }
                     }
                 }
@@ -230,7 +230,7 @@ public class IngVsGas extends javax.swing.JFrame {
         // realiza la suma de los totales
         suma_totales_ing.set(0, "Total Final");
         //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
-        for (int i = 1; i < Principal.longevidad; i++) {
+        for (int i = 1; i <= Principal.longevidad; i++) {
             try {
                 suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
             } catch (IndexOutOfBoundsException e) {
@@ -272,7 +272,7 @@ public class IngVsGas extends javax.swing.JFrame {
         // realiza la suma de los totales
         suma_totales_eg.set(0, "Total Final");
         //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
-        for (int i = 1; i < Principal.longevidad; i++) {
+        for (int i = 1; i <= Principal.longevidad; i++) {
             try {
                 suma_totales_eg.set(i, total_eg.get(i - 1) + total_eg_iva.get(i - 1));
             } catch (IndexOutOfBoundsException e) {
@@ -283,6 +283,8 @@ public class IngVsGas extends javax.swing.JFrame {
         Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
 
     }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -647,6 +649,7 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.calculo_total();
             impuestos.ing_b();
             impuestos.calculo_total_imp();
+           
         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 

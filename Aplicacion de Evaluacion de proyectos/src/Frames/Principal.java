@@ -26,10 +26,10 @@ public class Principal extends javax.swing.JFrame {
     public static int longevidad = 5;
     public static boolean import_ingeg = false;
     private Indicadores indicadores = new Indicadores();
-    private Empleados empleados = new Empleados();
     private Credito credito = new Credito();
-    private IngVsGas ingvsgas = new IngVsGas();
     private Riesgo riesgo = new Riesgo();
+    private IngVsGas ingvsgas = new IngVsGas();
+    private Empleados empleados = new Empleados(ingvsgas);
 
     /**
      * Creates new form Principal
@@ -620,6 +620,8 @@ public class Principal extends javax.swing.JFrame {
         Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
         Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
 
+        //establece egresos de sueldos
+        //empleados.arr_sueldos();  
         ingvsgas.setVisible(true);
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
 
@@ -765,6 +767,7 @@ public class Principal extends javax.swing.JFrame {
         empleados.total_desc();
         empleados.total_neto();
         empleados.getJtf_total_sueldos().setText(String.valueOf(empleados.calculo_total_sueldos()));
+       // empleados.arr_sueldos();
         empleados.setVisible(true);
     }//GEN-LAST:event_btn_empleadosMouseClicked
 
