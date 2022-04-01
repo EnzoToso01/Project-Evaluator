@@ -189,7 +189,7 @@ public class Riesgo extends javax.swing.JFrame {
                 tabla_riesgos.setValueAt(result, i, 9);
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            System.out.println("Error en Método valor riesgo (Riesgo)");
+
         }
     }
 
@@ -223,9 +223,10 @@ public class Riesgo extends javax.swing.JFrame {
 
     private void tabla_riesgosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_riesgosPropertyChange
         // TODO add your handling code here:
-        valor_riesgo();
+
         if (imp == true) {
             try {
+                valor_riesgo();
                 ProjectEvaluator.Tabla.exportar(riesgos, tabla_riesgos);
             } catch (Exception e) {
                 System.out.println("Error en guardado de datos (Riesgo)");

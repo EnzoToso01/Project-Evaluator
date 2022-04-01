@@ -28,9 +28,9 @@ public class Principal extends javax.swing.JFrame {
     private Indicadores indicadores = new Indicadores();
     private Credito credito = new Credito();
     private Riesgo riesgo = new Riesgo();
-    private EBITDA ebitda = new EBITDA();
+    private EBITDA ebitda = new EBITDA(riesgo);
     private Impuestos impuestos = new Impuestos();
-    private IngVsGas ingvsgas = new IngVsGas(ebitda,impuestos);
+    private IngVsGas ingvsgas = new IngVsGas(ebitda, impuestos);
     private Empleados empleados = new Empleados(ingvsgas);
 
     /**
@@ -674,11 +674,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_indicadoresActionPerformed
 
     private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
-        // TODO add your handling code here:
 
-        ProjectEvaluator.Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
-        ProjectEvaluator.Tabla.inicializar(ingvsgas.getEbitda().getTabla_ebitda());
-        ProjectEvaluator.Tabla.importar(ingvsgas.getEbitda().getEbitda(), ingvsgas.getEbitda().getTabla_ebitda());
+        // TODO add your handling code here:
+        ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
+        ProjectEvaluator.Tabla.inicializar(ebitda.getTabla_ebitda());
+        ProjectEvaluator.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
         //para inicializar ingvsgas
         ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
         ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
@@ -707,9 +707,9 @@ public class Principal extends javax.swing.JFrame {
 
         //inicializa datos Ebitda y imp
         try {
-            ProjectEvaluator.Tabla.get_modelo(ingvsgas.getEbitda().getTabla_ebitda()).setRowCount(0);
+            ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             ingvsgas.setear_ebitda_imp();
-            ingvsgas.getEbitda().setVisible(true);
+            ebitda.setVisible(true);
         } catch (Exception e) {
             System.err.println("Error en calculo de EBITDA");
         }
@@ -779,12 +779,12 @@ public class Principal extends javax.swing.JFrame {
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
         // TODO add your handling code here:
 
-        ingvsgas.getImpuestos().setVisible(true);
-        ProjectEvaluator.Tabla.inicializar(ingvsgas.getImpuestos().getTabla_impuestos());
-        ProjectEvaluator.Tabla.importar(ingvsgas.getImpuestos().getImpuestos(), ingvsgas.getImpuestos().getTabla_impuestos());
-        ProjectEvaluator.Tabla.importar(ingvsgas.getImpuestos().getIndimpuestos(), ingvsgas.getImpuestos().getTabla_indimpuestos());
+        ProjectEvaluator.Tabla.inicializar(impuestos.getTabla_impuestos());
+        ProjectEvaluator.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
+        ProjectEvaluator.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
         //añade filas por defecto si no hay ninguna en la tabla
-        ingvsgas.getImpuestos().filas_datos_impuestos(ingvsgas.getImpuestos().getTabla_impuestos(), ingvsgas.getImpuestos().getTabla_indimpuestos());
+        impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
+        impuestos.setVisible(true);
     }//GEN-LAST:event_btn_impuestosMouseClicked
 
     private void btn_impuestosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseEntered

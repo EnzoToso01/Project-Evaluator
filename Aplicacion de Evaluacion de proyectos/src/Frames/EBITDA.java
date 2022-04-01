@@ -39,14 +39,19 @@ public class EBITDA extends javax.swing.JFrame {
     private ArrayList arr_payback = new ArrayList();
     private ArrayList arr_riesgo = new ArrayList();
     private ArrayList arr_r_neto = new ArrayList();
+    private Riesgo riesgo;
 
     public EBITDA() {
+
+    }
+
+    public EBITDA(Riesgo riesgo) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
         Color c = new Color(56, 80, 113);
         getContentPane().setBackground(c);
-
+        this.riesgo = riesgo;
     }
 
     /**
@@ -230,7 +235,6 @@ public class EBITDA extends javax.swing.JFrame {
         } else {
             ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
-
     }
 
     public File getEbitda() {
@@ -429,12 +433,26 @@ public class EBITDA extends javax.swing.JFrame {
 
     public void calculo_riesgo() {
         arr_riesgo.clear();
+        double acum = 0;
 
-        if (arr_payback.isEmpty() == true) {
-            arr_payback.add(0, "Riesgo");
+        ProjectEvaluator.Tabla.inicializar(riesgo.getTabla_riesgos());
+        ProjectEvaluator.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
+        ProjectEvaluator.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
+        riesgo.setImp(true);
+        riesgo.valor_riesgo();
+        if (arr_riesgo.isEmpty() == true) {
+            arr_riesgo.add(0, "Riesgo");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
-            Double.valueOf(String.valueOf(arr_total.get(i)));
+        try {
+            for (int i = 0; i < riesgo.getTabla_riesgos().getRowCount(); i++) {
+                acum = acum + Double.parseDouble(String.valueOf(riesgo.getTabla_riesgos().getValueAt(i, 9)));
+            }
+            arr_riesgo.add(acum);
+            for (int i = 1; i < Principal.longevidad; i++) {
+                acum = acum * 1.1;
+                arr_riesgo.add(acum);
+            }
+        } catch (NumberFormatException e) {
 
         }
         if (tabla_EBITDA.getRowCount() >= 13) {

@@ -311,6 +311,7 @@ public class IngVsGas extends javax.swing.JFrame {
         impuestos.ganancias();
         ebitda.calculo_total();
         ebitda.calculo_payback();
+        ebitda.calculo_riesgo();
         impuestos.ing_b();
         impuestos.calculo_total_imp();
 
