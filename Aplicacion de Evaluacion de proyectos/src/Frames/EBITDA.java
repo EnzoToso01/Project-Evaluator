@@ -434,7 +434,6 @@ public class EBITDA extends javax.swing.JFrame {
     public void calculo_riesgo() {
         arr_riesgo.clear();
         double acum = 0;
-
         ProjectEvaluator.Tabla.inicializar(riesgo.getTabla_riesgos());
         ProjectEvaluator.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
         ProjectEvaluator.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
@@ -447,14 +446,15 @@ public class EBITDA extends javax.swing.JFrame {
             for (int i = 0; i < riesgo.getTabla_riesgos().getRowCount(); i++) {
                 acum = acum + Double.parseDouble(String.valueOf(riesgo.getTabla_riesgos().getValueAt(i, 9)));
             }
-            arr_riesgo.add(acum);
-            for (int i = 1; i < Principal.longevidad; i++) {
-                acum = acum * 1.1;
-                arr_riesgo.add(acum);
-            }
         } catch (NumberFormatException e) {
 
         }
+        arr_riesgo.add(acum);
+        for (int i = 1; i < Principal.longevidad; i++) {
+            acum = acum * 1.1;
+            arr_riesgo.add(acum);
+        }
+
         if (tabla_EBITDA.getRowCount() >= 13) {
             ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(12);
             ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(12, arr_riesgo.toArray());
@@ -462,6 +462,28 @@ public class EBITDA extends javax.swing.JFrame {
             ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_riesgo.toArray());
         }
     }
+
+    public void calculo_r_neto() {
+        arr_r_neto.clear();
+        if (arr_r_neto.isEmpty() == true) {
+            arr_r_neto.add(0, "R.Neto Mitigado el Riesgo");
+        }
+        for (int i = 1; i <= Principal.longevidad; i++) {
+            try {
+                arr_r_neto.add(Double.parseDouble(String.valueOf(arr_total.get(i))) - Double.parseDouble(String.valueOf(arr_riesgo.get(i))));
+            } catch (NumberFormatException e) {
+
+            }
+        }
+
+        if (tabla_EBITDA.getRowCount() >= 14) {
+            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(13);
+            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(13, arr_r_neto.toArray());
+        } else {
+            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_r_neto.toArray());
+        }
+    }
+
 
     private void btn_añadirfila_ebiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ebiActionPerformed
         // TODO add your handling code here
