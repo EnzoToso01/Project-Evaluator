@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.Tabla;
+import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -151,7 +151,7 @@ public class Indicadores extends javax.swing.JFrame {
         // TODO add your handling code here
         //Añade filas a ingresos
         Vector<?> rowData = null;
-        Tabla.get_modelo(tabla_indicadores).addRow(rowData);
+        ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_indActionPerformed
 
     private void btn_quitarfila_indActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indActionPerformed
@@ -160,10 +160,10 @@ public class Indicadores extends javax.swing.JFrame {
 
         if (tabla_indicadores.getSelectedRowCount() >= 1) {
             do {
-                Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getSelectedRow());
+                ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getSelectedRow());
             } while (tabla_indicadores.getSelectedRowCount() >= 1);
         } else {
-            Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getRowCount() - 1);
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_indActionPerformed
 
@@ -172,7 +172,7 @@ public class Indicadores extends javax.swing.JFrame {
 
         // paso por parametro para el método exportar
         try {
-            Tabla.exportar(indicadores, tabla_indicadores);
+            ProjectEvaluator.Tabla.exportar(indicadores, tabla_indicadores);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");

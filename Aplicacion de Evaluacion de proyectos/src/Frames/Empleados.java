@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.Tabla;
+import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ public class Empleados extends javax.swing.JFrame {
     private double tas_ob;
     private double tas_ley;
     private double tas_sec;
-    
-    private IngVsGas ingvsgas = new IngVsGas();
-    
+    private boolean imp = false;
+    private IngVsGas ingvsgas;
+
     public Empleados(IngVsGas ingvsgas) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -44,7 +44,7 @@ public class Empleados extends javax.swing.JFrame {
         directorio.mkdirs();
         this.ingvsgas = ingvsgas;
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -56,21 +56,21 @@ public class Empleados extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Empleados.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Empleados.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Empleados.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Empleados.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -83,184 +83,189 @@ public class Empleados extends javax.swing.JFrame {
                 new Empleados().setVisible(true);
             }
         });
-        
+
     }
-    
+
     public boolean getImp_tas() {
         return imp_tas;
     }
-    
+
     public void setImp_tas(boolean imp_tas) {
         this.imp_tas = imp_tas;
     }
-    
+
     public JTable getTabla_sueldos() {
         return tabla_sueldos;
     }
-    
+
     public File getTasas() {
         return tasas;
     }
-    
+
     public JTable getTabla_tasas() {
         return tabla_tasas;
     }
-    
+
     public double getTas_jub() {
         return tas_jub;
     }
-    
+
     public double getTas_ob() {
         return tas_ob;
     }
-    
+
     public double getTas_ley() {
         return tas_ley;
     }
-    
+
     public double getTas_sec() {
         return tas_sec;
     }
-    
+
     public JTextField getJtf_total_sueldos() {
         return jtf_total_sueldos;
     }
+
+    public void setImp(boolean imp) {
+        this.imp = imp;
+    }
     
+    
+
     public void importar_emp() {
-        Tabla.get_modelo(tabla_sueldos).setRowCount(0);
+        ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
         //importa la tabla correspondiente al combo
         for (int i = 1; i <= Principal.longevidad; i++) {
             if (combo_años.getSelectedIndex() + 1 == i) {
                 File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
-                Tabla.importar(sueldos, tabla_sueldos);
-                
+                ProjectEvaluator.Tabla.importar(sueldos, tabla_sueldos);
+
             }
         }
-        
+
     }
-    
+
     public void total_sueldos() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.valueOf(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
-                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
+                double result = Double.valueOf(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
     }
-    
+
     public void antiguedad() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = 84.64 * Double.valueOf(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4)));
-                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 5);
+                double result = 84.64 * Double.valueOf(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4)));
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 5);
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
     }
-    
+
     public void presentismo() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = 0.0833 * Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)));
-                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 6);
+                double result = 0.0833 * Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)));
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 6);
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
     }
-    
+
     public void bruto() {
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
-                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
+                double result = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
     }
-    
+
     public void tasas(double tasa) {
         try {
-            tas_jub = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 0))) / 100;
-            tas_ob = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 1))) / 100;
-            tas_ley = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 2))) / 100;
-            tas_sec = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_tasas).getValueAt(0, 3))) / 100;
-            
+            tas_jub = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_tasas).getValueAt(0, 0))) / 100;
+            tas_ob = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_tasas).getValueAt(0, 1))) / 100;
+            tas_ley = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_tasas).getValueAt(0, 2))) / 100;
+            tas_sec = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_tasas).getValueAt(0, 3))) / 100;
+
             for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-                
-                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) * tasa;
+
+                double result = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) * tasa;
                 if (tasa == tas_jub) {
-                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 8);
+                    ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 8);
                 } else if (tasa == tas_ob) {
-                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 9);
+                    ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 9);
                 } else if (tasa == tas_ley) {
-                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 10);
+                    ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 10);
                 } else if (tasa == tas_sec) {
-                    Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 11);
+                    ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 11);
                 }
             }
         } catch (NullPointerException | NumberFormatException e) {
         }
     }
-    
+
     public void total_desc() {
-        
+
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
-                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
+                double result = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
-        
+
     }
-    
+
     public void total_neto() {
-        
+
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
-                Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
+                double result = Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
-        
+
     }
-    
+
     public double calculo_total_sueldos() {
         double total = 0;
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                total = total + Double.parseDouble(String.valueOf(Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7)));
+                total = total + Double.parseDouble(String.valueOf(ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7)));
             } catch (NullPointerException | NumberFormatException e) {
-                
+
             }
         }
         return total;
     }
-    
+
     public void arr_sueldos() {
         ArrayList sueldos = new ArrayList();
         for (int i = 1; i <= combo_años.getItemCount(); i++) {
             combo_años.setSelectedItem("Año " + i);
-            Tabla.get_modelo(tabla_sueldos).setRowCount(0);
+            ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
             importar_emp();
             sueldos.add(calculo_total_sueldos());
         }
         combo_años.setSelectedItem("Año 1");
         sueldos.add(0, "Sueldos");
-        System.out.println(sueldos);
-        if (Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
-            Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
+        if (ProjectEvaluator.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
+            ProjectEvaluator.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
         } else {
-            Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(0);
-            Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(0, sueldos.toArray());
+            ProjectEvaluator.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(0);
+            ProjectEvaluator.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(0, sueldos.toArray());
         }
         ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
     }
@@ -459,15 +464,15 @@ public class Empleados extends javax.swing.JFrame {
             for (int i = 1; i <= Principal.longevidad; i++) {
                 if (combo_años.getSelectedIndex() + 1 == i) {
                     File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
-                    Tabla.exportar(sueldos, tabla_sueldos);
+                    ProjectEvaluator.Tabla.exportar(sueldos, tabla_sueldos);
                 }
             }
-            Tabla.exportar(tasas, tabla_tasas);
+            ProjectEvaluator.Tabla.exportar(tasas, tabla_tasas);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
         }
-        
+
 
     }//GEN-LAST:event_btn_guardarActionPerformed
 
@@ -476,7 +481,7 @@ public class Empleados extends javax.swing.JFrame {
         //Añade filas a imp
 
         Vector<?> rowData = null;
-        Tabla.get_modelo(tabla_sueldos).addRow(rowData);
+        ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_empActionPerformed
 
     private void btn_quitarfila_empActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_empActionPerformed
@@ -485,11 +490,11 @@ public class Empleados extends javax.swing.JFrame {
 
         if (tabla_sueldos.getSelectedRowCount() >= 1) {
             do {
-                Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
+                ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
             } while (tabla_sueldos.getSelectedRowCount() >= 1);
-            
+
         } else {
-            Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
+            ProjectEvaluator.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_empActionPerformed
 
@@ -497,10 +502,10 @@ public class Empleados extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + (int) (combo_años.getSelectedIndex() + 1) + ".txt");
-            Tabla.exportar(sueldos, tabla_sueldos);
-            
+            ProjectEvaluator.Tabla.exportar(sueldos, tabla_sueldos);
+
         } catch (Exception e) {
-            
+
         }
 
     }//GEN-LAST:event_combo_añosMouseClicked
@@ -521,7 +526,7 @@ public class Empleados extends javax.swing.JFrame {
         antiguedad();
         presentismo();
         bruto();
-        Tabla.filas_defecto(tabla_tasas, 1);
+        ProjectEvaluator.Tabla.filas_defecto(tabla_tasas, 1);
         tasas(tas_jub);
         tasas(tas_ob);
         tasas(tas_ley);
@@ -533,52 +538,53 @@ public class Empleados extends javax.swing.JFrame {
 
     private void tabla_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_sueldosPropertyChange
         // TODO add your handling code here:
-
-        try {
-            for (int i = 1; i <= Principal.longevidad; i++) {
-                if (combo_años.getSelectedIndex() + 1 == i) {
-                    File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
-                    Tabla.exportar(sueldos, tabla_sueldos);
+        if (imp == true) {
+            try {
+                for (int i = 1; i <= Principal.longevidad; i++) {
+                    if (combo_años.getSelectedIndex() + 1 == i) {
+                        File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
+                        ProjectEvaluator.Tabla.exportar(sueldos, tabla_sueldos);
+                    }
                 }
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
-            
+
+            total_sueldos();
+            antiguedad();
+            presentismo();
+            bruto();
+            ProjectEvaluator.Tabla.filas_defecto(tabla_tasas, 1);
+            tasas(tas_jub);
+            tasas(tas_ob);
+            tasas(tas_ley);
+            tasas(tas_sec);
+            total_desc();
+            total_neto();
+            jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
+            arr_sueldos();
         }
-        
-        total_sueldos();
-        antiguedad();
-        presentismo();
-        bruto();
-        Tabla.filas_defecto(tabla_tasas, 1);
-        tasas(tas_jub);
-        tasas(tas_ob);
-        tasas(tas_ley);
-        tasas(tas_sec);
-        total_desc();
-        total_neto();
-        jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
-        arr_sueldos();
     }//GEN-LAST:event_tabla_sueldosPropertyChange
 
     private void tabla_tasasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_tasasPropertyChange
         // TODO add your handling code here:
-        Tabla.filas_defecto(tabla_tasas, 1);
+        ProjectEvaluator.Tabla.filas_defecto(tabla_tasas, 1);
         if (imp_tas == true) {
-            Tabla.exportar(tasas, tabla_tasas);
+            ProjectEvaluator.Tabla.exportar(tasas, tabla_tasas);
         }
         tasas(tas_jub);
         tasas(tas_ob);
         tasas(tas_ley);
         tasas(tas_sec);
     }//GEN-LAST:event_tabla_tasasPropertyChange
-    
+
     public void inicializar_combo() {
-        
+
         for (int i = 1; i <= Principal.longevidad; i++) {
             combo_años.addItem("Año " + i);
         }
     }
-    
+
     private Empleados() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

@@ -4,7 +4,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.Tabla;
+import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
 import java.awt.Color;
 import java.io.File;
 import java.util.Vector;
@@ -23,7 +23,12 @@ public class Riesgo extends javax.swing.JFrame {
      * Creates new form Riesgo
      */
     private File riesgos = new File("C:\\Project evaluator\\riesgos.txt");
-    
+    private double prob;
+    private double impacto;
+    private double exposicion;
+    private double valor;
+    private boolean imp;
+
     public Riesgo() {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -31,6 +36,39 @@ public class Riesgo extends javax.swing.JFrame {
         //determina el color del fondo
         Color c = new Color(56, 80, 113);
         getContentPane().setBackground(c);
+        imp = false;
+    }
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Riesgo().setVisible(true);
+            }
+        });
     }
 
     /**
@@ -63,6 +101,11 @@ public class Riesgo extends javax.swing.JFrame {
             }
         ));
         tabla_riesgos.setShowGrid(true);
+        tabla_riesgos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabla_riesgosPropertyChange(evt);
+            }
+        });
         scroll_riesg.setViewportView(tabla_riesgos);
 
         txtriesgos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
@@ -134,75 +177,65 @@ public class Riesgo extends javax.swing.JFrame {
     public File getRiesgos() {
         return riesgos;
     }
-    
-    
-    
+
+    public void setImp(boolean imp) {
+        this.imp = imp;
+    }
+
+    public void valor_riesgo() {
+        try {
+            for (int i = 0; i < tabla_riesgos.getRowCount(); i++) {
+                double result = Double.valueOf(String.valueOf(tabla_riesgos.getValueAt(i, 5))) / 100 * Double.valueOf(String.valueOf(tabla_riesgos.getValueAt(i, 7)));
+                tabla_riesgos.setValueAt(result, i, 9);
+            }
+        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("Error en Método valor riesgo (Riesgo)");
+        }
+    }
+
     private void btn_añadirfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_riesgActionPerformed
         // TODO add your handling code here
         //Añade filas a ingresos
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_riesgos.getModel();
         Vector<?> rowData = null;
-        tblmodel.addRow(rowData);
+        ProjectEvaluator.Tabla.get_modelo(tabla_riesgos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_riesgActionPerformed
 
     private void btn_quitarfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_riesgActionPerformed
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_riesgos.getModel();
         if (tabla_riesgos.getSelectedRowCount() == 1) {
-            tblmodel.removeRow(tabla_riesgos.getSelectedRow());
+            ProjectEvaluator.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getSelectedRow());
         } else {
-            tblmodel.removeRow(tabla_riesgos.getRowCount() - 1);
+            ProjectEvaluator.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_riesgActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-      
-        //Declaro la tabla por ser método privado y paso por parametro para el método exportar
-        
+
         try {
-            Tabla.exportar(riesgos, tabla_riesgos);
+            ProjectEvaluator.Tabla.exportar(riesgos, tabla_riesgos);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
+    private void tabla_riesgosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_riesgosPropertyChange
+        // TODO add your handling code here:
+        valor_riesgo();
+        if (imp == true) {
+            try {
+                ProjectEvaluator.Tabla.exportar(riesgos, tabla_riesgos);
+            } catch (Exception e) {
+                System.out.println("Error en guardado de datos (Riesgo)");
+            }
+        }
+    }//GEN-LAST:event_tabla_riesgosPropertyChange
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Riesgo().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_riesg;

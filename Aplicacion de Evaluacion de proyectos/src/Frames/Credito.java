@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.Tabla;
+import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
 import java.awt.Color;
 import java.io.File;
 import java.util.Vector;
@@ -39,7 +39,7 @@ public class Credito extends javax.swing.JFrame {
     public void filas_datos(JTable tabladatcred, JTable tablapagcred) {
         //inicializa los datos de las filas de la tabla
         if (tablapagcred.getRowCount() < 1) {
-            Tabla.filas_defecto(tablapagcred, 15);
+            ProjectEvaluator.Tabla.filas_defecto(tablapagcred, 15);
         }
         if (tabladatcred.getRowCount() < 1) {
 
@@ -54,7 +54,7 @@ public class Credito extends javax.swing.JFrame {
             tblmodel.addRow(dato3);
             tblmodel.addRow(dato4);
 
-            Tabla.filas_defecto(tabladatcred, 10);
+            ProjectEvaluator.Tabla.filas_defecto(tabladatcred, 10);
         }
     }
 
@@ -193,22 +193,22 @@ public class Credito extends javax.swing.JFrame {
     private void btn_añadirfila_credActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_credActionPerformed
         // TODO add your handling code here
         //Añade filas a credito
-       
+
         Vector<?> rowData = null;
-       Tabla.get_modelo(tabla_pagcredito).addRow(rowData);
+        ProjectEvaluator.Tabla.get_modelo(tabla_pagcredito).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_credActionPerformed
 
     private void btn_quitarfila_credActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_credActionPerformed
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-        
+
         if (tabla_pagcredito.getSelectedRowCount() >= 1) {
             do {
-                Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
+                ProjectEvaluator.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
             } while (tabla_pagcredito.getSelectedRowCount() >= 1);
 
         } else {
-            Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
+            ProjectEvaluator.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_credActionPerformed
 
@@ -220,8 +220,8 @@ public class Credito extends javax.swing.JFrame {
             //Declaro la tabla para pasarla por parámetro a los métodos de Tabla
             JTable tablapagcred = getTabla_pagcredito();
             JTable tabladatcred = getTabla_datcredito();
-            Tabla.exportar(pagcredito, tablapagcred);
-            Tabla.exportar(datcredito, tabladatcred);
+            ProjectEvaluator.Tabla.exportar(pagcredito, tablapagcred);
+            ProjectEvaluator.Tabla.exportar(datcredito, tabladatcred);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
