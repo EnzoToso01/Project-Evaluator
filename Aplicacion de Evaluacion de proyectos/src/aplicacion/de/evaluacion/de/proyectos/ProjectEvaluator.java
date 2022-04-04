@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class ProjectEvaluator {
@@ -20,7 +21,6 @@ public class ProjectEvaluator {
     public static void main(String[] args) {
         // TODO code application logic here
         Principal.main(args);
-
     }
 
     public static class Tabla {
@@ -32,21 +32,6 @@ public class ProjectEvaluator {
             for (int i = tbl.getColumnCount(); i <= Principal.longevidad; i++) {
                 tbl.addColumn("Año " + i);
             }
-
-            /*    if (Principal.longevidad > tbl.getColumnCount()) {
-            for (int i = tbl.getColumnCount(); i <= Principal.longevidad; i++) {
-                tbl.addColumn("Año " + i);
-            }
-        } else if (Principal.longevidad < tbl.getColumnCount() - 1) {
-            //remueve las ultimas columnas que ya no corresponden 
-            if (tbl.getColumnCount() - 1 > 0) {
-                for (int i = 1; i <= (tbl.getColumnCount() - 1 - Principal.longevidad); i++) {
-                    TableColumn col = tabla.getColumnModel().getColumn(tabla.getColumnCount() - 1);
-                    tabla.getColumnModel().removeColumn(col);
-                }
-            }
-        }
-             */
         }
 
         public static void importar(File archivo, JTable tabla) {
@@ -128,6 +113,51 @@ public class ProjectEvaluator {
             }
             return fila;
         }
+    }
+
+    public static class JtextField {
+
+        public static void importar_jtf(File archivo, JTextField jtf) {
+            //IMPORTAR TXT A DATOS DE Jtextfield
+
+            if (archivo.exists()) {
+                try {
+                    FileReader fr = new FileReader(archivo);
+                    BufferedReader br = new BufferedReader(fr);
+                    String dato = br.readLine();
+                    jtf.setText(dato);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+
+        public static void exportar_jtf(File archivo, JTextField jtf) {
+
+            //EXPORTAR DATOS DE Jtextfield A TXT
+            // crea el archivo si no existe
+            if (!archivo.exists()) {
+                try {
+                    archivo.createNewFile();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            try {
+                FileWriter fw = new FileWriter(archivo);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(jtf.getText());
+                bw.close();
+                fw.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }
 
 }

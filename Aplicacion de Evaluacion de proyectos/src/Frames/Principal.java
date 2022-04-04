@@ -25,13 +25,13 @@ public class Principal extends javax.swing.JFrame {
 
     public static int longevidad = 5;
     public static boolean import_ingeg = false;
-    private Indicadores indicadores = new Indicadores();
     private Credito credito = new Credito();
     private Riesgo riesgo = new Riesgo();
     private EBITDA ebitda = new EBITDA(riesgo);
     private Impuestos impuestos = new Impuestos();
     private IngVsGas ingvsgas = new IngVsGas(ebitda, impuestos);
     private Empleados empleados = new Empleados(ingvsgas);
+    private Indicadores indicadores = new Indicadores(ebitda);
 
     /**
      * Creates new form Principal
@@ -597,33 +597,10 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_IngVsGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseClicked
         // TODO add your handling code here:  
-        ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
-        ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
-
-        //inicializa ing y eg
-        ProjectEvaluator.Tabla.inicializar(ingvsgas.getTabla_ingresos());
-        ProjectEvaluator.Tabla.inicializar(ingvsgas.getTabla_egresos());
-
-        //imp ing eg con iva
-        ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
-        ingvsgas.getjComboBoxivaeg().setSelectedItem("Con IVA");
-        ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
-        ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
-
-        //imp ing y eg
-        ingvsgas.getjComboBoxivaing().setSelectedItem("Sin IVA");
-        ingvsgas.getjComboBoxivaeg().setSelectedItem("Sin IVA");
-
-        //actualiza totales        
-        ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
-        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
-        import_ingeg = true;
-
-        ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
-        ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
-
-        //establece egresos de sueldos
-        //empleados.arr_sueldos();  
+        //inicializa ingvsgas
+        setear_ingvsgas();
+        //importa el jtextfield
+        ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
         ingvsgas.setVisible(true);
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
 
@@ -644,13 +621,24 @@ public class Principal extends javax.swing.JFrame {
     private void btn_indicadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_indicadoresMouseClicked
         // TODO add your handling code here:
         ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
-        indicadores.setVisible(true);
 
         ProjectEvaluator.Tabla.inicializar(indicadores.getTabla_indicadores());
         ProjectEvaluator.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
+        //inicializa ingvsgas
+        setear_ingvsgas();
+        //setea ebitda
+        ingvsgas.setear_ebitda_imp();
+        //inicializa indicadores
+        ProjectEvaluator.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
+        indicadores.setear_interes();
+        //calculo van sin riesgo y con riesgo
+        indicadores.calculo_van(ebitda.getArr_total(), ebitda.getArr_r_neto());
+        ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
+        ingvsgas.setear_inv();
+        indicadores.calculo_ivan();
         //añade filas por defecto si no hay ninguna en la tabla
         ProjectEvaluator.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
-
+        indicadores.setVisible(true);
     }//GEN-LAST:event_btn_indicadoresMouseClicked
 
     private void btn_indicadoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_indicadoresMouseEntered
@@ -673,12 +661,8 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_indicadoresActionPerformed
 
-    private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
+    private void setear_ingvsgas() {
 
-        // TODO add your handling code here:
-        ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
-        ProjectEvaluator.Tabla.inicializar(ebitda.getTabla_ebitda());
-        ProjectEvaluator.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
         //para inicializar ingvsgas
         ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
         ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
@@ -705,7 +689,19 @@ public class Principal extends javax.swing.JFrame {
         ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
         ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
 
+    }
+
+    private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
+
+        // TODO add your handling code here:
         //inicializa datos Ebitda y imp
+        ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
+        ProjectEvaluator.Tabla.inicializar(ebitda.getTabla_ebitda());
+        ProjectEvaluator.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
+
+        //inicializa ingvsgas
+        setear_ingvsgas();
+
         try {
             ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             ingvsgas.setear_ebitda_imp();
