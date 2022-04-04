@@ -14,7 +14,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+
 
 /**
  *
@@ -131,7 +135,7 @@ public class Indicadores extends javax.swing.JFrame {
         } else {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(ivan_r.toArray());
         }
-
+ 
     }
 
     /**
