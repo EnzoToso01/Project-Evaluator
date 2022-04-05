@@ -337,8 +337,7 @@ public class IngVsGas extends javax.swing.JFrame {
     
     public void setear_inv() {
         try {
-            inv = Double.parseDouble(jtf_inv.getText());
-            
+            inv = Double.parseDouble(jtf_inv.getText());   
         } catch (NumberFormatException e) {
             System.err.println("Error en inversion (IngVsGas)");
         }
