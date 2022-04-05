@@ -177,6 +177,8 @@ public class IngVsGas extends javax.swing.JFrame {
         return total_eg_iva;
     }
     
+    
+    
     public ArrayList calculo_datos(JTable tabla) {
         
         double total = 0;

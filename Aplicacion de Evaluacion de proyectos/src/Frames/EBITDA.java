@@ -252,7 +252,7 @@ public class EBITDA extends javax.swing.JFrame {
     public ArrayList getArr_r_neto() {
         return arr_r_neto;
     }
-    
+
     public void calculo_ebitda() {
         try {
             arr_ebitda.clear();

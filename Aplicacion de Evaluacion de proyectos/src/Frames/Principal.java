@@ -31,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
     private Impuestos impuestos = new Impuestos();
     private IngVsGas ingvsgas = new IngVsGas(ebitda, impuestos);
     private Empleados empleados = new Empleados(ingvsgas);
-    private Indicadores indicadores = new Indicadores(ebitda);
+    private Indicadores indicadores = new Indicadores(ebitda,ingvsgas);
 
     /**
      * Creates new form Principal
@@ -632,10 +632,14 @@ public class Principal extends javax.swing.JFrame {
         ProjectEvaluator.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
         indicadores.setear_interes();
         //calculo van sin riesgo y con riesgo
-        indicadores.calculo_van(ebitda.getArr_total(), ebitda.getArr_r_neto());
+        indicadores.calculo_van();
+        indicadores.calculo_van_r();
         ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
         ingvsgas.setear_inv();
         indicadores.calculo_ivan();
+        indicadores.calculo_ivan_r();
+        indicadores.calculo_TIR();
+        indicadores.calculo_TIR_r();
         //añade filas por defecto si no hay ninguna en la tabla
         ProjectEvaluator.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
         indicadores.setVisible(true);

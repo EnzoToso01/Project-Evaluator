@@ -7,6 +7,7 @@ package Frames;
 
 import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
 import java.awt.Color;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,7 +18,7 @@ import java.io.IOException;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
 import java.util.ArrayList;
-import static java.util.Collections.list;
+import java.util.Vector;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-
+import java.lang.Object;
+import org.apache.poi.ss.formula.functions.Irr;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -44,19 +47,23 @@ public class Indicadores extends javax.swing.JFrame {
     private ArrayList van_r = new ArrayList();
     private ArrayList ivan = new ArrayList();
     private ArrayList ivan_r = new ArrayList();
+    private ArrayList tir = new ArrayList();
+    private ArrayList tir_r = new ArrayList();
     private double tasa_interes;
     private EBITDA ebitda;
+    private IngVsGas ingvsgas;
 
     public Indicadores() {
     }
 
-    public Indicadores(EBITDA ebitda) {
+    public Indicadores(EBITDA ebitda, IngVsGas ingvsgas) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
         Color c = new Color(56, 80, 113);
         getContentPane().setBackground(c);
         this.ebitda = ebitda;
+        this.ingvsgas = ingvsgas;
     }
 
     public JTable getTabla_indicadores() {
@@ -71,21 +78,32 @@ public class Indicadores extends javax.swing.JFrame {
         return interes;
     }
 
+    public ArrayList getVan() {
+        return van;
+    }
+
+    public ArrayList getVan_r() {
+        return van_r;
+    }
+
     public void setear_interes() {
-        tasa_interes = Double.parseDouble(jtf_interes.getText());
+        try {
+            tasa_interes = Double.parseDouble(jtf_interes.getText());
+        } catch (NumberFormatException e) {
+
+        }
     }
 
     public JTextField getJtf_interes() {
         return jtf_interes;
     }
 
-    public void calculo_van(ArrayList arr_total, ArrayList arr_r_neto) {
+    public void calculo_van() {
         double acum = 0;
         van.clear();
-        van_r.clear();
 
         for (int t = 1; t <= Principal.longevidad; t++) {
-            acum = acum + Double.parseDouble(String.valueOf(arr_total.get(t))) / Math.pow(1 + (tasa_interes / 100), t) - IngVsGas.inv;
+            acum = acum + Double.parseDouble(String.valueOf(ebitda.getArr_total().get(t))) / Math.pow(1 + (tasa_interes / 100), t) - IngVsGas.inv;
             van.add(acum);
         }
         van.add(0, "VAN (Sin Riesgo)");
@@ -95,9 +113,14 @@ public class Indicadores extends javax.swing.JFrame {
         } else {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(van.toArray());
         }
-        acum = 0;
+
+    }
+
+    public void calculo_van_r() {
+        double acum = 0;
+        van_r.clear();
         for (int t = 1; t <= Principal.longevidad; t++) {
-            acum = acum + Double.parseDouble(String.valueOf(arr_r_neto.get(t))) / Math.pow(1 + (tasa_interes / 100), t) - IngVsGas.inv;
+            acum = acum + Double.parseDouble(String.valueOf(ebitda.getArr_r_neto().get(t))) / Math.pow(1 + (tasa_interes / 100), t) - IngVsGas.inv;
             van_r.add(acum);
         }
         van_r.add(0, "VAN (Con Riesgo)");
@@ -112,11 +135,10 @@ public class Indicadores extends javax.swing.JFrame {
 
     public void calculo_ivan() {
         ivan.clear();
-        ivan_r.clear();
         for (int t = 1; t <= Principal.longevidad; t++) {
             ivan.add(Double.parseDouble(String.valueOf(van.get(t))) / IngVsGas.inv);
         }
-        
+
         ivan.add(0, "IVAN (Sin Riesgo)");
         if (ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 3) {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(2);
@@ -125,6 +147,10 @@ public class Indicadores extends javax.swing.JFrame {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(ivan.toArray());
         }
 
+    }
+
+    public void calculo_ivan_r() {
+        ivan_r.clear();
         for (int t = 1; t <= Principal.longevidad; t++) {
             ivan_r.add(Double.parseDouble(String.valueOf(van_r.get(t))) / IngVsGas.inv);
         }
@@ -135,7 +161,48 @@ public class Indicadores extends javax.swing.JFrame {
         } else {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(ivan_r.toArray());
         }
- 
+    }
+
+    public void calculo_TIR() {
+        tir.clear();
+        double[] flujos = new double[ebitda.getArr_total().size()];
+        //se inserta la inversion en los flujos
+        flujos[0] = Double.parseDouble(String.valueOf(ingvsgas.getJtf_inv().getText())) * -1;
+        for (int j = 1; j <= Principal.longevidad; j++) {
+            for (int i = 1; i <= j; i++) {
+                flujos[i] = Double.parseDouble(String.valueOf(ebitda.getArr_total().get(i)));
+                  System.out.println(flujos[i]);
+            }
+            tir.add(Irr.irr(flujos, 0));
+        }
+        tir.add(0, "TIR (Sin Riesgo)");
+        if (ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 5) {
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(4);
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).insertRow(4, tir.toArray());
+        } else {
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(tir.toArray());
+        }
+    }
+
+    public void calculo_TIR_r() {
+        tir_r.clear();
+        double[] flujos = new double[ebitda.getArr_r_neto().size()];
+        //se inserta la inversion en los flujos
+        flujos[0] = Double.parseDouble(String.valueOf(ingvsgas.getJtf_inv().getText())) * -1;
+        for (int j = 1; j <= Principal.longevidad; j++) {
+            for (int i = 1; i <= j; i++) {
+                flujos[i] = Double.parseDouble(String.valueOf(ebitda.getArr_r_neto().get(i)));
+              
+            }
+            tir_r.add(Irr.irr(flujos, 0));
+        }
+        tir_r.add(0, "TIR (Con Riesgo)");
+        if (ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 6) {
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(5);
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).insertRow(5, tir_r.toArray());
+        } else {
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(tir_r.toArray());
+        }
     }
 
     /**
@@ -297,8 +364,10 @@ public class Indicadores extends javax.swing.JFrame {
     private void jtf_interesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_interesActionPerformed
         // TODO add your handling code here:
         setear_interes();
-        calculo_van(ebitda.getArr_total(), ebitda.getArr_r_neto());
+        calculo_van();
+        calculo_van_r();
         calculo_ivan();
+        calculo_ivan_r();
         ProjectEvaluator.JtextField.exportar_jtf(interes, jtf_interes);
     }//GEN-LAST:event_jtf_interesActionPerformed
 
