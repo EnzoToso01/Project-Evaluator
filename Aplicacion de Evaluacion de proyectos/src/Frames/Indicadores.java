@@ -50,9 +50,11 @@ public class Indicadores extends javax.swing.JFrame {
     private ArrayList tir = new ArrayList();
     private ArrayList tir_r = new ArrayList();
     private ArrayList vac = new ArrayList();
+    private ArrayList razonbc = new ArrayList();
     private double tasa_interes;
     private EBITDA ebitda;
     private IngVsGas ingvsgas;
+    private boolean imp = false;
 
     public Indicadores() {
     }
@@ -93,6 +95,10 @@ public class Indicadores extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
 
         }
+    }
+
+    public void setImp(boolean imp) {
+        this.imp = imp;
     }
 
     public JTextField getJtf_interes() {
@@ -220,18 +226,36 @@ public class Indicadores extends javax.swing.JFrame {
     public void calculo_vac() {
         double acum = 0;
         vac.clear();
-        for (int t = 1; t <= Principal.longevidad; t++) {
-            acum = acum + Double.parseDouble(String.valueOf(ingvsgas.getSuma_totales_eg().get(t))) * -1 / Math.pow(1 + (tasa_interes / 100), t) + IngVsGas.inv;
-
+        for (int i = 1; i <= Principal.longevidad; i++) {
+            //suma todos los VA correspondiendo a la cantidad de años
+            for (int t = 1; t <= i; t++) {
+                acum = acum + Double.parseDouble(String.valueOf(ingvsgas.getSuma_totales_eg().get(t))) / Math.pow(1 + (tasa_interes / 100), t);
+            }
+            //resta la inv
+            acum = acum - IngVsGas.inv;
             vac.add(acum);
+            acum = 0;
         }
-        // System.out.println(vac);
-        vac.add(0, "VAC (Sin Riesgo)");
+        vac.add(0, "VAC");
         if (ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 7) {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(6);
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).insertRow(6, vac.toArray());
         } else {
             ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(vac.toArray());
+        }
+    }
+
+    public void calculo_razonBC() {
+        razonbc.clear();
+        for (int t = 1; t <= Principal.longevidad; t++) {
+            razonbc.add(Double.parseDouble(String.valueOf(van.get(t))) / Double.parseDouble(String.valueOf(vac.get(t))));
+        }
+        razonbc.add(0, "Razón B/C");
+        if (ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 8) {
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(7);
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).insertRow(7, razonbc.toArray());
+        } else {
+            ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).addRow(razonbc.toArray());
         }
     }
 
@@ -272,6 +296,11 @@ public class Indicadores extends javax.swing.JFrame {
             }
         ));
         tabla_indicadores.setShowGrid(true);
+        tabla_indicadores.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabla_indicadoresPropertyChange(evt);
+            }
+        });
         scroll_indicadores.setViewportView(tabla_indicadores);
 
         btn_añadirfila_ind.setText("añadir fila");
@@ -369,7 +398,6 @@ public class Indicadores extends javax.swing.JFrame {
     private void btn_quitarfila_indActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indActionPerformed
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-
         if (tabla_indicadores.getSelectedRowCount() >= 1) {
             do {
                 ProjectEvaluator.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getSelectedRow());
@@ -382,7 +410,7 @@ public class Indicadores extends javax.swing.JFrame {
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
 
-        // paso por parametro para el método exportar
+        //exportacion
         try {
             ProjectEvaluator.Tabla.exportar(indicadores, tabla_indicadores);
             JOptionPane.showMessageDialog(null, "datos guardados");
@@ -392,18 +420,46 @@ public class Indicadores extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void jtf_interesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_interesActionPerformed
-        // TODO add your handling code here:
-        setear_interes();   
+        // TODO add your handling code here: 
+        setear_interes();
         calculo_van();
         calculo_van_r();
         calculo_ivan();
         calculo_ivan_r();
- ProjectEvaluator.JtextField.exportar_jtf(interes, jtf_interes);
+        ProjectEvaluator.JtextField.exportar_jtf(interes, jtf_interes);
     }//GEN-LAST:event_jtf_interesActionPerformed
 
     private void jtf_interesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_interesPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_interesPropertyChange
+
+    private void tabla_indicadoresPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indicadoresPropertyChange
+        // TODO add your handling code here:
+        //inicializa ingvsgas
+
+        if (imp == true) {
+            //inicializa indicadores
+            ProjectEvaluator.JtextField.importar_jtf(interes, jtf_interes);
+            setear_interes();
+            ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
+            //calculo van sin riesgo y con riesgo
+            calculo_van();
+            calculo_van_r();
+            calculo_ivan();
+            calculo_ivan_r();
+            calculo_TIR();
+            calculo_vac();
+            calculo_razonBC();
+        }
+
+        try {
+            ProjectEvaluator.Tabla.exportar(indicadores, tabla_indicadores);
+
+        } catch (Exception e) {
+            System.err.println("Error al guardar los datos en Indicadores");
+        }
+
+    }//GEN-LAST:event_tabla_indicadoresPropertyChange
 
     /**
      * @param args the command line arguments
