@@ -149,7 +149,7 @@ public class Impuestos extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
 
-        txtimpuestos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtimpuestos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtimpuestos.setForeground(new java.awt.Color(240, 255, 255));
         txtimpuestos.setText("Impuestos");
 
@@ -165,6 +165,7 @@ public class Impuestos extends javax.swing.JFrame {
         tabla_impuestos.setShowGrid(true);
         scroll_impuestos.setViewportView(tabla_impuestos);
 
+        btn_añadirfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_imp.setText("añadir fila");
         btn_añadirfila_imp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,6 +173,7 @@ public class Impuestos extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_imp.setText("quitar fila");
         btn_quitarfila_imp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +181,7 @@ public class Impuestos extends javax.swing.JFrame {
             }
         });
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,6 +206,7 @@ public class Impuestos extends javax.swing.JFrame {
         });
         scroll_indimpuestos.setViewportView(tabla_indimpuestos);
 
+        btn_añadirfila_indimp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_indimp.setText("añadir fila");
         btn_añadirfila_indimp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,6 +214,7 @@ public class Impuestos extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_indimp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_indimp.setText("quitar fila");
         btn_quitarfila_indimp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,7 +257,7 @@ public class Impuestos extends javax.swing.JFrame {
                     .addComponent(btn_quitarfila_imp)
                     .addComponent(txtimpuestos))
                 .addGap(19, 19, 19)
-                .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_añadirfila_indimp)

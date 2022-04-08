@@ -117,7 +117,7 @@ public class EBITDA extends javax.swing.JFrame {
             }
         });
 
-        txtebitda.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtebitda.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtebitda.setForeground(new java.awt.Color(240, 255, 255));
         txtebitda.setText("EBITDA");
 
@@ -148,6 +148,7 @@ public class EBITDA extends javax.swing.JFrame {
         });
         scroll_ebitda.setViewportView(tabla_EBITDA);
 
+        btn_añadirfila_ebi.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_ebi.setText("añadir fila");
         btn_añadirfila_ebi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +156,7 @@ public class EBITDA extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_ebi.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_ebi.setText("quitar fila");
         btn_quitarfila_ebi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +164,7 @@ public class EBITDA extends javax.swing.JFrame {
             }
         });
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,10 +185,10 @@ public class EBITDA extends javax.swing.JFrame {
                 .addComponent(btn_quitarfila_ebi)
                 .addGap(87, 87, 87)
                 .addComponent(btn_guardar)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(scroll_ebitda, javax.swing.GroupLayout.DEFAULT_SIZE, 857, Short.MAX_VALUE)
+                .addComponent(scroll_ebitda)
                 .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(

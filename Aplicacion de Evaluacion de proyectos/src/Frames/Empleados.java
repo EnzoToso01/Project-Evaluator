@@ -296,7 +296,7 @@ public class Empleados extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
 
-        txtsueldos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtsueldos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtsueldos.setForeground(new java.awt.Color(240, 255, 255));
         txtsueldos.setText("Sueldos");
 
@@ -337,10 +337,11 @@ public class Empleados extends javax.swing.JFrame {
         jtf_total_sueldos.setBackground(new java.awt.Color(255, 255, 255));
 
         txttotalsueldos.setBackground(new java.awt.Color(255, 255, 255));
-        txttotalsueldos.setFont(new java.awt.Font("Bahnschrift", 0, 12)); // NOI18N
+        txttotalsueldos.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         txttotalsueldos.setForeground(new java.awt.Color(255, 255, 255));
         txttotalsueldos.setText("Total sueldos");
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,6 +349,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
+        combo_años.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         combo_años.setMaximumRowCount(5);
         combo_años.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -365,6 +367,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
+        btn_añadirfila_emp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_emp.setText("añadir fila");
         btn_añadirfila_emp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -372,6 +375,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_emp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_emp.setText("quitar fila");
         btn_quitarfila_emp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -414,7 +418,7 @@ public class Empleados extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txttotalsueldos, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+                            .addComponent(txttotalsueldos, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_añadirfila_emp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

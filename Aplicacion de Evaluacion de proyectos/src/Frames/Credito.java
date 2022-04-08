@@ -81,7 +81,7 @@ public class Credito extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
 
-        txtcredito.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtcredito.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtcredito.setForeground(new java.awt.Color(240, 255, 255));
         txtcredito.setText("Crédito");
 
@@ -104,6 +104,7 @@ public class Credito extends javax.swing.JFrame {
             tabla_pagcredito.getColumnModel().getColumn(3).setHeaderValue("Saldo");
         }
 
+        btn_añadirfila_cred.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_cred.setText("añadir fila");
         btn_añadirfila_cred.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,6 +112,7 @@ public class Credito extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_cred.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_cred.setText("quitar fila");
         btn_quitarfila_cred.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +120,7 @@ public class Credito extends javax.swing.JFrame {
             }
         });
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,7 +151,7 @@ public class Credito extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtcredito)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 397, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 389, Short.MAX_VALUE)
                         .addComponent(btn_añadirfila_cred)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_cred)
@@ -174,7 +177,7 @@ public class Credito extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollcredito, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                 .addGap(49, 49, 49)
-                .addComponent(scrolldatcredito, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addComponent(scrolldatcredito, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                 .addGap(85, 85, 85))
         );
 

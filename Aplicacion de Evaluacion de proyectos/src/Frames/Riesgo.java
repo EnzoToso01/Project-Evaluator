@@ -108,10 +108,12 @@ public class Riesgo extends javax.swing.JFrame {
         });
         scroll_riesg.setViewportView(tabla_riesgos);
 
-        txtriesgos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtriesgos.setBackground(new java.awt.Color(56, 80, 113));
+        txtriesgos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtriesgos.setForeground(new java.awt.Color(240, 255, 255));
         txtriesgos.setText("Riesgos");
 
+        btn_añadirfila_riesg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_riesg.setText("añadir fila");
         btn_añadirfila_riesg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,6 +121,7 @@ public class Riesgo extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_riesg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_riesg.setText("quitar fila");
         btn_quitarfila_riesg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +129,7 @@ public class Riesgo extends javax.swing.JFrame {
             }
         });
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +149,7 @@ public class Riesgo extends javax.swing.JFrame {
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtriesgos, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 288, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
                         .addComponent(btn_añadirfila_riesg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_riesg)

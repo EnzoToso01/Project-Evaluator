@@ -73,7 +73,7 @@
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="jtf_interes" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scroll_indicadores" pref="555" max="32767" attributes="0"/>
+              <Component id="scroll_indicadores" pref="556" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -83,7 +83,7 @@
     <Component class="javax.swing.JLabel" name="txtindicadores">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Bahnschrift" size="24" style="0"/>
+          <Font name="Roboto" size="24" style="0"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="f0" type="rgb"/>
@@ -130,6 +130,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="btn_a&#xf1;adirfila_ind">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="a&#xf1;adir fila"/>
       </Properties>
       <Events>
@@ -138,6 +141,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_quitarfila_ind">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="quitar fila"/>
       </Properties>
       <Events>
@@ -146,6 +152,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_guardar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="12" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
@@ -169,7 +178,15 @@
     <Component class="javax.swing.JTextField" name="jtf_interes">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+          <Color blue="71" green="50" red="38" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="12" style="0"/>
+        </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+            <BevelBorder bevelType="1"/>
+          </Border>
         </Property>
       </Properties>
       <Events>

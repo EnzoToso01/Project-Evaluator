@@ -9,6 +9,8 @@ import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
 import static com.sun.tools.javac.tree.TreeInfo.args;
 import java.awt.Color;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.lang.model.SourceVersion;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,6 +18,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import sun.jvm.hotspot.runtime.PerfMemory;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -71,6 +75,7 @@ public class Principal extends javax.swing.JFrame {
                 new Principal().setVisible(true);
 
             }
+
         });
     }
 
@@ -114,15 +119,37 @@ public class Principal extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(773, 630));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtañosvida.setFont(new java.awt.Font("Bahnschrift", 0, 12)); // NOI18N
-        txtañosvida.setText("Longevidad del proyecto");
-        getContentPane().add(txtañosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, -1, -1));
+        txtañosvida.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        txtañosvida.setForeground(new java.awt.Color(56, 80, 113));
+        txtañosvida.setText("Longevidad del proyecto (años)");
+        getContentPane().add(txtañosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
 
-        txtnombreproyecto.setFont(new java.awt.Font("Bahnschrift", 0, 12)); // NOI18N
+        txtnombreproyecto.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        txtnombreproyecto.setForeground(new java.awt.Color(56, 80, 113));
         txtnombreproyecto.setText("Nombre del proyecto");
-        getContentPane().add(txtnombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
-        getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 210, 30));
+        getContentPane().add(txtnombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, -1, -1));
 
+        nombreproyecto.setBackground(new java.awt.Color(29, 112, 180));
+        nombreproyecto.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        nombreproyecto.setForeground(new java.awt.Color(204, 204, 204));
+        nombreproyecto.setText("Ingrese el nombre de su proyecto...");
+        nombreproyecto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        nombreproyecto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                nombreproyectoMousePressed(evt);
+            }
+        });
+        getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 330, 30));
+
+        añosvida.setBackground(new java.awt.Color(31, 114, 180));
+        añosvida.setForeground(new java.awt.Color(204, 204, 204));
+        añosvida.setText("Ej:5");
+        añosvida.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        añosvida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                añosvidaMousePressed(evt);
+            }
+        });
         añosvida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 añosvidaActionPerformed(evt);
@@ -133,7 +160,7 @@ public class Principal extends javax.swing.JFrame {
                 añosvidaPropertyChange(evt);
             }
         });
-        getContentPane().add(añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, 210, 30));
+        getContentPane().add(añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 330, 30));
 
         panel_negro.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -151,7 +178,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_IngVsGas.setBackground(new java.awt.Color(0, 0, 0));
-        btn_IngVsGas.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_IngVsGas.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_IngVsGas.setForeground(new java.awt.Color(255, 255, 255));
         btn_IngVsGas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Ingresos_y_Egresos.png"))); // NOI18N
         btn_IngVsGas.setText("Ingresos y Egresos");
@@ -201,7 +228,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_indicadores.setBackground(new java.awt.Color(0, 0, 0));
-        btn_indicadores.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_indicadores.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_indicadores.setForeground(new java.awt.Color(255, 255, 255));
         btn_indicadores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Icono_indicadores.png"))); // NOI18N
         btn_indicadores.setText("Indicadores");
@@ -251,7 +278,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_empleados.setBackground(new java.awt.Color(0, 0, 0));
-        btn_empleados.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_empleados.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_empleados.setForeground(new java.awt.Color(255, 255, 255));
         btn_empleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono empleados.png"))); // NOI18N
         btn_empleados.setText("Empleados");
@@ -301,7 +328,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_impuestos.setBackground(new java.awt.Color(0, 0, 0));
-        btn_impuestos.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_impuestos.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_impuestos.setForeground(new java.awt.Color(255, 255, 255));
         btn_impuestos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono impuestos.png"))); // NOI18N
         btn_impuestos.setText("Impuestos");
@@ -350,7 +377,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_credito.setBackground(new java.awt.Color(0, 0, 0));
-        btn_credito.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_credito.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_credito.setForeground(new java.awt.Color(255, 255, 255));
         btn_credito.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_credito.png"))); // NOI18N
         btn_credito.setBorder(null);
@@ -403,7 +430,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_riesgo.setBackground(new java.awt.Color(0, 0, 0));
-        btn_riesgo.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_riesgo.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_riesgo.setForeground(new java.awt.Color(255, 255, 255));
         btn_riesgo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono riesgo.png"))); // NOI18N
         btn_riesgo.setActionCommand("Riesgo");
@@ -458,7 +485,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_EBITDA.setBackground(new java.awt.Color(0, 0, 0));
-        btn_EBITDA.setFont(new java.awt.Font("Bahnschrift", 0, 11)); // NOI18N
+        btn_EBITDA.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_EBITDA.setForeground(new java.awt.Color(255, 255, 255));
         btn_EBITDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_Ebitda.png"))); // NOI18N
         btn_EBITDA.setText("EBITDA");
@@ -505,15 +532,12 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(panel_empleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panel_negroLayout.createSequentialGroup()
                 .addGroup(panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel_IngVsGas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel_negroLayout.createSequentialGroup()
                         .addGroup(panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(panel_credito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(panel_riesgo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panel_impuestos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(panel_IngVsGas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panel_negroLayout.createSequentialGroup()
-                        .addGroup(panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panel_impuestos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(panel_indicadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(panel_EBITDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -544,7 +568,7 @@ public class Principal extends javax.swing.JFrame {
         panel_azul.setBackground(new java.awt.Color(56, 80, 113));
 
         txtTitulo.setBackground(new java.awt.Color(204, 204, 204));
-        txtTitulo.setFont(new java.awt.Font("Bahnschrift", 0, 36)); // NOI18N
+        txtTitulo.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
         txtTitulo.setForeground(new java.awt.Color(85, 135, 184));
         txtTitulo.setText("Project Evaluator");
 
@@ -633,7 +657,7 @@ public class Principal extends javax.swing.JFrame {
         indicadores.setear_interes();
         ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
         //calculo van sin riesgo y con riesgo
-        ingvsgas.setear_inv();    
+        ingvsgas.setear_inv();
         indicadores.calculo_van();
         indicadores.calculo_van_r();
         indicadores.calculo_ivan();
@@ -905,6 +929,7 @@ public class Principal extends javax.swing.JFrame {
     private void añosvidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añosvidaActionPerformed
         // TODO add your handling code here:
         // Se obtienen los años de vida del proyecto para las demas clases
+
         boolean cont = true;
         try {
             longevidad = Integer.parseInt(añosvida.getText());
@@ -985,6 +1010,30 @@ public class Principal extends javax.swing.JFrame {
     private void panel_riesgoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_riesgoMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_panel_riesgoMouseExited
+
+    private void nombreproyectoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreproyectoMousePressed
+        // TODO add your handling code here:
+        if (nombreproyecto.getText().equals("Ingrese el nombre de su proyecto...")) {
+            nombreproyecto.setText("");
+            añosvida.setText("Ej:5");
+            Color c = new Color(204, 204, 204);
+            añosvida.setForeground(c);
+            nombreproyecto.setForeground(Color.WHITE);
+
+        }
+    }//GEN-LAST:event_nombreproyectoMousePressed
+
+    private void añosvidaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añosvidaMousePressed
+        // TODO add your handling code here:
+        if (añosvida.getText().equals("Ej:5")) {
+            añosvida.setText("");
+            nombreproyecto.setText("Ingrese el nombre de su proyecto...");
+            Color c = new Color(204, 204, 204);
+            nombreproyecto.setForeground(c);
+            añosvida.setForeground(Color.WHITE);
+
+        }
+    }//GEN-LAST:event_añosvidaMousePressed
 
     /**
      * @param args the command line arguments

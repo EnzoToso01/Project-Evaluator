@@ -42,6 +42,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -81,11 +82,12 @@ public class IngVsGas extends javax.swing.JFrame {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
         Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
+        getContentPane().setBackground(c);   
         //crea el directorio para ingvsgas
         directorio.mkdirs();
         this.ebitda = ebitda;
         this.impuestos = impuestos;
+        
     }
     
     public static void main(String args[]) {
@@ -382,11 +384,11 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
-        txtingresos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtingresos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtingresos.setForeground(new java.awt.Color(240, 255, 255));
         txtingresos.setText("Ingresos del Proyecto");
 
-        txtegresos.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        txtegresos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtegresos.setForeground(new java.awt.Color(240, 255, 255));
         txtegresos.setText("Egresos del Proyecto");
 
@@ -428,6 +430,7 @@ public class IngVsGas extends javax.swing.JFrame {
         });
         scroll_egresos.setViewportView(tabla_egresos);
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -435,6 +438,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        btn_añadirfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_ing.setText("añadir fila");
         btn_añadirfila_ing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -442,6 +446,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_ing.setText("quitar fila");
         btn_quitarfila_ing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -449,6 +454,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        btn_añadirfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_eg.setText("añadir fila");
         btn_añadirfila_eg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -456,6 +462,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        btn_quitarfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_quitarfila_eg.setText("quitar fila");
         btn_quitarfila_eg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -463,6 +470,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxivaing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jComboBoxivaing.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin IVA", "Con IVA" }));
         jComboBoxivaing.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -470,6 +478,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxivaeg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jComboBoxivaeg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin IVA", "Con IVA" }));
         jComboBoxivaeg.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -478,11 +487,14 @@ public class IngVsGas extends javax.swing.JFrame {
         });
 
         txtinv.setBackground(new java.awt.Color(255, 255, 255));
-        txtinv.setFont(new java.awt.Font("Bahnschrift", 0, 12)); // NOI18N
+        txtinv.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         txtinv.setForeground(new java.awt.Color(255, 255, 255));
         txtinv.setText("Inversión ");
 
-        jtf_inv.setBackground(new java.awt.Color(255, 255, 255));
+        jtf_inv.setBackground(new java.awt.Color(56, 80, 113));
+        jtf_inv.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jtf_inv.setForeground(new java.awt.Color(255, 255, 255));
+        jtf_inv.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jtf_inv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtf_invActionPerformed(evt);
@@ -500,17 +512,17 @@ public class IngVsGas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scroll_egresos)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtegresos, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+                                .addComponent(txtegresos, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(132, 132, 132)
+                                .addGap(136, 136, 136)
                                 .addComponent(btn_añadirfila_eg)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_quitarfila_eg)
-                                .addGap(200, 200, 200))))
+                                .addGap(196, 196, 196))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(txtingresos, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                        .addComponent(txtingresos, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBoxivaing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(136, 136, 136)
@@ -553,12 +565,11 @@ public class IngVsGas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(scroll_ingresos, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_añadirfila_eg)
-                        .addComponent(btn_quitarfila_eg)
-                        .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtegresos, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtegresos, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_añadirfila_eg)
+                    .addComponent(btn_quitarfila_eg))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scroll_egresos, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
