@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
+import Clases.Utilidad;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -84,14 +84,14 @@ public class Impuestos extends javax.swing.JFrame {
             String dato4[] = {"Montotributo/RI"};
             String dato5[] = {"Ingresos Brutos"};
             String dato6[] = {"Total de impuestos"};
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(dato1);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(dato2);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(dato3);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(dato4);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(dato5);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(dato6);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato1);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato2);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato3);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato4);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato5);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato6);
 
-            ProjectEvaluator.Tabla.filas_defecto(tabla_impuestos, 10);
+            Utilidad.Tabla.filas_defecto(tabla_impuestos, 10);
         }
 
         //inicializa los datos de las filas de la tabla
@@ -109,17 +109,17 @@ public class Impuestos extends javax.swing.JFrame {
             String dato9[] = {"Contribuciones patronales", String.valueOf(cont_p * 100)};
             String dato10[] = {"Obra Social", String.valueOf(ob_s * 100)};
 
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato3);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato4);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato5);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato6);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato7);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato8);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato9);
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(dato10);
-            ProjectEvaluator.Tabla.filas_defecto(tabla_indimpuestos, 10);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato3);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato4);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato5);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato6);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato7);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato8);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato9);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato10);
+            Utilidad.Tabla.filas_defecto(tabla_indimpuestos, 10);
         }
     }
 
@@ -274,7 +274,7 @@ public class Impuestos extends javax.swing.JFrame {
         // TODO add your handling code here
         //Añade filas a imp  
         Vector<?> rowData = null;
-        ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(rowData);
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_impActionPerformed
 
     private void btn_quitarfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_impActionPerformed
@@ -283,11 +283,11 @@ public class Impuestos extends javax.swing.JFrame {
 
         if (tabla_impuestos.getSelectedRowCount() >= 1) {
             do {
-                ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
+                Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
             } while (tabla_impuestos.getSelectedRowCount() >= 1);
 
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_impActionPerformed
 
@@ -298,8 +298,8 @@ public class Impuestos extends javax.swing.JFrame {
             File indimpuestos = new File("C:\\Project evaluator\\indicadores impuestos.txt");
             JTable tablaimp = getTabla_impuestos();
             JTable tablaindimp = getTabla_indimpuestos();
-            ProjectEvaluator.Tabla.exportar(impuestos, tablaimp);
-            ProjectEvaluator.Tabla.exportar(indimpuestos, tablaindimp);
+            Utilidad.Tabla.exportar(impuestos, tablaimp);
+            Utilidad.Tabla.exportar(indimpuestos, tablaindimp);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
@@ -327,18 +327,18 @@ public class Impuestos extends javax.swing.JFrame {
         // TODO add your handling code here:
         //Añade filas a imp
         Vector<?> rowData = null;
-        ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).addRow(rowData);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_indimpActionPerformed
 
     private void btn_quitarfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indimpActionPerformed
         // TODO add your handling code here:
         if (tabla_indimpuestos.getSelectedRowCount() >= 1) {
             do {
-                ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getSelectedRow());
+                Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getSelectedRow());
             } while (tabla_indimpuestos.getSelectedRowCount() >= 1);
 
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getRowCount() - 1);
+            Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
 
@@ -346,15 +346,15 @@ public class Impuestos extends javax.swing.JFrame {
         iva_v.clear();
         iva_v.add(0, "IVA Ventas");
 
-        for (int i = 0; i < Principal.longevidad; i++) {
+        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
             iva_v.add((double) ing_iva.get(i) * iva);
         }
 
         if (tabla_impuestos.getRowCount() > 1) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(1);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).insertRow(1, iva_v.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(1);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(1, iva_v.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(iva_v.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(iva_v.toArray());
         }
     }
 
@@ -362,15 +362,15 @@ public class Impuestos extends javax.swing.JFrame {
         iva_c.clear();
         iva_c.add(0, "IVA Compras");
 
-        for (int i = 0; i < Principal.longevidad; i++) {
+        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
             iva_c.add((double) eg_iva.get(i) * iva);
         }
 
         if (tabla_impuestos.getRowCount() > 2) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(2);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).insertRow(2, iva_c.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(2);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(2, iva_c.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(iva_c.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(iva_c.toArray());
         }
 
     }
@@ -378,10 +378,10 @@ public class Impuestos extends javax.swing.JFrame {
     public void ganancias() {
 
         if (tabla_impuestos.getRowCount() > 0) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(0);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).insertRow(0, EBITDA.arr_ganancias.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(0);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(0, EBITDA.arr_ganancias.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ganancias.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ganancias.toArray());
         }
 
     }
@@ -389,10 +389,10 @@ public class Impuestos extends javax.swing.JFrame {
     public void ing_b() {
 
         if (tabla_impuestos.getRowCount() > 4) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(4);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).insertRow(4, EBITDA.arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(4);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(4, EBITDA.arr_ing_br.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ing_br.toArray());
         }
     }
 
@@ -402,11 +402,11 @@ public class Impuestos extends javax.swing.JFrame {
         calc_total.add(0, "Total de Impuestos");
         //acumula la suma de los valores
         try {
-            for (int i = 1; i <= Principal.longevidad; i++) {
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                 for (int j = 0; j < tabla_impuestos.getRowCount(); j++) {
                     //convierte los datos null de la primera columna en string para evitar null exceptions 
                     if (tabla_impuestos.getValueAt(j, 0) == null) {
-                        ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).setValueAt("", j, 0);
+                        Utilidad.Tabla.get_modelo(tabla_impuestos).setValueAt("", j, 0);
                     }
                     if (tabla_impuestos.getValueAt(j, i) != null) {
                         if (!tabla_impuestos.getValueAt(j, i).equals("") && !tabla_impuestos.getValueAt(j, 0).equals("Total de Impuestos")) {
@@ -423,47 +423,17 @@ public class Impuestos extends javax.swing.JFrame {
         }
 
         if (tabla_impuestos.getRowCount() > 5) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).removeRow(5);
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).insertRow(5, calc_total.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(5);
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(5, calc_total.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_impuestos).addRow(calc_total.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(calc_total.toArray());
         }
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Impuestos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Impuestos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Impuestos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Impuestos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Impuestos().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_imp;

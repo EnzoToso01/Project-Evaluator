@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
+import Clases.Utilidad;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
@@ -57,38 +57,7 @@ public class EBITDA extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EBITDA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EBITDA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EBITDA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EBITDA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EBITDA().setVisible(true);
-
-            }
-        });
-    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -216,11 +185,11 @@ public class EBITDA extends javax.swing.JFrame {
         aux = (ArrayList) this.ingresos.clone();
         aux.add(0, "Ingresos");
 
-        if (ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).getRowCount() > 0) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(0);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(0, aux.toArray());
+        if (Utilidad.Tabla.get_modelo(tabla_EBITDA).getRowCount() > 0) {
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(0);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(0, aux.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
 
     }
@@ -232,11 +201,11 @@ public class EBITDA extends javax.swing.JFrame {
         this.egresos.remove(0);
         aux = (ArrayList) this.egresos.clone();
         aux.add(0, "Egresos");
-        if (ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).getRowCount() > 1) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(1);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(1, aux.toArray());
+        if (Utilidad.Tabla.get_modelo(tabla_EBITDA).getRowCount() > 1) {
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(1);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(1, aux.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(aux.toArray());
         }
     }
 
@@ -261,20 +230,20 @@ public class EBITDA extends javax.swing.JFrame {
             arr_ebitda.clear();
             if (arr_ebitda.isEmpty() == true) {
                 arr_ebitda.add(0, "EBITDA");
-                for (int i = 1; i <= Principal.longevidad; i++) {
+                for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                     arr_ebitda.add(ingresos.get(i - 1) - egresos.get(i - 1));
                 }
             } else {
-                for (int i = 1; i <= Principal.longevidad; i++) {
+                for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                     arr_ebitda.set(i, ingresos.get(i - 1) - egresos.get(i - 1));
                 }
             }
 
             if (tabla_EBITDA.getRowCount() >= 3) {
-                ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(2);
-                ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(2, arr_ebitda.toArray());
+                Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(2);
+                Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(2, arr_ebitda.toArray());
             } else {
-                ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ebitda.toArray());
+                Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ebitda.toArray());
             }
 
         } catch (Exception e) {
@@ -287,15 +256,15 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_ing_br.isEmpty() == true) {
             arr_ing_br.add(0, "Ingresos Brutos");
         }
-        for (int i = 0; i < Principal.longevidad; i++) {
+        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
             arr_ing_br.add(ingresos.get(i) * Impuestos.ing_b);
         }
 
         if (tabla_EBITDA.getRowCount() >= 4) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(3);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(3, arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(3);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(3, arr_ing_br.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ing_br.toArray());
         }
 
     }
@@ -305,15 +274,15 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_iva.isEmpty() == true) {
             arr_iva.add(0, "IVA");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             arr_iva.add((double) Impuestos.iva_v.get(i) - (double) Impuestos.iva_c.get(i));
         }
 
         if (tabla_EBITDA.getRowCount() >= 5) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(4);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(4, arr_iva.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(4);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(4, arr_iva.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_iva.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_iva.toArray());
         }
 
     }
@@ -323,14 +292,14 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_intereses.isEmpty() == true) {
             arr_intereses.add(0, "Intereses");
         }
-        for (int i = 0; i < Principal.longevidad; i++) {
+        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
             arr_intereses.add(0.0);
         }
         if (tabla_EBITDA.getRowCount() >= 6) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(5);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(5, arr_intereses.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(5);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(5, arr_intereses.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_intereses.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_intereses.toArray());
         }
 
     }
@@ -340,15 +309,15 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_sub_s_gan.isEmpty() == true) {
             arr_sub_s_gan.add(0, "Subtotal sin ganancias");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             arr_sub_s_gan.add((double) arr_ebitda.get(i) - (double) arr_ing_br.get(i) - (double) arr_iva.get(i) - (double) arr_intereses.get(i));
 
         }
         if (tabla_EBITDA.getRowCount() >= 7) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(6);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(6, arr_sub_s_gan.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(6);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(6, arr_sub_s_gan.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_sub_s_gan.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_sub_s_gan.toArray());
         }
 
     }
@@ -358,15 +327,15 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_amort.isEmpty() == true) {
             arr_amort.add(0, "Amortizaciones");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             arr_amort.add(0.0);
 
         }
         if (tabla_EBITDA.getRowCount() >= 8) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(7);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(7, arr_amort.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(7);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(7, arr_amort.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_amort.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_amort.toArray());
         }
 
     }
@@ -376,14 +345,14 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_sub_c_amort.isEmpty() == true) {
             arr_sub_c_amort.add(0, "Subtotal con Amortizacion");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             arr_sub_c_amort.add((double) arr_sub_s_gan.get(i) - (double) arr_amort.get(i));
         }
         if (tabla_EBITDA.getRowCount() >= 9) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(8);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(8, arr_sub_c_amort.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(8);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(8, arr_sub_c_amort.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_sub_c_amort.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_sub_c_amort.toArray());
         }
 
     }
@@ -393,7 +362,7 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_ganancias.isEmpty() == true) {
             arr_ganancias.add(0, "Ganancias 35%");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             if ((double) arr_sub_c_amort.get(i) > 0) {
                 arr_ganancias.add((double) arr_sub_c_amort.get(i) * Impuestos.gan);
             } else {
@@ -401,10 +370,10 @@ public class EBITDA extends javax.swing.JFrame {
             }
         }
         if (tabla_EBITDA.getRowCount() >= 10) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(9);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(9, arr_ganancias.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(9);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(9, arr_ganancias.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ganancias.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ganancias.toArray());
         }
     }
 
@@ -413,14 +382,14 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_total.isEmpty() == true) {
             arr_total.add(0, "Total con Ing/Iva/interes/Gan");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             arr_total.add((double) arr_sub_s_gan.get(i) - (double) arr_ganancias.get(i));
         }
         if (tabla_EBITDA.getRowCount() >= 11) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(10);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(10, arr_total.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(10);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(10, arr_total.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_total.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_total.toArray());
         }
     }
 
@@ -430,24 +399,24 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_payback.isEmpty() == true) {
             arr_payback.add(0, "Payback");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             acum = acum + Double.valueOf(String.valueOf(arr_total.get(i)));
             arr_payback.add(acum);
         }
         if (tabla_EBITDA.getRowCount() >= 12) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(11);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(11, arr_payback.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(11);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(11, arr_payback.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_payback.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_payback.toArray());
         }
     }
 
     public void calculo_riesgo() {
         arr_riesgo.clear();
         double acum = 0;
-        ProjectEvaluator.Tabla.inicializar(riesgo.getTabla_riesgos());
-        ProjectEvaluator.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
-        ProjectEvaluator.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
+        Utilidad.Tabla.inicializar(riesgo.getTabla_riesgos());
+        Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
+        Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
         riesgo.setImp(true);
         riesgo.valor_riesgo();
         if (arr_riesgo.isEmpty() == true) {
@@ -461,16 +430,16 @@ public class EBITDA extends javax.swing.JFrame {
 
         }
         arr_riesgo.add(acum);
-        for (int i = 1; i < Principal.longevidad; i++) {
+        for (int i = 1; i < ProjectEvaluator.longevidad; i++) {
             acum = acum * 1.1;
             arr_riesgo.add(acum);
         }
 
         if (tabla_EBITDA.getRowCount() >= 13) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(12);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(12, arr_riesgo.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(12);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(12, arr_riesgo.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_riesgo.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_riesgo.toArray());
         }
     }
 
@@ -479,7 +448,7 @@ public class EBITDA extends javax.swing.JFrame {
         if (arr_r_neto.isEmpty() == true) {
             arr_r_neto.add(0, "R.Neto Mitigado el Riesgo");
         }
-        for (int i = 1; i <= Principal.longevidad; i++) {
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             try {
                 arr_r_neto.add(Double.parseDouble(String.valueOf(arr_total.get(i))) - Double.parseDouble(String.valueOf(arr_riesgo.get(i))));
             } catch (NumberFormatException e) {
@@ -488,10 +457,10 @@ public class EBITDA extends javax.swing.JFrame {
         }
 
         if (tabla_EBITDA.getRowCount() >= 14) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(13);
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).insertRow(13, arr_r_neto.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(13);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(13, arr_r_neto.toArray());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(arr_r_neto.toArray());
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_r_neto.toArray());
         }
     }
 
@@ -500,7 +469,7 @@ public class EBITDA extends javax.swing.JFrame {
         // TODO add your handling code here
         //Añade filas a ebitda
         Vector<?> rowData = null;
-        ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).addRow(rowData);
+        Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_ebiActionPerformed
 
     private void btn_quitarfila_ebiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ebiActionPerformed
@@ -509,17 +478,17 @@ public class EBITDA extends javax.swing.JFrame {
 
         if (tabla_EBITDA.getSelectedRowCount() >= 1) {
             do {
-                ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
+                Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
             } while (tabla_EBITDA.getSelectedRowCount() >= 1);
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_ebiActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
         try {
-            ProjectEvaluator.Tabla.exportar(ebitda, tabla_EBITDA);
+            Utilidad.Tabla.exportar(ebitda, tabla_EBITDA);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");

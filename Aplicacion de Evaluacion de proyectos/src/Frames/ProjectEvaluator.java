@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
+import Clases.Utilidad;
 import static com.sun.tools.javac.tree.TreeInfo.args;
 import java.awt.Color;
 import java.io.File;
@@ -25,7 +25,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author Enzo
  */
-public class Principal extends javax.swing.JFrame {
+public class ProjectEvaluator extends javax.swing.JFrame {
 
     public static int longevidad = 5;
     public static boolean import_ingeg = false;
@@ -40,7 +40,7 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    public Principal() {
+    public ProjectEvaluator() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -59,20 +59,22 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Principal().setVisible(true);
+                ProjectEvaluator p = new ProjectEvaluator();
+                p.setVisible(true);
 
             }
 
@@ -624,7 +626,7 @@ public class Principal extends javax.swing.JFrame {
         //inicializa ingvsgas
         setear_ingvsgas();
         //importa el jtextfield
-        ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
+        Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
         ingvsgas.setVisible(true);
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
 
@@ -646,16 +648,16 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
 
-        ProjectEvaluator.Tabla.inicializar(indicadores.getTabla_indicadores());
-        ProjectEvaluator.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
+        Utilidad.Tabla.inicializar(indicadores.getTabla_indicadores());
+        Utilidad.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
         //inicializa ingvsgas
         setear_ingvsgas();
         //setea ebitda
         ingvsgas.setear_ebitda_imp();
         //inicializa indicadores
-        ProjectEvaluator.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
+        Utilidad.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
         indicadores.setear_interes();
-        ProjectEvaluator.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
+        Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
         //calculo van sin riesgo y con riesgo
         ingvsgas.setear_inv();
         indicadores.calculo_van();
@@ -667,7 +669,7 @@ public class Principal extends javax.swing.JFrame {
         indicadores.calculo_vac();
         indicadores.calculo_razonBC();
         //añade filas por defecto si no hay ninguna en la tabla
-        ProjectEvaluator.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
+        Utilidad.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
         indicadores.setImp(true);
         indicadores.setVisible(true);
     }//GEN-LAST:event_btn_indicadoresMouseClicked
@@ -699,8 +701,8 @@ public class Principal extends javax.swing.JFrame {
         ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
 
         //inicializa ing y eg
-        ProjectEvaluator.Tabla.inicializar(ingvsgas.getTabla_ingresos());
-        ProjectEvaluator.Tabla.inicializar(ingvsgas.getTabla_egresos());
+        Utilidad.Tabla.inicializar(ingvsgas.getTabla_ingresos());
+        Utilidad.Tabla.inicializar(ingvsgas.getTabla_egresos());
 
         //imp ing eg con iva
         ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
@@ -717,8 +719,8 @@ public class Principal extends javax.swing.JFrame {
         ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
         import_ingeg = true;
 
-        ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
-        ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
+        Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
+        Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
 
     }
 
@@ -726,15 +728,15 @@ public class Principal extends javax.swing.JFrame {
 
         // TODO add your handling code here:
         //inicializa datos Ebitda y imp
-        ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
-        ProjectEvaluator.Tabla.inicializar(ebitda.getTabla_ebitda());
-        ProjectEvaluator.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
+        Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
+        Utilidad.Tabla.inicializar(ebitda.getTabla_ebitda());
+        Utilidad.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
 
         //inicializa ingvsgas
         setear_ingvsgas();
 
         try {
-            ProjectEvaluator.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
+            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             ingvsgas.setear_ebitda_imp();
             ebitda.setVisible(true);
         } catch (Exception e) {
@@ -763,9 +765,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_empleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseClicked
         // TODO add your handling code here:
-        ProjectEvaluator.Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
-        ProjectEvaluator.Tabla.importar(empleados.getTasas(), empleados.getTabla_tasas());
-        ProjectEvaluator.Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
+        Utilidad.Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
+        Utilidad.Tabla.importar(empleados.getTasas(), empleados.getTabla_tasas());
+        Utilidad.Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
         empleados.inicializar_combo();
         empleados.importar_emp();
         empleados.setImp(true);
@@ -806,9 +808,9 @@ public class Principal extends javax.swing.JFrame {
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
         // TODO add your handling code here:
 
-        ProjectEvaluator.Tabla.inicializar(impuestos.getTabla_impuestos());
-        ProjectEvaluator.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
-        ProjectEvaluator.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
+        Utilidad.Tabla.inicializar(impuestos.getTabla_impuestos());
+        Utilidad.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
+        Utilidad.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
         //añade filas por defecto si no hay ninguna en la tabla
         impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
         impuestos.setVisible(true);
@@ -836,8 +838,8 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         credito.setVisible(true);
-        ProjectEvaluator.Tabla.importar(credito.getPagcredito(), credito.getTabla_pagcredito());
-        ProjectEvaluator.Tabla.importar(credito.getDatcredito(), credito.getTabla_datcredito());
+        Utilidad.Tabla.importar(credito.getPagcredito(), credito.getTabla_pagcredito());
+        Utilidad.Tabla.importar(credito.getDatcredito(), credito.getTabla_datcredito());
 
         //añade filas por defecto si no hay ninguna en la tabla
         credito.filas_datos(credito.getTabla_datcredito(), credito.getTabla_pagcredito());
@@ -934,15 +936,15 @@ public class Principal extends javax.swing.JFrame {
         try {
             longevidad = Integer.parseInt(añosvida.getText());
             if (longevidad > 0) {
-                ProjectEvaluator.Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
-                ProjectEvaluator.Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
+                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
+                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
 
                 ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
                 ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
 
                 //inicializa ing y eg
-                ProjectEvaluator.Tabla.inicializar(ingvsgas.getTabla_ingresos());
-                ProjectEvaluator.Tabla.inicializar(ingvsgas.getTabla_egresos());
+                Utilidad.Tabla.inicializar(ingvsgas.getTabla_ingresos());
+                Utilidad.Tabla.inicializar(ingvsgas.getTabla_egresos());
                 //imp ing eg con iva
                 ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
                 ingvsgas.getjComboBoxivaeg().setSelectedItem("Con IVA");
@@ -955,8 +957,8 @@ public class Principal extends javax.swing.JFrame {
 
                 import_ingeg = true;
 
-                ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
-                ProjectEvaluator.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
+                Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
+                Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
             } else {
                 throw new NumberFormatException();
             }
@@ -973,9 +975,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_riesgoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_riesgoMouseClicked
         // TODO add your handling code here:
-        ProjectEvaluator.Tabla.inicializar(riesgo.getTabla_riesgos());
-        ProjectEvaluator.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
-        ProjectEvaluator.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
+        Utilidad.Tabla.inicializar(riesgo.getTabla_riesgos());
+        Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
+        Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
         riesgo.setImp(true);
         riesgo.valor_riesgo();
         riesgo.setVisible(true);

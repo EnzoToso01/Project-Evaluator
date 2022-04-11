@@ -4,7 +4,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
+import Clases.Utilidad;
 import java.awt.Color;
 import java.io.File;
 import java.util.Vector;
@@ -39,37 +39,7 @@ public class Riesgo extends javax.swing.JFrame {
         imp = false;
     }
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Riesgo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Riesgo().setVisible(true);
-            }
-        });
-    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -201,16 +171,16 @@ public class Riesgo extends javax.swing.JFrame {
         // TODO add your handling code here
         //Añade filas a ingresos
         Vector<?> rowData = null;
-        ProjectEvaluator.Tabla.get_modelo(tabla_riesgos).addRow(rowData);
+        Utilidad.Tabla.get_modelo(tabla_riesgos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_riesgActionPerformed
 
     private void btn_quitarfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_riesgActionPerformed
         // TODO add your handling code here:
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
         if (tabla_riesgos.getSelectedRowCount() == 1) {
-            ProjectEvaluator.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getSelectedRow());
+            Utilidad.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getSelectedRow());
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getRowCount() - 1);
+            Utilidad.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_riesgActionPerformed
 
@@ -218,7 +188,7 @@ public class Riesgo extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try {
-            ProjectEvaluator.Tabla.exportar(riesgos, tabla_riesgos);
+            Utilidad.Tabla.exportar(riesgos, tabla_riesgos);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
@@ -231,7 +201,7 @@ public class Riesgo extends javax.swing.JFrame {
         if (imp == true) {
             try {
                 valor_riesgo();
-                ProjectEvaluator.Tabla.exportar(riesgos, tabla_riesgos);
+                Utilidad.Tabla.exportar(riesgos, tabla_riesgos);
             } catch (Exception e) {
                 System.out.println("Error en guardado de datos (Riesgo)");
             }

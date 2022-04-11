@@ -1,7 +1,7 @@
-package aplicacion.de.evaluacion.de.proyectos;
+package Clases;
 
 import Frames.IngVsGas;
-import Frames.Principal;
+import Frames.ProjectEvaluator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,12 +16,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class ProjectEvaluator {
+public class Utilidad {
 
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Principal.main(args);
-    }
 
     public static class Tabla {
 
@@ -29,7 +25,7 @@ public class ProjectEvaluator {
             //Asigna los años del proyecto a las tablas
             //Se salta las columnas ya agregadas para no rehacerlas o resta las columnas cortadas
             DefaultTableModel tbl = get_modelo(tabla);
-            for (int i = tbl.getColumnCount(); i <= Principal.longevidad; i++) {
+            for (int i = tbl.getColumnCount(); i <= ProjectEvaluator.longevidad; i++) {
                 tbl.addColumn("Año " + i);
             }
         }

@@ -5,7 +5,7 @@
  */
 package Frames;
 
-import aplicacion.de.evaluacion.de.proyectos.ProjectEvaluator;
+import Clases.Utilidad;
 import java.awt.Color;
 import java.io.File;
 import java.util.Vector;
@@ -39,7 +39,7 @@ public class Credito extends javax.swing.JFrame {
     public void filas_datos(JTable tabladatcred, JTable tablapagcred) {
         //inicializa los datos de las filas de la tabla
         if (tablapagcred.getRowCount() < 1) {
-            ProjectEvaluator.Tabla.filas_defecto(tablapagcred, 15);
+            Utilidad.Tabla.filas_defecto(tablapagcred, 15);
         }
         if (tabladatcred.getRowCount() < 1) {
 
@@ -54,7 +54,7 @@ public class Credito extends javax.swing.JFrame {
             tblmodel.addRow(dato3);
             tblmodel.addRow(dato4);
 
-            ProjectEvaluator.Tabla.filas_defecto(tabladatcred, 10);
+            Utilidad.Tabla.filas_defecto(tabladatcred, 10);
         }
     }
 
@@ -198,7 +198,7 @@ public class Credito extends javax.swing.JFrame {
         //Añade filas a credito
 
         Vector<?> rowData = null;
-        ProjectEvaluator.Tabla.get_modelo(tabla_pagcredito).addRow(rowData);
+        Utilidad.Tabla.get_modelo(tabla_pagcredito).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_credActionPerformed
 
     private void btn_quitarfila_credActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_credActionPerformed
@@ -207,11 +207,11 @@ public class Credito extends javax.swing.JFrame {
 
         if (tabla_pagcredito.getSelectedRowCount() >= 1) {
             do {
-                ProjectEvaluator.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
+                Utilidad.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
             } while (tabla_pagcredito.getSelectedRowCount() >= 1);
 
         } else {
-            ProjectEvaluator.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
+            Utilidad.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_credActionPerformed
 
@@ -223,8 +223,8 @@ public class Credito extends javax.swing.JFrame {
             //Declaro la tabla para pasarla por parámetro a los métodos de Tabla
             JTable tablapagcred = getTabla_pagcredito();
             JTable tabladatcred = getTabla_datcredito();
-            ProjectEvaluator.Tabla.exportar(pagcredito, tablapagcred);
-            ProjectEvaluator.Tabla.exportar(datcredito, tabladatcred);
+            Utilidad.Tabla.exportar(pagcredito, tablapagcred);
+            Utilidad.Tabla.exportar(datcredito, tabladatcred);
             JOptionPane.showMessageDialog(null, "datos guardados");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
@@ -242,38 +242,7 @@ public class Credito extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Credito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Credito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Credito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Credito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Credito().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_cred;
