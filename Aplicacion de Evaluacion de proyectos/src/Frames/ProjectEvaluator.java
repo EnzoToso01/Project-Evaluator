@@ -8,6 +8,7 @@ package Frames;
 import Clases.Utilidad;
 import static com.sun.tools.javac.tree.TreeInfo.args;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +44,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     public ProjectEvaluator() {
         initComponents();
         this.setLocationRelativeTo(null);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono_app.png")));
     }
 
     public static void main(String args[]) {
@@ -134,19 +136,19 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         nombreproyecto.setBackground(new java.awt.Color(29, 112, 180));
         nombreproyecto.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         nombreproyecto.setForeground(new java.awt.Color(204, 204, 204));
-        nombreproyecto.setText("Ingrese el nombre de su proyecto...");
-        nombreproyecto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
+        nombreproyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         nombreproyecto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nombreproyectoMousePressed(evt);
             }
         });
-        getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 330, 30));
+        getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 260, 30));
 
         añosvida.setBackground(new java.awt.Color(31, 114, 180));
         añosvida.setForeground(new java.awt.Color(204, 204, 204));
-        añosvida.setText("Ej:5");
-        añosvida.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        añosvida.setText(" Ej:5");
+        añosvida.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         añosvida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 añosvidaMousePressed(evt);
@@ -162,7 +164,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 añosvidaPropertyChange(evt);
             }
         });
-        getContentPane().add(añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 330, 30));
+        getContentPane().add(añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 260, 30));
 
         panel_negro.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -932,7 +934,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Se obtienen los años de vida del proyecto para las demas clases
 
-        boolean cont = true;
+     
         try {
             longevidad = Integer.parseInt(añosvida.getText());
             if (longevidad > 0) {
@@ -959,12 +961,16 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
                 Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
                 Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
+                
+                //resetea combobox empleados
+                empleados.getCombo_años().removeAllItems();
+                empleados.inicializar_combo();
             } else {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
-            cont = false;
+           
         }
 
     }//GEN-LAST:event_añosvidaActionPerformed
@@ -1015,9 +1021,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void nombreproyectoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreproyectoMousePressed
         // TODO add your handling code here:
-        if (nombreproyecto.getText().equals("Ingrese el nombre de su proyecto...")) {
+        if (nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
             nombreproyecto.setText("");
-            añosvida.setText("Ej:5");
+            añosvida.setText(" Ej:5");
             Color c = new Color(204, 204, 204);
             añosvida.setForeground(c);
             nombreproyecto.setForeground(Color.WHITE);
@@ -1027,9 +1033,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void añosvidaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añosvidaMousePressed
         // TODO add your handling code here:
-        if (añosvida.getText().equals("Ej:5")) {
+        if (añosvida.getText().equals(" Ej:5")) {
             añosvida.setText("");
-            nombreproyecto.setText("Ingrese el nombre de su proyecto...");
+            nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
             Color c = new Color(204, 204, 204);
             nombreproyecto.setForeground(c);
             añosvida.setForeground(Color.WHITE);

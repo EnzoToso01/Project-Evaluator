@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -89,6 +90,10 @@ public class Empleados extends javax.swing.JFrame {
 
     public void setImp(boolean imp) {
         this.imp = imp;
+    }
+
+    public JComboBox<String> getCombo_años() {
+        return combo_años;
     }
     
     
