@@ -26,7 +26,7 @@ public class Empleados extends javax.swing.JFrame {
     /**
      * Creates new form Empleados
      */
-    private File directorio = new File("C:\\Project evaluator\\sueldos");
+    private File directorio = new File("C:\\Project evaluator\\sueldos.txt");
     private File tasas = new File("C:\\Project evaluator\\sueldos\\tasas.txt");
     private boolean imp_tas = false;
     private double tas_jub;
@@ -45,8 +45,6 @@ public class Empleados extends javax.swing.JFrame {
         directorio.mkdirs();
         this.ingvsgas = ingvsgas;
     }
-
-   
 
     public boolean getImp_tas() {
         return imp_tas;
@@ -95,8 +93,6 @@ public class Empleados extends javax.swing.JFrame {
     public JComboBox<String> getCombo_años() {
         return combo_años;
     }
-    
-    
 
     public void importar_emp() {
         Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
@@ -246,7 +242,7 @@ public class Empleados extends javax.swing.JFrame {
     private void initComponents() {
 
         txtsueldos = new javax.swing.JLabel();
-        scroll_ebitda = new javax.swing.JScrollPane();
+        scroll_sueldos = new javax.swing.JScrollPane();
         tabla_sueldos = new javax.swing.JTable();
         jtf_total_sueldos = new javax.swing.JTextField();
         txttotalsueldos = new javax.swing.JLabel();
@@ -254,13 +250,18 @@ public class Empleados extends javax.swing.JFrame {
         combo_años = new javax.swing.JComboBox<>();
         btn_añadirfila_emp = new javax.swing.JButton();
         btn_quitarfila_emp = new javax.swing.JButton();
-        scroll_ebitda1 = new javax.swing.JScrollPane();
+        scroll_tasas = new javax.swing.JScrollPane();
         tabla_tasas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Empleados");
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         txtsueldos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtsueldos.setForeground(new java.awt.Color(240, 255, 255));
@@ -281,7 +282,7 @@ public class Empleados extends javax.swing.JFrame {
                 tabla_sueldosPropertyChange(evt);
             }
         });
-        scroll_ebitda.setViewportView(tabla_sueldos);
+        scroll_sueldos.setViewportView(tabla_sueldos);
         if (tabla_sueldos.getColumnModel().getColumnCount() > 0) {
             tabla_sueldos.getColumnModel().getColumn(0).setHeaderValue("Nombre y apellido");
             tabla_sueldos.getColumnModel().getColumn(1).setHeaderValue("Basico Jornada  Completa");
@@ -300,7 +301,9 @@ public class Empleados extends javax.swing.JFrame {
         }
 
         jtf_total_sueldos.setEditable(false);
-        jtf_total_sueldos.setBackground(new java.awt.Color(255, 255, 255));
+        jtf_total_sueldos.setBackground(new java.awt.Color(85, 135, 184));
+        jtf_total_sueldos.setForeground(new java.awt.Color(255, 255, 255));
+        jtf_total_sueldos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txttotalsueldos.setBackground(new java.awt.Color(255, 255, 255));
         txttotalsueldos.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -350,6 +353,7 @@ public class Empleados extends javax.swing.JFrame {
         });
 
         tabla_tasas.setBackground(new java.awt.Color(255, 255, 255));
+        tabla_tasas.setForeground(new java.awt.Color(0, 0, 0));
         tabla_tasas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -358,13 +362,19 @@ public class Empleados extends javax.swing.JFrame {
                 "Tasa Jubilación", "Tasa Obra Social", "Tasa Ley 19032", "Tasa SEC"
             }
         ));
+        tabla_tasas.setFocusable(false);
+        tabla_tasas.setOpaque(false);
+        tabla_tasas.setRequestFocusEnabled(false);
+        tabla_tasas.setRowSelectionAllowed(false);
         tabla_tasas.setShowGrid(true);
+        tabla_tasas.setUpdateSelectionOnSort(false);
+        tabla_tasas.setVerifyInputWhenFocusTarget(false);
         tabla_tasas.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tabla_tasasPropertyChange(evt);
             }
         });
-        scroll_ebitda1.setViewportView(tabla_tasas);
+        scroll_tasas.setViewportView(tabla_tasas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -372,7 +382,7 @@ public class Empleados extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(scroll_ebitda)
+                .addComponent(scroll_sueldos)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
@@ -385,15 +395,15 @@ public class Empleados extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txttotalsueldos, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(28, 28, 28)
                         .addComponent(btn_añadirfila_emp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_emp)
                         .addGap(77, 77, 77)
                         .addComponent(btn_guardar)
-                        .addGap(98, 98, 98))
+                        .addGap(76, 76, 76))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(scroll_ebitda1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -411,9 +421,9 @@ public class Empleados extends javax.swing.JFrame {
                         .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtsueldos)))
                 .addGap(40, 40, 40)
-                .addComponent(scroll_ebitda1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
-                .addComponent(scroll_ebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scroll_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -548,6 +558,11 @@ public class Empleados extends javax.swing.JFrame {
         tasas(tas_sec);
     }//GEN-LAST:event_tabla_tasasPropertyChange
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formWindowOpened
+
     public void inicializar_combo() {
 
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
@@ -569,8 +584,8 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JButton btn_quitarfila_emp;
     private javax.swing.JComboBox<String> combo_años;
     private javax.swing.JTextField jtf_total_sueldos;
-    private javax.swing.JScrollPane scroll_ebitda;
-    private javax.swing.JScrollPane scroll_ebitda1;
+    private javax.swing.JScrollPane scroll_sueldos;
+    private javax.swing.JScrollPane scroll_tasas;
     private javax.swing.JTable tabla_sueldos;
     private javax.swing.JTable tabla_tasas;
     private javax.swing.JLabel txtsueldos;

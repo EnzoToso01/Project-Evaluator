@@ -67,6 +67,7 @@ public class Indicadores extends javax.swing.JFrame {
         getContentPane().setBackground(c);
         this.ebitda = ebitda;
         this.ingvsgas = ingvsgas;
+        jtf_interes.setText("0.0");
     }
 
     public JTable getTabla_indicadores() {
@@ -332,9 +333,10 @@ public class Indicadores extends javax.swing.JFrame {
         txtinteres.setForeground(new java.awt.Color(255, 255, 255));
         txtinteres.setText("Tasa de interés");
 
-        jtf_interes.setBackground(new java.awt.Color(56, 80, 113));
+        jtf_interes.setBackground(new java.awt.Color(85, 135, 184));
         jtf_interes.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jtf_interes.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jtf_interes.setForeground(new java.awt.Color(255, 255, 255));
+        jtf_interes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jtf_interes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtf_interesActionPerformed(evt);
@@ -385,7 +387,7 @@ public class Indicadores extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
 
@@ -455,15 +457,14 @@ public class Indicadores extends javax.swing.JFrame {
             calculo_TIR();
             calculo_vac();
             calculo_razonBC();
-        }
+      
 
         try {
             Utilidad.Tabla.exportar(indicadores, tabla_indicadores);
-
         } catch (Exception e) {
             System.err.println("Error al guardar los datos en Indicadores");
         }
-
+  }
     }//GEN-LAST:event_tabla_indicadoresPropertyChange
 
     /**

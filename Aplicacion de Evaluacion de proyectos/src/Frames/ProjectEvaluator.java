@@ -10,6 +10,7 @@ import static com.sun.tools.javac.tree.TreeInfo.args;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.lang.model.SourceVersion;
@@ -37,7 +38,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private IngVsGas ingvsgas = new IngVsGas(ebitda, impuestos);
     private Empleados empleados = new Empleados(ingvsgas);
     private Indicadores indicadores = new Indicadores(ebitda, ingvsgas);
+    private File directorio;
+    private File nombredelproyecto;
 
+    
     /**
      * Creates new form Principal
      */
@@ -71,7 +75,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -139,8 +142,21 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
         nombreproyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         nombreproyecto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombreproyectoMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 nombreproyectoMousePressed(evt);
+            }
+        });
+        nombreproyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreproyectoActionPerformed(evt);
+            }
+        });
+        nombreproyecto.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                nombreproyectoPropertyChange(evt);
             }
         });
         getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 260, 30));
@@ -809,7 +825,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
         // TODO add your handling code here:
-
         Utilidad.Tabla.inicializar(impuestos.getTabla_impuestos());
         Utilidad.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
         Utilidad.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
@@ -838,11 +853,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_creditoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_creditoMouseClicked
         // TODO add your handling code here:
-
         credito.setVisible(true);
         Utilidad.Tabla.importar(credito.getPagcredito(), credito.getTabla_pagcredito());
         Utilidad.Tabla.importar(credito.getDatcredito(), credito.getTabla_datcredito());
-
         //añade filas por defecto si no hay ninguna en la tabla
         credito.filas_datos(credito.getTabla_datcredito(), credito.getTabla_pagcredito());
     }//GEN-LAST:event_btn_creditoMouseClicked
@@ -934,7 +947,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Se obtienen los años de vida del proyecto para las demas clases
 
-     
         try {
             longevidad = Integer.parseInt(añosvida.getText());
             if (longevidad > 0) {
@@ -961,7 +973,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
                 Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
                 Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
-                
+
                 //resetea combobox empleados
                 empleados.getCombo_años().removeAllItems();
                 empleados.inicializar_combo();
@@ -970,7 +982,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
-           
         }
 
     }//GEN-LAST:event_añosvidaActionPerformed
@@ -1039,9 +1050,33 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             Color c = new Color(204, 204, 204);
             nombreproyecto.setForeground(c);
             añosvida.setForeground(Color.WHITE);
-
         }
     }//GEN-LAST:event_añosvidaMousePressed
+
+    private void nombreproyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreproyectoActionPerformed
+        // TODO add your handling code here:
+     try {
+            if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && nombreproyecto.getText().trim().length() > 0) {
+                directorio = new File("C:\\Project evaluator\\" + nombreproyecto.getText());
+                directorio.mkdirs();
+               
+                nombredelproyecto = new File("C:\\Project evaluator\\Nombre del proyecto.txt");
+                Utilidad.JtextField.exportar_jtf(nombredelproyecto, nombreproyecto);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
+        }
+    }//GEN-LAST:event_nombreproyectoActionPerformed
+
+    private void nombreproyectoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_nombreproyectoPropertyChange
+        // TODO add your handling code here:
+         
+    }//GEN-LAST:event_nombreproyectoPropertyChange
+
+    private void nombreproyectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreproyectoMouseClicked
+        // TODO add your handling code here:
+          
+    }//GEN-LAST:event_nombreproyectoMouseClicked
 
     /**
      * @param args the command line arguments
