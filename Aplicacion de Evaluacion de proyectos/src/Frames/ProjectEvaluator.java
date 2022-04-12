@@ -39,9 +39,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private Empleados empleados = new Empleados(ingvsgas);
     private Indicadores indicadores = new Indicadores(ebitda, ingvsgas);
     private File directorio;
-    private File nombredelproyecto;
+    private File nombredelproyecto = new File("C:\\Project evaluator\\Nombre del proyecto.txt");
 
-    
     /**
      * Creates new form Principal
      */
@@ -124,6 +123,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setResizable(false);
         setSize(new java.awt.Dimension(773, 630));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtañosvida.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -1055,12 +1059,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void nombreproyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreproyectoActionPerformed
         // TODO add your handling code here:
-     try {
+        try {
             if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && nombreproyecto.getText().trim().length() > 0) {
                 directorio = new File("C:\\Project evaluator\\" + nombreproyecto.getText());
                 directorio.mkdirs();
-               
-                nombredelproyecto = new File("C:\\Project evaluator\\Nombre del proyecto.txt");
+
                 Utilidad.JtextField.exportar_jtf(nombredelproyecto, nombreproyecto);
             }
         } catch (Exception e) {
@@ -1070,13 +1073,19 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void nombreproyectoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_nombreproyectoPropertyChange
         // TODO add your handling code here:
-         
+
     }//GEN-LAST:event_nombreproyectoPropertyChange
 
     private void nombreproyectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreproyectoMouseClicked
         // TODO add your handling code here:
-          
+
     }//GEN-LAST:event_nombreproyectoMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+
+        Utilidad.JtextField.importar_jtf(nombredelproyecto, nombreproyecto);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
