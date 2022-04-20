@@ -197,7 +197,12 @@ public class IngVsGas extends javax.swing.JFrame {
                     }
                     if (tabla.getValueAt(j, i) != null) {
                         if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total")) {
-                            total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
+                            try {
+                                total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
+                            } catch (NumberFormatException e) {
+                                System.err.println("Error en Calculo Total");
+                                System.err.println(e);
+                            }
                         }
                     }
                 }
@@ -208,6 +213,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Error en Calculo Total");
+            System.err.println(e);
         }
         return datos;
     }
@@ -324,7 +330,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public void setear_inv() {
         try {
-            inv = Double.parseDouble(jtf_inv.getText());     
+            inv = Double.parseDouble(jtf_inv.getText());
         } catch (NumberFormatException e) {
             System.err.println("Error en inversion (IngVsGas)");
         }
