@@ -40,6 +40,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private Indicadores indicadores = new Indicadores(ebitda, ingvsgas);
     private File directorio;
     private File nombredelproyecto = new File("C:\\Project evaluator\\Nombre del proyecto.txt");
+    private File añosvidaproyecto = new File("C:\\Project evaluator\\Longevidad del proyecto.txt");
 
     /**
      * Creates new form Principal
@@ -954,6 +955,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         try {
             longevidad = Integer.parseInt(añosvida.getText());
             if (longevidad > 0) {
+                Utilidad.JtextField.exportar_jtf(añosvidaproyecto, añosvida);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
 
@@ -985,7 +987,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
+            JOptionPane.showMessageDialog(null, "Ingrese un valor válido","Error",JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_añosvidaActionPerformed
@@ -1050,9 +1052,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (añosvida.getText().equals(" Ej:5")) {
             añosvida.setText("");
-            nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
-            Color c = new Color(204, 204, 204);
-            nombreproyecto.setForeground(c);
+            if (nombreproyecto.getText().equals("")) {
+                nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
+                Color c = new Color(204, 204, 204);
+                nombreproyecto.setForeground(c);
+            }
             añosvida.setForeground(Color.WHITE);
         }
     }//GEN-LAST:event_añosvidaMousePressed
@@ -1063,7 +1067,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && nombreproyecto.getText().trim().length() > 0) {
                 directorio = new File("C:\\Project evaluator\\" + nombreproyecto.getText());
                 directorio.mkdirs();
-
                 Utilidad.JtextField.exportar_jtf(nombredelproyecto, nombreproyecto);
             }
         } catch (Exception e) {
@@ -1083,8 +1086,16 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-
         Utilidad.JtextField.importar_jtf(nombredelproyecto, nombreproyecto);
+        Utilidad.JtextField.importar_jtf(añosvidaproyecto, añosvida);
+        if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
+            Color c = new Color(255, 255, 255);
+            nombreproyecto.setForeground(c);
+        }
+        if (!añosvida.getText().equals(" Ej:5")) {
+            Color c = new Color(255, 255, 255);
+            añosvida.setForeground(c);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
