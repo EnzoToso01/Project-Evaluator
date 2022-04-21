@@ -49,9 +49,11 @@ public class EBITDA extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
+        Color a = new Color(40, 44, 52);
+        getContentPane().setBackground(a);
         this.riesgo = riesgo;
+        Color b = new Color(26, 29, 34);
+        tabla_EBITDA.getTableHeader().setBackground(b);
     }
 
     /**
@@ -90,7 +92,6 @@ public class EBITDA extends javax.swing.JFrame {
         txtebitda.setForeground(new java.awt.Color(240, 255, 255));
         txtebitda.setText("EBITDA");
 
-        tabla_EBITDA.setBackground(new java.awt.Color(255, 255, 255));
         tabla_EBITDA.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

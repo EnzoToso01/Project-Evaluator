@@ -80,9 +80,12 @@ public class IngVsGas extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //determina el color del fondo
-        Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
+        //determina el color del fondo y de los headers de columnas
+        Color a = new Color(40, 44, 52);
+        getContentPane().setBackground(a);
+         Color b = new Color(26, 29, 34);
+        tabla_ingresos.getTableHeader().setBackground(b);
+         tabla_egresos.getTableHeader().setBackground(b);
         //crea el directorio para ingvsgas   
         this.ebitda = ebitda;
         this.impuestos = impuestos;
@@ -363,7 +366,6 @@ public class IngVsGas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IngVsGas");
-        setBackground(new java.awt.Color(56, 80, 113));
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -383,7 +385,6 @@ public class IngVsGas extends javax.swing.JFrame {
         txtegresos.setForeground(new java.awt.Color(240, 255, 255));
         txtegresos.setText("Egresos del Proyecto");
 
-        tabla_ingresos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_ingresos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -403,7 +404,6 @@ public class IngVsGas extends javax.swing.JFrame {
         });
         scroll_ingresos.setViewportView(tabla_ingresos);
 
-        tabla_egresos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_egresos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -482,9 +482,7 @@ public class IngVsGas extends javax.swing.JFrame {
         txtinv.setForeground(new java.awt.Color(255, 255, 255));
         txtinv.setText("Inversión ");
 
-        jtf_inv.setBackground(new java.awt.Color(85, 135, 184));
         jtf_inv.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jtf_inv.setForeground(new java.awt.Color(255, 255, 255));
         jtf_inv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jtf_inv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

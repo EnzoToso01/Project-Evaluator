@@ -6,6 +6,9 @@
 package Frames;
 
 import Clases.Utilidad;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkContrastIJTheme;
 import static com.sun.tools.javac.tree.TreeInfo.args;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -14,6 +17,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.lang.model.SourceVersion;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -22,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import sun.jvm.hotspot.runtime.PerfMemory;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.ColorUIResource;
 
 /**
  *
@@ -58,20 +64,12 @@ public class ProjectEvaluator extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjectEvaluator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+            FlatAtomOneDarkContrastIJTheme.setup();
+          
+         
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //</editor-fold>
         //</editor-fold>
@@ -84,6 +82,18 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
 
         });
+
+        /* try {
+
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            JDialog.setDefaultLookAndFeelDecorated(true);
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } */
     }
 
     /**
@@ -117,7 +127,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         panel_azul = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JLabel();
         panel_azul_oscuro = new javax.swing.JPanel();
-        JLabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú Principal");
@@ -132,18 +141,16 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtañosvida.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        txtañosvida.setForeground(new java.awt.Color(56, 80, 113));
+        txtañosvida.setForeground(new java.awt.Color(255, 255, 255));
         txtañosvida.setText("Longevidad del proyecto (años)");
         getContentPane().add(txtañosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
 
         txtnombreproyecto.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        txtnombreproyecto.setForeground(new java.awt.Color(56, 80, 113));
+        txtnombreproyecto.setForeground(new java.awt.Color(255, 255, 255));
         txtnombreproyecto.setText("Nombre del proyecto");
         getContentPane().add(txtnombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, -1, -1));
 
-        nombreproyecto.setBackground(new java.awt.Color(29, 112, 180));
         nombreproyecto.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        nombreproyecto.setForeground(new java.awt.Color(204, 204, 204));
         nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
         nombreproyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         nombreproyecto.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -166,8 +173,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         });
         getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 260, 30));
 
-        añosvida.setBackground(new java.awt.Color(31, 114, 180));
-        añosvida.setForeground(new java.awt.Color(204, 204, 204));
         añosvida.setText(" Ej:5");
         añosvida.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         añosvida.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -630,11 +635,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
         getContentPane().add(panel_azul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 50));
 
-        JLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo_azul.jpg"))); // NOI18N
-        JLabelFondo.setMaximumSize(new java.awt.Dimension(773, 630));
-        JLabelFondo.setMinimumSize(new java.awt.Dimension(773, 630));
-        getContentPane().add(JLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 640));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -987,7 +987,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Ingrese un valor válido","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_añosvidaActionPerformed
@@ -1041,7 +1041,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         if (nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
             nombreproyecto.setText("");
             añosvida.setText(" Ej:5");
-            Color c = new Color(204, 204, 204);
+            Color c = new Color(151, 159, 173);
             añosvida.setForeground(c);
             nombreproyecto.setForeground(Color.WHITE);
 
@@ -1054,7 +1054,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             añosvida.setText("");
             if (nombreproyecto.getText().equals("")) {
                 nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
-                Color c = new Color(204, 204, 204);
+                Color c = new Color(151, 159, 173);
                 nombreproyecto.setForeground(c);
             }
             añosvida.setForeground(Color.WHITE);
@@ -1065,8 +1065,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && nombreproyecto.getText().trim().length() > 0) {
-                directorio = new File("C:\\Project evaluator\\" + nombreproyecto.getText());
-                directorio.mkdirs();
+                /*  directorio = new File("C:\\Project evaluator\\" + nombreproyecto.getText());
+                directorio.mkdirs(); */
                 Utilidad.JtextField.exportar_jtf(nombredelproyecto, nombreproyecto);
             }
         } catch (Exception e) {
@@ -1103,7 +1103,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel JLabelFondo;
     private javax.swing.JTextField añosvida;
     private javax.swing.JButton btn_EBITDA;
     private javax.swing.JButton btn_IngVsGas;

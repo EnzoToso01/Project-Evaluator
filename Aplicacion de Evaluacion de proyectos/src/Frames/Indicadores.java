@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.lang.Object;
 import org.apache.poi.ss.formula.functions.Irr;
-import org.apache.logging.log4j.LogManager;
+
 
 /**
  *
@@ -63,11 +63,17 @@ public class Indicadores extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
+        Color a = new Color(40, 44, 52);
+        getContentPane().setBackground(a);
         this.ebitda = ebitda;
         this.ingvsgas = ingvsgas;
         jtf_interes.setText("0.0");
+        Color b = new Color(26, 29, 34);
+        tabla_indicadores.getTableHeader().setBackground(b);
+     
+
+      
+
     }
 
     public JTable getTabla_indicadores() {
@@ -183,23 +189,29 @@ public class Indicadores extends javax.swing.JFrame {
     }
 
     public void calculo_TIR() {
-        tir.clear();
-        double[] flujos = new double[ebitda.getArr_total().size()];
-        //se inserta la inversion en los flujos
-        flujos[0] = Double.parseDouble(String.valueOf(ingvsgas.getJtf_inv().getText())) * -1;
-        for (int j = 1; j <= ProjectEvaluator.longevidad; j++) {
-            for (int i = 1; i <= j; i++) {
-                flujos[i] = Double.parseDouble(String.valueOf(ebitda.getArr_total().get(i)));
+        try {
+            tir.clear();
+            double[] flujos = new double[ebitda.getArr_total().size()];
+            //se inserta la inversion en los flujos
+            flujos[0] = Double.parseDouble(String.valueOf(ingvsgas.getJtf_inv().getText())) * -1;
+            for (int j = 1; j <= ProjectEvaluator.longevidad; j++) {
+                for (int i = 1; i <= j; i++) {
+                    flujos[i] = Double.parseDouble(String.valueOf(ebitda.getArr_total().get(i)));
 
+                }
+                tir.add(Irr.irr(flujos, 0));
             }
-            tir.add(Irr.irr(flujos, 0));
-        }
-        tir.add(0, "TIR (Sin Riesgo)");
-        if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 5) {
-            Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(4);
-            Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(4, tir.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(tir.toArray());
+            tir.add(0, "TIR (Sin Riesgo)");
+            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 5) {
+                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(4);
+                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(4, tir.toArray());
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(tir.toArray());
+            }
+        } catch (Exception e) {
+
+            System.err.println("Error en Calculo de TIR");
+            e.printStackTrace();
         }
     }
 
@@ -282,12 +294,16 @@ public class Indicadores extends javax.swing.JFrame {
         setTitle("Indicadores");
         setBackground(new java.awt.Color(240, 255, 255));
         setSize(new java.awt.Dimension(900, 690));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         txtindicadores.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtindicadores.setForeground(new java.awt.Color(240, 255, 255));
         txtindicadores.setText("Indicadores");
 
-        tabla_indicadores.setBackground(new java.awt.Color(255, 255, 255));
         tabla_indicadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -296,6 +312,7 @@ public class Indicadores extends javax.swing.JFrame {
                 "Indicador"
             }
         ));
+        tabla_indicadores.setSelectionBackground(new java.awt.Color(0, 51, 102));
         tabla_indicadores.setShowGrid(true);
         tabla_indicadores.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -305,7 +322,10 @@ public class Indicadores extends javax.swing.JFrame {
         scroll_indicadores.setViewportView(tabla_indicadores);
 
         btn_añadirfila_ind.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_ind.setText("añadir fila");
+        btn_añadirfila_ind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/insertar_fila.png"))); // NOI18N
+        btn_añadirfila_ind.setAutoscrolls(true);
+        btn_añadirfila_ind.setDefaultCapable(false);
+        btn_añadirfila_ind.setFocusable(false);
         btn_añadirfila_ind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_añadirfila_indActionPerformed(evt);
@@ -313,7 +333,9 @@ public class Indicadores extends javax.swing.JFrame {
         });
 
         btn_quitarfila_ind.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_ind.setText("quitar fila");
+        btn_quitarfila_ind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar_fila.png"))); // NOI18N
+        btn_quitarfila_ind.setDefaultCapable(false);
+        btn_quitarfila_ind.setFocusable(false);
         btn_quitarfila_ind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_quitarfila_indActionPerformed(evt);
@@ -321,7 +343,8 @@ public class Indicadores extends javax.swing.JFrame {
         });
 
         btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setText("Guardar");
+        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-guardar-32.png"))); // NOI18N
+        btn_guardar.setFocusable(false);
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_guardarActionPerformed(evt);
@@ -333,9 +356,7 @@ public class Indicadores extends javax.swing.JFrame {
         txtinteres.setForeground(new java.awt.Color(255, 255, 255));
         txtinteres.setText("Tasa de interés");
 
-        jtf_interes.setBackground(new java.awt.Color(85, 135, 184));
         jtf_interes.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jtf_interes.setForeground(new java.awt.Color(255, 255, 255));
         jtf_interes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jtf_interes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,38 +377,45 @@ public class Indicadores extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtinteres)
-                            .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(scroll_indicadores)
-                        .addGap(36, 36, 36))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(288, 288, 288)
-                        .addComponent(btn_añadirfila_ind)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_quitarfila_ind)
-                        .addGap(87, 87, 87)
-                        .addComponent(btn_guardar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtinteres)
+                                    .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45)
+                                .addComponent(btn_guardar))
+                            .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE))
+                        .addGap(36, 36, 36))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_guardar)
-                    .addComponent(btn_añadirfila_ind)
-                    .addComponent(btn_quitarfila_ind)
-                    .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btn_guardar)
+                                .addGap(8, 8, 8))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(txtinteres)
+                        .addGap(1, 1, 1)
+                        .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtinteres)
-                .addGap(1, 1, 1)
-                .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
 
@@ -457,20 +485,23 @@ public class Indicadores extends javax.swing.JFrame {
             calculo_TIR();
             calculo_vac();
             calculo_razonBC();
-      
 
-        try {
-            Utilidad.Tabla.exportar(indicadores, tabla_indicadores);
-        } catch (Exception e) {
-            System.err.println("Error al guardar los datos en Indicadores");
+            try {
+                Utilidad.Tabla.exportar(indicadores, tabla_indicadores);
+            } catch (Exception e) {
+                System.err.println("Error al guardar los datos en Indicadores");
+            }
         }
-  }
     }//GEN-LAST:event_tabla_indicadoresPropertyChange
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
      */
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_ind;

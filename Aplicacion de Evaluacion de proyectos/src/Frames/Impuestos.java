@@ -53,9 +53,11 @@ public class Impuestos extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
-
+        Color a = new Color(40, 44, 52);
+        getContentPane().setBackground(a);
+        Color b = new Color(26, 29, 34);
+        tabla_impuestos.getTableHeader().setBackground(b);
+        tabla_indimpuestos.getTableHeader().setBackground(b);
     }
 
     public JTable getTabla_impuestos() {
@@ -153,7 +155,6 @@ public class Impuestos extends javax.swing.JFrame {
         txtimpuestos.setForeground(new java.awt.Color(240, 255, 255));
         txtimpuestos.setText("Impuestos");
 
-        tabla_impuestos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_impuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -189,7 +190,6 @@ public class Impuestos extends javax.swing.JFrame {
             }
         });
 
-        tabla_indimpuestos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_indimpuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -433,7 +433,6 @@ public class Impuestos extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_imp;

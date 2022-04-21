@@ -40,8 +40,11 @@ public class Empleados extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
+        Color a = new Color(40, 44, 52);
+        getContentPane().setBackground(a);
+        Color b = new Color(26, 29, 34);
+        tabla_sueldos.getTableHeader().setBackground(b);
+        tabla_tasas.getTableHeader().setBackground(b);
         directorio.mkdirs();
         this.ingvsgas = ingvsgas;
     }
@@ -267,7 +270,6 @@ public class Empleados extends javax.swing.JFrame {
         txtsueldos.setForeground(new java.awt.Color(240, 255, 255));
         txtsueldos.setText("Sueldos");
 
-        tabla_sueldos.setBackground(new java.awt.Color(255, 255, 255));
         tabla_sueldos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -301,8 +303,6 @@ public class Empleados extends javax.swing.JFrame {
         }
 
         jtf_total_sueldos.setEditable(false);
-        jtf_total_sueldos.setBackground(new java.awt.Color(85, 135, 184));
-        jtf_total_sueldos.setForeground(new java.awt.Color(255, 255, 255));
         jtf_total_sueldos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txttotalsueldos.setBackground(new java.awt.Color(255, 255, 255));
@@ -352,8 +352,6 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
-        tabla_tasas.setBackground(new java.awt.Color(255, 255, 255));
-        tabla_tasas.setForeground(new java.awt.Color(0, 0, 0));
         tabla_tasas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

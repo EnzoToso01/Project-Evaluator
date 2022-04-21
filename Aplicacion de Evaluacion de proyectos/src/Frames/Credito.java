@@ -31,9 +31,11 @@ public class Credito extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color c = new Color(56, 80, 113);
-        getContentPane().setBackground(c);
-
+        Color a = new Color(40, 44, 52);
+        getContentPane().setBackground(a);
+        Color b = new Color(26, 29, 34);
+        tabla_datcredito.getTableHeader().setBackground(b);
+        tabla_pagcredito.getTableHeader().setBackground(b);
     }
 
     public void filas_datos(JTable tabladatcred, JTable tablapagcred) {
@@ -87,7 +89,6 @@ public class Credito extends javax.swing.JFrame {
 
         scrollcredito.setBackground(new java.awt.Color(255, 255, 255));
 
-        tabla_pagcredito.setBackground(new java.awt.Color(255, 255, 255));
         tabla_pagcredito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -242,7 +243,6 @@ public class Credito extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_cred;
