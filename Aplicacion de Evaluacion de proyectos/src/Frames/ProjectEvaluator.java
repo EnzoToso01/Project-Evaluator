@@ -12,6 +12,7 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkCont
 import static com.sun.tools.javac.tree.TreeInfo.args;
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -64,10 +65,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-        
+
             FlatAtomOneDarkContrastIJTheme.setup();
-          
-         
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,7 +78,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             public void run() {
                 ProjectEvaluator p = new ProjectEvaluator();
                 p.setVisible(true);
-
+                p.setear_ingvsgas();
+                p.importar_nombreproyecto();
+                p.importar_longev();
             }
 
         });
@@ -791,9 +793,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         Utilidad.Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
         Utilidad.Tabla.importar(empleados.getTasas(), empleados.getTabla_tasas());
         Utilidad.Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
+
         empleados.inicializar_combo();
         empleados.importar_emp();
-        empleados.setImp(true);
+        empleados.setImp_sueldos(true);
         empleados.total_sueldos();
         empleados.antiguedad();
         empleados.presentismo();
@@ -807,6 +810,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         empleados.total_neto();
         empleados.getJtf_total_sueldos().setText(String.valueOf(empleados.calculo_total_sueldos()));
         // empleados.arr_sueldos();
+        Utilidad.Tabla.filas_defecto(empleados.getTabla_sueldos(), 70);
         empleados.setVisible(true);
     }//GEN-LAST:event_btn_empleadosMouseClicked
 
@@ -948,10 +952,18 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     }//GEN-LAST:event_panel_creditoMouseExited
 
+    private void importar_longev() {
+        Utilidad.JtextField.importar_jtf(añosvidaproyecto, añosvida);
+    }
+
+    private void importar_nombreproyecto() {
+        Utilidad.JtextField.importar_jtf(nombredelproyecto, nombreproyecto);
+    }
+
+
     private void añosvidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añosvidaActionPerformed
         // TODO add your handling code here:
         // Se obtienen los años de vida del proyecto para las demas clases
-
         try {
             longevidad = Integer.parseInt(añosvida.getText());
             if (longevidad > 0) {
@@ -989,6 +1001,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
 
     }//GEN-LAST:event_añosvidaActionPerformed
 
@@ -1086,8 +1099,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        Utilidad.JtextField.importar_jtf(nombredelproyecto, nombreproyecto);
-        Utilidad.JtextField.importar_jtf(añosvidaproyecto, añosvida);
+
         if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
             Color c = new Color(255, 255, 255);
             nombreproyecto.setForeground(c);

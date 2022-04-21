@@ -131,7 +131,6 @@ public class Credito extends javax.swing.JFrame {
 
         scrolldatcredito.setBackground(new java.awt.Color(255, 255, 255));
 
-        tabla_datcredito.setBackground(new java.awt.Color(255, 255, 255));
         tabla_datcredito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

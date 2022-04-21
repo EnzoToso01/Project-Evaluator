@@ -26,26 +26,27 @@ public class Empleados extends javax.swing.JFrame {
     /**
      * Creates new form Empleados
      */
-    private File directorio = new File("C:\\Project evaluator\\sueldos.txt");
+    private File directorio = new File("C:\\Project evaluator\\sueldos");
     private File tasas = new File("C:\\Project evaluator\\sueldos\\tasas.txt");
     private boolean imp_tas = false;
     private double tas_jub;
     private double tas_ob;
     private double tas_ley;
     private double tas_sec;
-    private boolean imp = false;
+    private boolean imp_s = false;
     private IngVsGas ingvsgas;
 
     public Empleados(IngVsGas ingvsgas) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         directorio.mkdirs();
         //determina el color del fondo
         Color a = new Color(40, 44, 52);
         getContentPane().setBackground(a);
         Color b = new Color(26, 29, 34);
         tabla_sueldos.getTableHeader().setBackground(b);
         tabla_tasas.getTableHeader().setBackground(b);
-        directorio.mkdirs();
+       
         this.ingvsgas = ingvsgas;
     }
 
@@ -89,8 +90,8 @@ public class Empleados extends javax.swing.JFrame {
         return jtf_total_sueldos;
     }
 
-    public void setImp(boolean imp) {
-        this.imp = imp;
+    public void setImp_sueldos(boolean imp_s) {
+        this.imp_s = imp_s;
     }
 
     public JComboBox<String> getCombo_años() {
@@ -270,6 +271,7 @@ public class Empleados extends javax.swing.JFrame {
         txtsueldos.setForeground(new java.awt.Color(240, 255, 255));
         txtsueldos.setText("Sueldos");
 
+        tabla_sueldos.setAutoCreateRowSorter(true);
         tabla_sueldos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -278,7 +280,9 @@ public class Empleados extends javax.swing.JFrame {
                 "Nombre y apellido", "Basico Jornada  Completa", "Comision  ", "Total Sueldo  ", "Antiguedad  ", "Ad/ Antiguedad  ", "Ad/Presentismo ", "Bruto  ", "Jubiliacion", "Obra Social ", "Ley 19032 ", "SEC ", "Total descuentos", "Total neto"
             }
         ));
+        tabla_sueldos.setCellSelectionEnabled(true);
         tabla_sueldos.setShowGrid(true);
+        tabla_sueldos.setSurrendersFocusOnKeystroke(true);
         tabla_sueldos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tabla_sueldosPropertyChange(evt);
@@ -361,9 +365,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         ));
         tabla_tasas.setFocusable(false);
-        tabla_tasas.setOpaque(false);
         tabla_tasas.setRequestFocusEnabled(false);
-        tabla_tasas.setRowSelectionAllowed(false);
         tabla_tasas.setShowGrid(true);
         tabla_tasas.setUpdateSelectionOnSort(false);
         tabla_tasas.setVerifyInputWhenFocusTarget(false);
@@ -419,8 +421,8 @@ public class Empleados extends javax.swing.JFrame {
                         .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtsueldos)))
                 .addGap(40, 40, 40)
-                .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
                 .addComponent(scroll_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -516,7 +518,7 @@ public class Empleados extends javax.swing.JFrame {
 
     private void tabla_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_sueldosPropertyChange
         // TODO add your handling code here:
-        if (imp == true) {
+        if (imp_s == true) {
             try {
                 for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                     if (combo_años.getSelectedIndex() + 1 == i) {
