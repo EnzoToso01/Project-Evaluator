@@ -139,7 +139,6 @@ public class Impuestos extends javax.swing.JFrame {
         tabla_impuestos = new javax.swing.JTable();
         btn_añadirfila_imp = new javax.swing.JButton();
         btn_quitarfila_imp = new javax.swing.JButton();
-        btn_guardar = new javax.swing.JButton();
         scroll_indimpuestos = new javax.swing.JScrollPane();
         tabla_indimpuestos = new javax.swing.JTable();
         btn_añadirfila_indimp = new javax.swing.JButton();
@@ -179,14 +178,6 @@ public class Impuestos extends javax.swing.JFrame {
         btn_quitarfila_imp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_quitarfila_impActionPerformed(evt);
-            }
-        });
-
-        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setText("Guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
             }
         });
 
@@ -235,8 +226,7 @@ public class Impuestos extends javax.swing.JFrame {
                         .addComponent(btn_añadirfila_imp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_imp)
-                        .addGap(87, 87, 87)
-                        .addComponent(btn_guardar))
+                        .addGap(0, 161, Short.MAX_VALUE))
                     .addComponent(scroll_indimpuestos)
                     .addComponent(scroll_impuestos))
                 .addGap(17, 17, 17))
@@ -252,7 +242,6 @@ public class Impuestos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_guardar)
                     .addComponent(btn_añadirfila_imp)
                     .addComponent(btn_quitarfila_imp)
                     .addComponent(txtimpuestos))
@@ -290,21 +279,6 @@ public class Impuestos extends javax.swing.JFrame {
             Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_impActionPerformed
-
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-        try {
-            File impuestos = new File("C:\\Project evaluator\\impuestos.txt");
-            File indimpuestos = new File("C:\\Project evaluator\\indicadores impuestos.txt");
-            JTable tablaimp = getTabla_impuestos();
-            JTable tablaindimp = getTabla_indimpuestos();
-            Utilidad.Tabla.exportar(impuestos, tablaimp);
-            Utilidad.Tabla.exportar(indimpuestos, tablaindimp);
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
-        }
-    }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void tabla_indimpuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indimpuestosPropertyChange
         // TODO add your handling code here:
@@ -437,7 +411,6 @@ public class Impuestos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_imp;
     private javax.swing.JButton btn_añadirfila_indimp;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_imp;
     private javax.swing.JButton btn_quitarfila_indimp;
     private javax.swing.JScrollPane scroll_impuestos;

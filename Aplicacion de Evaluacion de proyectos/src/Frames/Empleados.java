@@ -26,8 +26,8 @@ public class Empleados extends javax.swing.JFrame {
     /**
      * Creates new form Empleados
      */
-    private File directorio = new File("C:\\Project evaluator\\sueldos");
-    private File tasas = new File("C:\\Project evaluator\\sueldos\\tasas.txt");
+    private File directorio;
+    public static File tasas;
     private boolean imp_tas = false;
     private double tas_jub;
     private double tas_ob;
@@ -39,14 +39,13 @@ public class Empleados extends javax.swing.JFrame {
     public Empleados(IngVsGas ingvsgas) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-         directorio.mkdirs();
         //determina el color del fondo
         Color a = new Color(40, 44, 52);
         getContentPane().setBackground(a);
         Color b = new Color(26, 29, 34);
         tabla_sueldos.getTableHeader().setBackground(b);
         tabla_tasas.getTableHeader().setBackground(b);
-       
+
         this.ingvsgas = ingvsgas;
     }
 
@@ -103,7 +102,7 @@ public class Empleados extends javax.swing.JFrame {
         //importa la tabla correspondiente al combo
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             if (combo_años.getSelectedIndex() + 1 == i) {
-                File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
+                File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
                 Utilidad.Tabla.importar(sueldos, tabla_sueldos);
 
             }
@@ -206,6 +205,7 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public double calculo_total_sueldos() {
+        //Realiza el calculo total de los sueldos
         double total = 0;
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
@@ -218,22 +218,26 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void arr_sueldos() {
+        //crea un arraylist con los sueldos y lo añade a una fila de egresos de IngVsGas CREA WARNING DE SORTING
         ArrayList sueldos = new ArrayList();
+        sueldos.add("Sueldos");
+        int selecteditem = combo_años.getSelectedIndex();
         for (int i = 1; i <= combo_años.getItemCount(); i++) {
             combo_años.setSelectedItem("Año " + i);
-            Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
             importar_emp();
             sueldos.add(calculo_total_sueldos());
         }
-        combo_años.setSelectedItem("Año 1");
-        sueldos.add(0, "Sueldos");
+       
+        System.out.println(sueldos);
+
         if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
-            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
+            //  Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
         } else {
-            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(0);
-            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(0, sueldos.toArray());
+            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(ingvsgas.getTabla_egresos().getRowCount() - 3);
+            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(ingvsgas.getTabla_egresos().getRowCount() - 2, sueldos.toArray());
         }
         ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+        combo_años.setSelectedIndex(selecteditem);
     }
 
     /**
@@ -250,7 +254,6 @@ public class Empleados extends javax.swing.JFrame {
         tabla_sueldos = new javax.swing.JTable();
         jtf_total_sueldos = new javax.swing.JTextField();
         txttotalsueldos = new javax.swing.JLabel();
-        btn_guardar = new javax.swing.JButton();
         combo_años = new javax.swing.JComboBox<>();
         btn_añadirfila_emp = new javax.swing.JButton();
         btn_quitarfila_emp = new javax.swing.JButton();
@@ -281,6 +284,7 @@ public class Empleados extends javax.swing.JFrame {
             }
         ));
         tabla_sueldos.setCellSelectionEnabled(true);
+        tabla_sueldos.setFocusable(false);
         tabla_sueldos.setShowGrid(true);
         tabla_sueldos.setSurrendersFocusOnKeystroke(true);
         tabla_sueldos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -308,19 +312,16 @@ public class Empleados extends javax.swing.JFrame {
 
         jtf_total_sueldos.setEditable(false);
         jtf_total_sueldos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jtf_total_sueldos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jtf_total_sueldosPropertyChange(evt);
+            }
+        });
 
         txttotalsueldos.setBackground(new java.awt.Color(255, 255, 255));
         txttotalsueldos.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         txttotalsueldos.setForeground(new java.awt.Color(255, 255, 255));
         txttotalsueldos.setText("Total sueldos");
-
-        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setText("Guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
-            }
-        });
 
         combo_años.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         combo_años.setMaximumRowCount(5);
@@ -399,9 +400,7 @@ public class Empleados extends javax.swing.JFrame {
                         .addComponent(btn_añadirfila_emp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_emp)
-                        .addGap(77, 77, 77)
-                        .addComponent(btn_guardar)
-                        .addGap(76, 76, 76))
+                        .addGap(227, 227, 227))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -414,8 +413,7 @@ public class Empleados extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_añadirfila_emp)
-                        .addComponent(btn_quitarfila_emp)
-                        .addComponent(btn_guardar))
+                        .addComponent(btn_quitarfila_emp))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,25 +434,6 @@ public class Empleados extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_combo_añosActionPerformed
-
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:  
-        //exporta las tablas de sueldo a la carpeta
-        try {
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                if (combo_años.getSelectedIndex() + 1 == i) {
-                    File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
-                    Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
-                }
-            }
-            Utilidad.Tabla.exportar(tasas, tabla_tasas);
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
-        }
-
-
-    }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void btn_añadirfila_empActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_empActionPerformed
         // TODO add your handling code here
@@ -481,7 +460,7 @@ public class Empleados extends javax.swing.JFrame {
     private void combo_añosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combo_añosMouseClicked
         // TODO add your handling code here:
         try {
-            File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + (int) (combo_años.getSelectedIndex() + 1) + ".txt");
+            File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + (int) (combo_años.getSelectedIndex() + 1) + ".txt");
             Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
 
         } catch (Exception e) {
@@ -493,20 +472,14 @@ public class Empleados extends javax.swing.JFrame {
     private void combo_añosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_añosItemStateChanged
         // TODO add your handling code here:
 
-        //borra las filas de la tabla de la interfaz
-        DefaultTableModel tblmodel = (DefaultTableModel) tabla_sueldos.getModel();
-        tblmodel.setRowCount(0);
         //importa la nueva tabla
         importar_emp();
-        if (tabla_sueldos.getRowCount() == 0) {
-            tblmodel.setRowCount(30);
-        }
+        Utilidad.Tabla.filas_defecto(tabla_sueldos, 30);
         //establece valores de empleados
         total_sueldos();
         antiguedad();
         presentismo();
         bruto();
-        Utilidad.Tabla.filas_defecto(tabla_tasas, 1);
         tasas(tas_jub);
         tasas(tas_ob);
         tasas(tas_ley);
@@ -518,23 +491,24 @@ public class Empleados extends javax.swing.JFrame {
 
     private void tabla_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_sueldosPropertyChange
         // TODO add your handling code here:
+
         if (imp_s == true) {
             try {
                 for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                     if (combo_años.getSelectedIndex() + 1 == i) {
-                        File sueldos = new File("C:\\Project evaluator\\sueldos\\sueldos " + i + ".txt");
+                        File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
                         Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
                     }
                 }
-            } catch (Exception e) {
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             total_sueldos();
             antiguedad();
             presentismo();
             bruto();
-            Utilidad.Tabla.filas_defecto(tabla_tasas, 1);
             tasas(tas_jub);
             tasas(tas_ob);
             tasas(tas_ley);
@@ -550,18 +524,29 @@ public class Empleados extends javax.swing.JFrame {
         // TODO add your handling code here:
         Utilidad.Tabla.filas_defecto(tabla_tasas, 1);
         if (imp_tas == true) {
+            File tasas = new File(ProjectEvaluator.direccion + "\\Sueldos\\tasas.txt");
             Utilidad.Tabla.exportar(tasas, tabla_tasas);
+
         }
         tasas(tas_jub);
         tasas(tas_ob);
         tasas(tas_ley);
         tasas(tas_sec);
+
     }//GEN-LAST:event_tabla_tasasPropertyChange
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        directorio = new File(ProjectEvaluator.direccion + "\\Sueldos");
+        directorio.mkdirs();
 
     }//GEN-LAST:event_formWindowOpened
+
+    private void jtf_total_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_total_sueldosPropertyChange
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_jtf_total_sueldosPropertyChange
 
     public void inicializar_combo() {
 
@@ -580,7 +565,6 @@ public class Empleados extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_emp;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_emp;
     private javax.swing.JComboBox<String> combo_años;
     private javax.swing.JTextField jtf_total_sueldos;

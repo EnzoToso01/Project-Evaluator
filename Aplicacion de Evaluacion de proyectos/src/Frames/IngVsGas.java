@@ -55,7 +55,6 @@ public class IngVsGas extends javax.swing.JFrame {
     /**
      * Creates new form IngVsGas
      */
-    private File directorio = new File("C:\\Project evaluator\\IngVsGas");
     private ArrayList<Double> total_ing = new ArrayList();
     private ArrayList<Double> total_ing_iva = new ArrayList();
     private ArrayList<Double> total_eg = new ArrayList();
@@ -63,11 +62,12 @@ public class IngVsGas extends javax.swing.JFrame {
     private ArrayList suma_totales_ing = new ArrayList();
     private ArrayList suma_totales_eg = new ArrayList();
     private ArrayList arr_sueldos = new ArrayList();
-    private File ingresos = new File("C:\\Project evaluator\\IngVsGas\\ingresos.txt");
-    private File ingresosiva = new File("C:\\Project evaluator\\IngVsGas\\ingresos (IVA).txt");
-    private File egresos = new File("C:\\Project evaluator\\IngVsGas\\egresos.txt");
-    private File egresosiva = new File("C:\\Project evaluator\\IngVsGas\\egresos (IVA).txt");
-    private File inversion = new File("C:\\Project evaluator\\IngVsGas\\inversion.txt");
+    private File directorio;
+    private File ingresos;
+    private File ingresosiva;
+    private File egresos;
+    private File egresosiva;
+    public static File inversion;
     private EBITDA ebitda;
     private Impuestos impuestos;
     public static double inv;
@@ -83,14 +83,14 @@ public class IngVsGas extends javax.swing.JFrame {
         //determina el color del fondo y de los headers de columnas
         Color a = new Color(40, 44, 52);
         getContentPane().setBackground(a);
-         Color b = new Color(26, 29, 34);
+        Color b = new Color(26, 29, 34);
         tabla_ingresos.getTableHeader().setBackground(b);
-         tabla_egresos.getTableHeader().setBackground(b);
+        tabla_egresos.getTableHeader().setBackground(b);
         //crea el directorio para ingvsgas   
         this.ebitda = ebitda;
         this.impuestos = impuestos;
-        directorio.mkdirs();
         jtf_inv.setText("0.0");
+
     }
 
     public EBITDA getEbitda() {
@@ -115,10 +115,6 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public File getIngresos() {
         return ingresos;
-    }
-
-    public File getInversion() {
-        return inversion;
     }
 
     public File getIngresosiva() {
@@ -354,7 +350,6 @@ public class IngVsGas extends javax.swing.JFrame {
         tabla_ingresos = new javax.swing.JTable();
         scroll_egresos = new javax.swing.JScrollPane();
         tabla_egresos = new javax.swing.JTable();
-        btn_guardar = new javax.swing.JButton();
         btn_añadirfila_ing = new javax.swing.JButton();
         btn_quitarfila_ing = new javax.swing.JButton();
         btn_añadirfila_eg = new javax.swing.JButton();
@@ -420,14 +415,6 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
         scroll_egresos.setViewportView(tabla_egresos);
-
-        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setText("Guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
-            }
-        });
 
         btn_añadirfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         btn_añadirfila_ing.setText("añadir fila");
@@ -523,9 +510,7 @@ public class IngVsGas extends javax.swing.JFrame {
                         .addComponent(btn_añadirfila_ing)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_ing)
-                        .addGap(87, 87, 87)
-                        .addComponent(btn_guardar)
-                        .addGap(37, 37, 37)))
+                        .addGap(198, 198, 198)))
                 .addGap(17, 17, 17))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -545,7 +530,6 @@ public class IngVsGas extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_guardar)
                             .addComponent(btn_añadirfila_ing)
                             .addComponent(btn_quitarfila_ing)
                             .addComponent(jComboBoxivaing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -578,34 +562,6 @@ public class IngVsGas extends javax.swing.JFrame {
         jComboBoxivaing.setSelectedItem("Sin IVA");
         jComboBoxivaeg.setSelectedItem("Sin IVA");
     }//GEN-LAST:event_formWindowClosing
-
-
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-
-        //exp ing y eg
-        try {
-            if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
-                Utilidad.Tabla.exportar(ingresos, tabla_ingresos);
-            } else {
-                Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
-            }
-            if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA")) {
-                Utilidad.Tabla.exportar(egresos, tabla_egresos);
-
-            } else {
-                Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
-
-            }
-
-            Utilidad.JtextField.exportar_jtf(inversion, jtf_inv);
-
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
-        }
-
-    }//GEN-LAST:event_btn_guardarActionPerformed
 
 
     private void btn_añadirfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ingActionPerformed
@@ -652,15 +608,15 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void jComboBoxivaingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxivaingItemStateChanged
         // TODO add your handling code here:
-
         Utilidad.Tabla.get_modelo(tabla_ingresos).setRowCount(0);
-
         //importa la nueva tabla
         if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
-
+            ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
             Utilidad.Tabla.importar(ingresos, tabla_ingresos);
         } else {
+            ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
             Utilidad.Tabla.importar(ingresosiva, tabla_ingresos);
+
         }
         Utilidad.Tabla.filas_defecto(tabla_ingresos, 30);
 
@@ -674,8 +630,10 @@ public class IngVsGas extends javax.swing.JFrame {
         tblmodel.setRowCount(0);
         //importa la nueva tabla
         if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA")) {
+            egresos = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos.txt");
             Utilidad.Tabla.importar(egresos, tabla_egresos);
         } else {
+            egresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos (IVA).txt");
             Utilidad.Tabla.importar(egresosiva, tabla_egresos);
         }
         Utilidad.Tabla.filas_defecto(tabla_egresos, 30);
@@ -683,20 +641,21 @@ public class IngVsGas extends javax.swing.JFrame {
         calculo_total_eg(tabla_egresos);
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
+
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio 
         if (ProjectEvaluator.import_ingeg == true) {
-
             if (jComboBoxivaing.getSelectedIndex() == 0) {
+                ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
                 Utilidad.Tabla.exportar(ingresos, tabla_ingresos);
+
             } else {
+                ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
                 Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
             }
-
             calculo_total_ing(tabla_ingresos);
             setear_ebitda_imp();
-
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -706,29 +665,34 @@ public class IngVsGas extends javax.swing.JFrame {
         //guarda al realizar cualquier cambio
         if (ProjectEvaluator.import_ingeg == true) {
             if (jComboBoxivaeg.getSelectedIndex() == 0) {
+                egresos = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos.txt");
                 Utilidad.Tabla.exportar(egresos, tabla_egresos);
             } else {
+                egresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos (IVA).txt");
                 Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
             }
-
             calculo_total_eg(tabla_egresos);
             setear_ebitda_imp();
-
         }
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         // TODO adding
-        calculo_total_ing(tabla_ingresos);
+        /*  calculo_total_ing(tabla_ingresos);
         calculo_total_eg(tabla_egresos);
         ebitda.setIngresos(suma_totales_ing);
-        ebitda.setEgresos(suma_totales_eg);
+        ebitda.setEgresos(suma_totales_eg); */
+        directorio = new File(ProjectEvaluator.direccion + "\\IngVsGas");
+        directorio.mkdirs();
+
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jtf_invActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_invActionPerformed
         // TODO add your handling code here:
         setear_inv();
+        inversion = new File(ProjectEvaluator.direccion + "IngVsGas\\inversion.txt");
         Utilidad.JtextField.exportar_jtf(inversion, jtf_inv);
     }//GEN-LAST:event_jtf_invActionPerformed
 
@@ -743,7 +707,6 @@ public class IngVsGas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_eg;
     private javax.swing.JButton btn_añadirfila_ing;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_eg;
     private javax.swing.JButton btn_quitarfila_ing;
     private javax.swing.JComboBox<String> jComboBoxivaeg;

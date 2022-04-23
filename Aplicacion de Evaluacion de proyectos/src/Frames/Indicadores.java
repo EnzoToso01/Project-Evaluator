@@ -286,7 +286,6 @@ public class Indicadores extends javax.swing.JFrame {
         tabla_indicadores = new javax.swing.JTable();
         btn_añadirfila_ind = new javax.swing.JButton();
         btn_quitarfila_ind = new javax.swing.JButton();
-        btn_guardar = new javax.swing.JButton();
         txtinteres = new javax.swing.JLabel();
         jtf_interes = new javax.swing.JTextField();
 
@@ -342,15 +341,6 @@ public class Indicadores extends javax.swing.JFrame {
             }
         });
 
-        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-guardar-32.png"))); // NOI18N
-        btn_guardar.setFocusable(false);
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
-            }
-        });
-
         txtinteres.setBackground(new java.awt.Color(255, 255, 255));
         txtinteres.setFont(new java.awt.Font("Bahnschrift", 0, 12)); // NOI18N
         txtinteres.setForeground(new java.awt.Color(255, 255, 255));
@@ -389,8 +379,7 @@ public class Indicadores extends javax.swing.JFrame {
                                 .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(btn_guardar))
+                                .addGap(83, 83, 83))
                             .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE))
                         .addGap(36, 36, 36))))
         );
@@ -402,19 +391,15 @@ public class Indicadores extends javax.swing.JFrame {
                         .addGap(11, 11, 11)
                         .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btn_guardar)
-                                .addGap(8, 8, 8))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(txtinteres)
                         .addGap(1, 1, 1)
                         .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(19, 19, 19)
                 .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
@@ -442,18 +427,6 @@ public class Indicadores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_quitarfila_indActionPerformed
 
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-
-        //exportacion
-        try {
-            Utilidad.Tabla.exportar(indicadores, tabla_indicadores);
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
-        }
-    }//GEN-LAST:event_btn_guardarActionPerformed
-
     private void jtf_interesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_interesActionPerformed
         // TODO add your handling code here: 
         setear_interes();
@@ -471,12 +444,11 @@ public class Indicadores extends javax.swing.JFrame {
     private void tabla_indicadoresPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indicadoresPropertyChange
         // TODO add your handling code here:
         //inicializa ingvsgas
-
         if (imp == true) {
             //inicializa indicadores
             Utilidad.JtextField.importar_jtf(interes, jtf_interes);
             setear_interes();
-            Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
+            Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
             //calculo van sin riesgo y con riesgo
             calculo_van();
             calculo_van_r();
@@ -505,7 +477,6 @@ public class Indicadores extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_ind;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_ind;
     private javax.swing.JTextField jtf_interes;
     private javax.swing.JScrollPane scroll_indicadores;

@@ -54,9 +54,7 @@
                       <Component id="btn_añadirfila_emp" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="btn_quitarfila_emp" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                      <Component id="btn_guardar" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="227" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="scroll_tasas" min="-2" pref="404" max="-2" attributes="0"/>
@@ -75,7 +73,6 @@
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btn_añadirfila_emp" alignment="3" max="-2" attributes="0"/>
                       <Component id="btn_quitarfila_emp" alignment="3" max="-2" attributes="0"/>
-                      <Component id="btn_guardar" alignment="3" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jtf_total_sueldos" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -207,6 +204,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="showGrid" type="boolean" value="true"/>
             <Property name="surrendersFocusOnKeystroke" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -228,6 +226,9 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jtf_total_sueldosPropertyChange"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="txttotalsueldos">
       <Properties>
@@ -242,17 +243,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Total sueldos"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btn_guardar">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Roboto" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="combo_a&#xf1;os">
       <Properties>

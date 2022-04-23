@@ -74,7 +74,6 @@ public class Credito extends javax.swing.JFrame {
         tabla_pagcredito = new javax.swing.JTable();
         btn_añadirfila_cred = new javax.swing.JButton();
         btn_quitarfila_cred = new javax.swing.JButton();
-        btn_guardar = new javax.swing.JButton();
         scrolldatcredito = new javax.swing.JScrollPane();
         tabla_datcredito = new javax.swing.JTable();
 
@@ -121,14 +120,6 @@ public class Credito extends javax.swing.JFrame {
             }
         });
 
-        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setText("Guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
-            }
-        });
-
         scrolldatcredito.setBackground(new java.awt.Color(255, 255, 255));
 
         tabla_datcredito.setModel(new javax.swing.table.DefaultTableModel(
@@ -155,9 +146,7 @@ public class Credito extends javax.swing.JFrame {
                         .addComponent(btn_añadirfila_cred)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_quitarfila_cred)
-                        .addGap(87, 87, 87)
-                        .addComponent(btn_guardar)
-                        .addGap(80, 80, 80))
+                        .addGap(241, 241, 241))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(scrollcredito, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
@@ -170,7 +159,6 @@ public class Credito extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_guardar)
                         .addComponent(btn_añadirfila_cred)
                         .addComponent(btn_quitarfila_cred))
                     .addComponent(txtcredito))
@@ -215,22 +203,6 @@ public class Credito extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_quitarfila_credActionPerformed
 
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-        try {
-            File pagcredito = new File("C:\\Project evaluator\\credito.txt");
-            File datcredito = new File("C:\\Project evaluator\\datos credito.txt");
-            //Declaro la tabla para pasarla por parámetro a los métodos de Tabla
-            JTable tablapagcred = getTabla_pagcredito();
-            JTable tabladatcred = getTabla_datcredito();
-            Utilidad.Tabla.exportar(pagcredito, tablapagcred);
-            Utilidad.Tabla.exportar(datcredito, tabladatcred);
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
-        }
-    }//GEN-LAST:event_btn_guardarActionPerformed
-
     public JTable getTabla_datcredito() {
         return tabla_datcredito;
     }
@@ -245,7 +217,6 @@ public class Credito extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_cred;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_cred;
     private javax.swing.JScrollPane scrollcredito;
     private javax.swing.JScrollPane scrolldatcredito;

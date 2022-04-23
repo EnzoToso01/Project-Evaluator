@@ -42,8 +42,7 @@
                       <Component id="btn_añadirfila_imp" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_quitarfila_imp" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-                      <Component id="btn_guardar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="161" max="32767" attributes="0"/>
                   </Group>
                   <Component id="scroll_indimpuestos" alignment="0" max="32767" attributes="0"/>
                   <Component id="scroll_impuestos" alignment="0" max="32767" attributes="0"/>
@@ -64,7 +63,6 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_guardar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_añadirfila_imp" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_quitarfila_imp" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtimpuestos" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -146,17 +144,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_quitarfila_impActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btn_guardar">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Roboto" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="scroll_indimpuestos">

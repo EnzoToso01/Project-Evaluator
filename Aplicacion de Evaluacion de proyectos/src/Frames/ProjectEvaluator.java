@@ -38,16 +38,19 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     public static int longevidad = 5;
     public static boolean import_ingeg = false;
-    private Credito credito = new Credito();
-    private Riesgo riesgo = new Riesgo();
-    private EBITDA ebitda = new EBITDA(riesgo);
-    private Impuestos impuestos = new Impuestos();
-    private IngVsGas ingvsgas = new IngVsGas(ebitda, impuestos);
-    private Empleados empleados = new Empleados(ingvsgas);
-    private Indicadores indicadores = new Indicadores(ebitda, ingvsgas);
+    private Credito credito;
+    private Riesgo riesgo;
+    private EBITDA ebitda;
+    private Impuestos impuestos;
+    private IngVsGas ingvsgas;
+    private Empleados empleados;
+    private Indicadores indicadores;
     private File directorio;
-    private File nombredelproyecto = new File("C:\\Project evaluator\\Nombre del proyecto.txt");
-    private File añosvidaproyecto = new File("C:\\Project evaluator\\Longevidad del proyecto.txt");
+    private File nombredelproyecto;
+    private File añosvidaproyecto;
+    private File directorio_ingvsgas;
+    public static String direccion;
+    public static String nombreproyecto_str;
 
     /**
      * Creates new form Principal
@@ -56,6 +59,17 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono_app.png")));
+        nombreproyecto_str = "";
+        //crea los objetos de los demas jframes
+        credito = new Credito();
+        riesgo = new Riesgo();
+        ebitda = new EBITDA(riesgo);
+        impuestos = new Impuestos();
+        ingvsgas = new IngVsGas(ebitda, impuestos);
+        empleados = new Empleados(ingvsgas);
+        indicadores = new Indicadores(ebitda, ingvsgas);
+        añosvidaproyecto = new File("C:\\Project evaluator\\Longevidad del proyecto.txt");
+
     }
 
     public static void main(String args[]) {
@@ -78,9 +92,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             public void run() {
                 ProjectEvaluator p = new ProjectEvaluator();
                 p.setVisible(true);
-                p.setear_ingvsgas();
-                p.importar_nombreproyecto();
-                p.importar_longev();
+
             }
 
         });
@@ -107,10 +119,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btn_cargar = new javax.swing.JButton();
         txtañosvida = new javax.swing.JLabel();
         txtnombreproyecto = new javax.swing.JLabel();
-        nombreproyecto = new javax.swing.JTextField();
-        añosvida = new javax.swing.JTextField();
+        jtf_nombreproyecto = new javax.swing.JTextField();
+        jtf_añosvida = new javax.swing.JTextField();
         panel_negro = new javax.swing.JPanel();
         panel_IngVsGas = new javax.swing.JPanel();
         btn_IngVsGas = new javax.swing.JButton();
@@ -129,6 +142,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         panel_azul = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JLabel();
         panel_azul_oscuro = new javax.swing.JPanel();
+        btn_guardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú Principal");
@@ -142,6 +156,17 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btn_cargar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-carpeta-32.png"))); // NOI18N
+        btn_cargar.setText("Cargar Proyecto");
+        btn_cargar.setFocusable(false);
+        btn_cargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cargarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_cargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 350, 180, -1));
+
         txtañosvida.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         txtañosvida.setForeground(new java.awt.Color(255, 255, 255));
         txtañosvida.setText("Longevidad del proyecto (años)");
@@ -152,47 +177,47 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         txtnombreproyecto.setText("Nombre del proyecto");
         getContentPane().add(txtnombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, -1, -1));
 
-        nombreproyecto.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
-        nombreproyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        nombreproyecto.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtf_nombreproyecto.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jtf_nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
+        jtf_nombreproyecto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jtf_nombreproyecto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nombreproyectoMouseClicked(evt);
+                jtf_nombreproyectoMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                nombreproyectoMousePressed(evt);
+                jtf_nombreproyectoMousePressed(evt);
             }
         });
-        nombreproyecto.addActionListener(new java.awt.event.ActionListener() {
+        jtf_nombreproyecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreproyectoActionPerformed(evt);
+                jtf_nombreproyectoActionPerformed(evt);
             }
         });
-        nombreproyecto.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jtf_nombreproyecto.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                nombreproyectoPropertyChange(evt);
+                jtf_nombreproyectoPropertyChange(evt);
             }
         });
-        getContentPane().add(nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 260, 30));
+        getContentPane().add(jtf_nombreproyecto, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 260, 30));
 
-        añosvida.setText(" Ej:5");
-        añosvida.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        añosvida.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtf_añosvida.setText(" Ej:5");
+        jtf_añosvida.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jtf_añosvida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                añosvidaMousePressed(evt);
+                jtf_añosvidaMousePressed(evt);
             }
         });
-        añosvida.addActionListener(new java.awt.event.ActionListener() {
+        jtf_añosvida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                añosvidaActionPerformed(evt);
+                jtf_añosvidaActionPerformed(evt);
             }
         });
-        añosvida.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jtf_añosvida.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                añosvidaPropertyChange(evt);
+                jtf_añosvidaPropertyChange(evt);
             }
         });
-        getContentPane().add(añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 260, 30));
+        getContentPane().add(jtf_añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 260, 30));
 
         panel_negro.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -637,6 +662,17 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
         getContentPane().add(panel_azul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 50));
 
+        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-guardar-32.png"))); // NOI18N
+        btn_guardar.setText("Guardar Proyecto");
+        btn_guardar.setFocusable(false);
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 180, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -648,11 +684,18 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_IngVsGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseClicked
         // TODO add your handling code here:  
-        //inicializa ingvsgas
-        setear_ingvsgas();
-        //importa el jtextfield
-        Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
-        ingvsgas.setVisible(true);
+
+        if (!nombreproyecto_str.equals("")) {
+            //inicializa ingvsgas
+            setear_ingvsgas();
+            //importa el jtextfield
+            IngVsGas.inversion = new File(ProjectEvaluator.direccion + "IngVsGas\\inversion.txt");
+            Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
+            ingvsgas.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_btn_IngVsGasMouseClicked
 
     private void btn_IngVsGasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseEntered
@@ -671,32 +714,40 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_indicadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_indicadoresMouseClicked
         // TODO add your handling code here:
-        ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
 
-        Utilidad.Tabla.inicializar(indicadores.getTabla_indicadores());
-        Utilidad.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
-        //inicializa ingvsgas
-        setear_ingvsgas();
-        //setea ebitda
-        ingvsgas.setear_ebitda_imp();
-        //inicializa indicadores
-        Utilidad.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
-        indicadores.setear_interes();
-        Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
-        //calculo van sin riesgo y con riesgo
-        ingvsgas.setear_inv();
-        indicadores.calculo_van();
-        indicadores.calculo_van_r();
-        indicadores.calculo_ivan();
-        indicadores.calculo_ivan_r();
-        indicadores.calculo_TIR();
-        indicadores.calculo_TIR_r();
-        indicadores.calculo_vac();
-        indicadores.calculo_razonBC();
-        //añade filas por defecto si no hay ninguna en la tabla
-        Utilidad.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
-        indicadores.setImp(true);
-        indicadores.setVisible(true);
+        if (!nombreproyecto_str.equals("")) {
+
+            ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
+
+            Utilidad.Tabla.inicializar(indicadores.getTabla_indicadores());
+            Utilidad.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
+            //inicializa ingvsgas
+            setear_ingvsgas();
+            //setea ebitda
+            ingvsgas.setear_ebitda_imp();
+            //inicializa indicadores
+            Utilidad.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
+            indicadores.setear_interes();
+            IngVsGas.inversion = new File(ProjectEvaluator.direccion + "IngVsGas\\inversion.txt");
+            Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
+            //calculo van sin riesgo y con riesgo
+            ingvsgas.setear_inv();
+            indicadores.calculo_van();
+            indicadores.calculo_van_r();
+            indicadores.calculo_ivan();
+            indicadores.calculo_ivan_r();
+            indicadores.calculo_TIR();
+            indicadores.calculo_TIR_r();
+            indicadores.calculo_vac();
+            indicadores.calculo_razonBC();
+            //añade filas por defecto si no hay ninguna en la tabla
+            Utilidad.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
+            indicadores.setImp(true);
+            indicadores.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_btn_indicadoresMouseClicked
 
     private void btn_indicadoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_indicadoresMouseEntered
@@ -752,20 +803,26 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
 
         // TODO add your handling code here:
-        //inicializa datos Ebitda y imp
-        Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
-        Utilidad.Tabla.inicializar(ebitda.getTabla_ebitda());
-        Utilidad.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
+        if (!nombreproyecto_str.equals("")) {
 
-        //inicializa ingvsgas
-        setear_ingvsgas();
-
-        try {
+            //inicializa datos Ebitda y imp
             Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
-            ingvsgas.setear_ebitda_imp();
-            ebitda.setVisible(true);
-        } catch (Exception e) {
-            System.err.println("Error en calculo de EBITDA");
+            Utilidad.Tabla.inicializar(ebitda.getTabla_ebitda());
+            Utilidad.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
+
+            //inicializa ingvsgas
+            setear_ingvsgas();
+
+            try {
+                Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
+                ingvsgas.setear_ebitda_imp();
+                ebitda.setVisible(true);
+            } catch (Exception e) {
+                System.err.println("Error en calculo de EBITDA");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
         }
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
@@ -790,28 +847,35 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_empleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseClicked
         // TODO add your handling code here:
-        Utilidad.Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
-        Utilidad.Tabla.importar(empleados.getTasas(), empleados.getTabla_tasas());
-        Utilidad.Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
+        if (!nombreproyecto_str.equals("")) {
 
-        empleados.inicializar_combo();
-        empleados.importar_emp();
-        empleados.setImp_sueldos(true);
-        empleados.total_sueldos();
-        empleados.antiguedad();
-        empleados.presentismo();
-        empleados.bruto();
-        empleados.setImp_tas(true);
-        empleados.tasas(empleados.getTas_jub());
-        empleados.tasas(empleados.getTas_ob());
-        empleados.tasas(empleados.getTas_ley());
-        empleados.tasas(empleados.getTas_sec());
-        empleados.total_desc();
-        empleados.total_neto();
-        empleados.getJtf_total_sueldos().setText(String.valueOf(empleados.calculo_total_sueldos()));
-        // empleados.arr_sueldos();
-        Utilidad.Tabla.filas_defecto(empleados.getTabla_sueldos(), 70);
-        empleados.setVisible(true);
+            Utilidad.Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
+            Empleados.tasas = new File(ProjectEvaluator.direccion + "\\Sueldos\\tasas.txt");;
+            Utilidad.Tabla.importar(Empleados.tasas, empleados.getTabla_tasas());
+            Utilidad.Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
+
+            empleados.inicializar_combo();
+            empleados.importar_emp();
+            empleados.setImp_sueldos(true);
+            empleados.total_sueldos();
+            empleados.antiguedad();
+            empleados.presentismo();
+            empleados.bruto();
+            empleados.setImp_tas(true);
+            empleados.tasas(empleados.getTas_jub());
+            empleados.tasas(empleados.getTas_ob());
+            empleados.tasas(empleados.getTas_ley());
+            empleados.tasas(empleados.getTas_sec());
+            empleados.total_desc();
+            empleados.total_neto();
+            empleados.getJtf_total_sueldos().setText(String.valueOf(empleados.calculo_total_sueldos()));
+            // empleados.arr_sueldos();
+            Utilidad.Tabla.filas_defecto(empleados.getTabla_sueldos(), 70);
+            empleados.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_btn_empleadosMouseClicked
 
     private void btn_empleadosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseEntered
@@ -834,12 +898,18 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
         // TODO add your handling code here:
-        Utilidad.Tabla.inicializar(impuestos.getTabla_impuestos());
-        Utilidad.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
-        Utilidad.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
-        //añade filas por defecto si no hay ninguna en la tabla
-        impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
-        impuestos.setVisible(true);
+        if (!nombreproyecto_str.equals("")) {
+
+            Utilidad.Tabla.inicializar(impuestos.getTabla_impuestos());
+            Utilidad.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
+            Utilidad.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
+            //añade filas por defecto si no hay ninguna en la tabla
+            impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
+            impuestos.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_btn_impuestosMouseClicked
 
     private void btn_impuestosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseEntered
@@ -862,11 +932,17 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_creditoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_creditoMouseClicked
         // TODO add your handling code here:
-        credito.setVisible(true);
-        Utilidad.Tabla.importar(credito.getPagcredito(), credito.getTabla_pagcredito());
-        Utilidad.Tabla.importar(credito.getDatcredito(), credito.getTabla_datcredito());
-        //añade filas por defecto si no hay ninguna en la tabla
-        credito.filas_datos(credito.getTabla_datcredito(), credito.getTabla_pagcredito());
+        if (!nombreproyecto_str.equals("")) {
+
+            credito.setVisible(true);
+            Utilidad.Tabla.importar(credito.getPagcredito(), credito.getTabla_pagcredito());
+            Utilidad.Tabla.importar(credito.getDatcredito(), credito.getTabla_datcredito());
+            //añade filas por defecto si no hay ninguna en la tabla
+            credito.filas_datos(credito.getTabla_datcredito(), credito.getTabla_pagcredito());
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_btn_creditoMouseClicked
 
     private void btn_creditoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_creditoMouseEntered
@@ -953,21 +1029,21 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     }//GEN-LAST:event_panel_creditoMouseExited
 
     private void importar_longev() {
-        Utilidad.JtextField.importar_jtf(añosvidaproyecto, añosvida);
+        Utilidad.JtextField.importar_jtf(añosvidaproyecto, jtf_añosvida);
     }
 
     private void importar_nombreproyecto() {
-        Utilidad.JtextField.importar_jtf(nombredelproyecto, nombreproyecto);
+        Utilidad.JtextField.importar_jtf(nombredelproyecto, jtf_nombreproyecto);
     }
 
 
-    private void añosvidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_añosvidaActionPerformed
+    private void jtf_añosvidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_añosvidaActionPerformed
         // TODO add your handling code here:
         // Se obtienen los años de vida del proyecto para las demas clases
         try {
-            longevidad = Integer.parseInt(añosvida.getText());
+            longevidad = Integer.parseInt(jtf_añosvida.getText());
             if (longevidad > 0) {
-                Utilidad.JtextField.exportar_jtf(añosvidaproyecto, añosvida);
+                Utilidad.JtextField.exportar_jtf(añosvidaproyecto, jtf_añosvida);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
 
@@ -1000,23 +1076,31 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
+            jtf_añosvida.setText(" Ej:5");
+            Color c = new Color(151, 159, 173);
+            jtf_añosvida.setForeground(c);
         }
 
+    }//GEN-LAST:event_jtf_añosvidaActionPerformed
 
-    }//GEN-LAST:event_añosvidaActionPerformed
-
-    private void añosvidaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_añosvidaPropertyChange
+    private void jtf_añosvidaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_añosvidaPropertyChange
         // TODO add your handling code here:
-    }//GEN-LAST:event_añosvidaPropertyChange
+    }//GEN-LAST:event_jtf_añosvidaPropertyChange
 
     private void btn_riesgoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_riesgoMouseClicked
         // TODO add your handling code here:
-        Utilidad.Tabla.inicializar(riesgo.getTabla_riesgos());
-        Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
-        Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
-        riesgo.setImp(true);
-        riesgo.valor_riesgo();
-        riesgo.setVisible(true);
+        if (!nombreproyecto_str.equals("")) {
+
+            Utilidad.Tabla.inicializar(riesgo.getTabla_riesgos());
+            Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
+            Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
+            riesgo.setImp(true);
+            riesgo.valor_riesgo();
+            riesgo.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_btn_riesgoMouseClicked
 
     private void btn_riesgoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_riesgoMouseEntered
@@ -1049,81 +1133,122 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_panel_riesgoMouseExited
 
-    private void nombreproyectoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreproyectoMousePressed
+    private void jtf_nombreproyectoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtf_nombreproyectoMousePressed
         // TODO add your handling code here:
-        if (nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
-            nombreproyecto.setText("");
-            añosvida.setText(" Ej:5");
+        if (jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
+            jtf_nombreproyecto.setText("");
+            jtf_añosvida.setText(" Ej:5");
             Color c = new Color(151, 159, 173);
-            añosvida.setForeground(c);
-            nombreproyecto.setForeground(Color.WHITE);
+            jtf_añosvida.setForeground(c);
+            jtf_nombreproyecto.setForeground(Color.WHITE);
 
         }
-    }//GEN-LAST:event_nombreproyectoMousePressed
+    }//GEN-LAST:event_jtf_nombreproyectoMousePressed
 
-    private void añosvidaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añosvidaMousePressed
+    private void jtf_añosvidaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtf_añosvidaMousePressed
         // TODO add your handling code here:
-        if (añosvida.getText().equals(" Ej:5")) {
-            añosvida.setText("");
-            if (nombreproyecto.getText().equals("")) {
-                nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
+        if (jtf_añosvida.getText().equals(" Ej:5")) {
+            jtf_añosvida.setText("");
+            if (jtf_nombreproyecto.getText().trim().length() == 0) {
+                jtf_nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
                 Color c = new Color(151, 159, 173);
-                nombreproyecto.setForeground(c);
+                jtf_nombreproyecto.setForeground(c);
             }
-            añosvida.setForeground(Color.WHITE);
+            jtf_añosvida.setForeground(Color.WHITE);
         }
-    }//GEN-LAST:event_añosvidaMousePressed
+    }//GEN-LAST:event_jtf_añosvidaMousePressed
 
-    private void nombreproyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreproyectoActionPerformed
+    private void jtf_nombreproyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_nombreproyectoActionPerformed
         // TODO add your handling code here:
         try {
-            if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && nombreproyecto.getText().trim().length() > 0) {
-                /*  directorio = new File("C:\\Project evaluator\\" + nombreproyecto.getText());
-                directorio.mkdirs(); */
-                Utilidad.JtextField.exportar_jtf(nombredelproyecto, nombreproyecto);
+            if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
+                nombreproyecto_str = jtf_nombreproyecto.getText();
+                direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                directorio = new File(direccion);
+                directorio.mkdirs();
+                nombredelproyecto = new File(direccion + "Nombre del proyecto.txt");
+                Utilidad.JtextField.exportar_jtf(nombredelproyecto, jtf_nombreproyecto);
+
+            } else {
+                jtf_nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
+                Color c = new Color(151, 159, 173);
+                jtf_nombreproyecto.setForeground(c);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ingrese un valor válido");
+            JOptionPane.showMessageDialog(null, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-    }//GEN-LAST:event_nombreproyectoActionPerformed
+    }//GEN-LAST:event_jtf_nombreproyectoActionPerformed
 
-    private void nombreproyectoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_nombreproyectoPropertyChange
+    private void jtf_nombreproyectoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_nombreproyectoPropertyChange
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_nombreproyectoPropertyChange
+    }//GEN-LAST:event_jtf_nombreproyectoPropertyChange
 
-    private void nombreproyectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreproyectoMouseClicked
+    private void jtf_nombreproyectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtf_nombreproyectoMouseClicked
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_nombreproyectoMouseClicked
+    }//GEN-LAST:event_jtf_nombreproyectoMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
 
-        if (!nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
+        if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...")) {
             Color c = new Color(255, 255, 255);
-            nombreproyecto.setForeground(c);
+            jtf_nombreproyecto.setForeground(c);
         }
-        if (!añosvida.getText().equals(" Ej:5")) {
+        if (!jtf_añosvida.getText().equals(" Ej:5")) {
             Color c = new Color(255, 255, 255);
-            añosvida.setForeground(c);
+            jtf_añosvida.setForeground(c);
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void btn_cargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargarActionPerformed
+        // TODO add your handling code here:
+
+        //importación
+        /*  try {
+            Utilidad.Tabla.exportar(indicadores, tabla_indicadores);
+            JOptionPane.showMessageDialog(null, "datos guardados");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Hubo un error al cargar los datos");
+        } */
+    }//GEN-LAST:event_btn_cargarActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
+        //exportacion de todos los datos
+        try {
+            if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
+
+                //   directorio_ingvsgas = new File(direccion + "\\IngVsGas");
+                // directorio_ingvsgas.mkdirs();
+                JOptionPane.showMessageDialog(null, "datos guardados", "Notificación", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Por favor,ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField añosvida;
     private javax.swing.JButton btn_EBITDA;
     private javax.swing.JButton btn_IngVsGas;
+    private javax.swing.JButton btn_cargar;
     private javax.swing.JButton btn_credito;
     private javax.swing.JButton btn_empleados;
+    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_impuestos;
     private javax.swing.JButton btn_indicadores;
     private javax.swing.JButton btn_riesgo;
-    private javax.swing.JTextField nombreproyecto;
+    private javax.swing.JTextField jtf_añosvida;
+    private javax.swing.JTextField jtf_nombreproyecto;
     private javax.swing.JPanel panel_EBITDA;
     private javax.swing.JPanel panel_IngVsGas;
     private javax.swing.JPanel panel_azul;

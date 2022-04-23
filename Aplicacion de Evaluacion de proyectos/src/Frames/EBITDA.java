@@ -75,7 +75,6 @@ public class EBITDA extends javax.swing.JFrame {
         tabla_EBITDA = new javax.swing.JTable();
         btn_añadirfila_ebi = new javax.swing.JButton();
         btn_quitarfila_ebi = new javax.swing.JButton();
-        btn_guardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EBITDA");
@@ -134,14 +133,6 @@ public class EBITDA extends javax.swing.JFrame {
             }
         });
 
-        btn_guardar.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_guardar.setText("Guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,9 +144,7 @@ public class EBITDA extends javax.swing.JFrame {
                 .addComponent(btn_añadirfila_ebi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_quitarfila_ebi)
-                .addGap(87, 87, 87)
-                .addComponent(btn_guardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(scroll_ebitda)
@@ -167,7 +156,6 @@ public class EBITDA extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_guardar)
                     .addComponent(btn_añadirfila_ebi)
                     .addComponent(btn_quitarfila_ebi))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -486,16 +474,6 @@ public class EBITDA extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_quitarfila_ebiActionPerformed
 
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-        try {
-            Utilidad.Tabla.exportar(ebitda, tabla_EBITDA);
-            JOptionPane.showMessageDialog(null, "datos guardados");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Hubo un error al guardar los datos");
-        }
-    }//GEN-LAST:event_btn_guardarActionPerformed
-
     private void tabla_EBITDAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabla_EBITDAFocusGained
         // TODO add your handling code here:
 
@@ -522,7 +500,6 @@ public class EBITDA extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirfila_ebi;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitarfila_ebi;
     private javax.swing.JScrollPane scroll_ebitda;
     private javax.swing.JTable tabla_EBITDA;
