@@ -33,21 +33,24 @@ public class Impuestos extends javax.swing.JFrame {
      * Creates new form Impuestos
      */
     //declara el archivo a importar o exportar por los métodos de Tabla
-    private File impuestos = new File("C:\\Project evaluator\\impuestos.txt");
-    private File indimpuestos = new File("C:\\Project evaluator\\indicadores impuestos.txt");
-    public static double tas_desc = 0.02;
-    public static double tas_int = 0.97;
-    public static double tas_pob = 0.02;
-    public static double inf_men = 0.05;
-    public static double inf_an = 0.34;
-    public static double ing_b = 0.04;
-    public static double iva = 0.21;
-    public static double gan = 0.35;
-    public static double cont_p = 0.26;
-    public static double ob_s = 0.11;
-    public static ArrayList iva_c = new ArrayList();
-    public static ArrayList iva_v = new ArrayList();
-    private ArrayList calc_total = new ArrayList();
+    private File impuestos_f;
+    private File indimpuestos_f;
+    public double tas_desc = 0.02;
+    public double tas_int = 0.97;
+    public double tas_pob = 0.02;
+    public double inf_men = 0.05;
+    public double inf_an = 0.34;
+    public double ing_b = 0.04;
+    public double iva = 0.21;
+    public double gan = 0.35;
+    public double cont_p = 0.26;
+    public double ob_s = 0.11;
+    private boolean imp_impuestos = false;
+    public ArrayList iva_c = new ArrayList();
+    public ArrayList iva_v = new ArrayList();
+    public ArrayList calc_total = new ArrayList();
+    private EBITDA ebitda;
+    private IngVsGas ingvsgas;
 
     public Impuestos() {
         initComponents();
@@ -68,61 +71,81 @@ public class Impuestos extends javax.swing.JFrame {
         return tabla_indimpuestos;
     }
 
-    public File getImpuestos() {
-        return impuestos;
+    public File getImpuestos_f() {
+        return impuestos_f;
     }
 
-    public File getIndimpuestos() {
-        return indimpuestos;
+    public File getIndimpuestos_f() {
+        return indimpuestos_f;
     }
 
-    public void filas_datos_impuestos(JTable tablaimp, JTable tablaindimp) {
-        //inicializa los datos de las filas de la tabla
-        if (tabla_impuestos.getRowCount() < 1) {
+    public void setImpuestos(String dir) {
+        this.impuestos_f = new File(dir);
+    }
 
-            String dato1[] = {"Impuesto a las ganancias"};
-            String dato2[] = {"IVA Ventas"};
-            String dato3[] = {"IVA Compras"};
-            String dato4[] = {"Montotributo/RI"};
-            String dato5[] = {"Ingresos Brutos"};
-            String dato6[] = {"Total de impuestos"};
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato1);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato2);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato3);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato4);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato5);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato6);
+    public void setIndimpuestos(String dir) {
+        this.indimpuestos_f = new File(dir);
+    }
 
-            Utilidad.Tabla.filas_defecto(tabla_impuestos, 10);
-        }
+    public void setEBITDA(EBITDA ebitda) {
+        //Obtiene el acceso a objeto ebitda para ser manipulado por Impuestos
+        this.ebitda = ebitda;
+    }
 
-        //inicializa los datos de las filas de la tabla
-        if (tabla_indimpuestos.getRowCount() < 1) {
+    public void setIngVsGas(IngVsGas ingvsgas) {
+        //Obtiene el acceso a objeto ingvsgas para ser manipulado por Impuestos
+        this.ingvsgas = ingvsgas;
+    }
 
-            DefaultTableModel tblmodel2 = (DefaultTableModel) tabla_indimpuestos.getModel();
-            String dato1[] = {"Tasa de descuento", String.valueOf(tas_desc * 100)};
-            String dato2[] = {"Tasa de interés", String.valueOf(tas_int * 100)};
-            String dato3[] = {"Tasa de crecimiento de la población", String.valueOf(tas_pob * 100)};
-            String dato4[] = {"Inflación Mensual", String.valueOf(inf_men * 100)};
-            String dato5[] = {"Inflación Anual", String.valueOf(inf_an * 100)};
-            String dato6[] = {"Ingresos Brutos", String.valueOf(ing_b * 100)};
-            String dato7[] = {"IVA", String.valueOf(iva * 100)};
-            String dato8[] = {"Ganancias", String.valueOf(gan * 100)};
-            String dato9[] = {"Contribuciones patronales", String.valueOf(cont_p * 100)};
-            String dato10[] = {"Obra Social", String.valueOf(ob_s * 100)};
+    public void filas_datos_impuestos(JTable tablaimp) {
+        //Resetea e inicializa los datos de la tabla impuestos
+        Utilidad.Tabla.get_modelo(tablaimp).setRowCount(0);
 
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato3);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato4);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato5);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato6);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato7);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato8);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato9);
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato10);
-            Utilidad.Tabla.filas_defecto(tabla_indimpuestos, 10);
-        }
+        String dato1[] = {"Impuesto a las ganancias"};
+        String dato2[] = {"IVA Ventas"};
+        String dato3[] = {"IVA Compras"};
+        String dato4[] = {"Montotributo/RI"};
+        String dato5[] = {"Ingresos Brutos"};
+        String dato6[] = {"Total de impuestos"};
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato1);
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato2);
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato3);
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato4);
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato5);
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato6);
+
+        Utilidad.Tabla.filas_defecto(tabla_impuestos, 10);
+
+    }
+
+    public void filas_datos_indimpuestos(JTable tablaindimp) {
+
+        //Resetea e inicializa los datos de la tabla indicadores de impuestos
+        Utilidad.Tabla.get_modelo(tablaindimp).setRowCount(0);
+
+        String dato1[] = {"Tasa de descuento", String.valueOf(tas_desc * 100)};
+        String dato2[] = {"Tasa de interés", String.valueOf(tas_int * 100)};
+        String dato3[] = {"Tasa de crecimiento de la población", String.valueOf(tas_pob * 100)};
+        String dato4[] = {"Inflación Mensual", String.valueOf(inf_men * 100)};
+        String dato5[] = {"Inflación Anual", String.valueOf(inf_an * 100)};
+        String dato6[] = {"Ingresos Brutos", String.valueOf(ing_b * 100)};
+        String dato7[] = {"IVA", String.valueOf(iva * 100)};
+        String dato8[] = {"Ganancias", String.valueOf(gan * 100)};
+        String dato9[] = {"Contribuciones patronales", String.valueOf(cont_p * 100)};
+        String dato10[] = {"Obra Social", String.valueOf(ob_s * 100)};
+
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato3);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato4);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato5);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato6);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato7);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato8);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato9);
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato10);
+        Utilidad.Tabla.filas_defecto(tabla_indimpuestos, 10);
+
     }
 
     /**
@@ -149,6 +172,11 @@ public class Impuestos extends javax.swing.JFrame {
         setBackground(new java.awt.Color(240, 255, 255));
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         txtimpuestos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtimpuestos.setForeground(new java.awt.Color(240, 255, 255));
@@ -163,6 +191,11 @@ public class Impuestos extends javax.swing.JFrame {
             }
         ));
         tabla_impuestos.setShowGrid(true);
+        tabla_impuestos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabla_impuestosPropertyChange(evt);
+            }
+        });
         scroll_impuestos.setViewportView(tabla_impuestos);
 
         btn_añadirfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -282,18 +315,28 @@ public class Impuestos extends javax.swing.JFrame {
 
     private void tabla_indimpuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indimpuestosPropertyChange
         // TODO add your handling code here:
-        if (tabla_indimpuestos.getRowCount() > 0) {
+        try {
+            if (tabla_indimpuestos.getRowCount() > 0) {
+                tas_desc = Double.parseDouble((String) tabla_indimpuestos.getValueAt(0, 1)) / 100;
+                tas_int = Double.parseDouble((String) tabla_indimpuestos.getValueAt(1, 1)) / 100;
+                tas_pob = Double.parseDouble((String) tabla_indimpuestos.getValueAt(2, 1)) / 100;
+                inf_men = Double.parseDouble((String) tabla_indimpuestos.getValueAt(3, 1)) / 100;
+                inf_an = Double.parseDouble((String) tabla_indimpuestos.getValueAt(4, 1)) / 100;
+                ing_b = Double.parseDouble((String) tabla_indimpuestos.getValueAt(5, 1)) / 100;
+                iva = Double.parseDouble((String) tabla_indimpuestos.getValueAt(6, 1)) / 100;
+                gan = Double.parseDouble((String) tabla_indimpuestos.getValueAt(7, 1)) / 100;
+                cont_p = Double.parseDouble((String) tabla_indimpuestos.getValueAt(8, 1)) / 100;
+                ob_s = Double.parseDouble((String) tabla_indimpuestos.getValueAt(9, 1)) / 100;
+                ingvsgas.setear_ingvsgas();
+                ingvsgas.setear_ebitda_imp();
+            }
+            if (imp_impuestos == true) {
+                Utilidad.Tabla.exportar(indimpuestos_f, tabla_indimpuestos);
+            }
 
-            tas_desc = Double.parseDouble((String) tabla_indimpuestos.getValueAt(0, 1)) / 100;
-            tas_int = Double.parseDouble((String) tabla_indimpuestos.getValueAt(1, 1)) / 100;
-            tas_pob = Double.parseDouble((String) tabla_indimpuestos.getValueAt(2, 1)) / 100;
-            inf_men = Double.parseDouble((String) tabla_indimpuestos.getValueAt(3, 1)) / 100;
-            inf_an = Double.parseDouble((String) tabla_indimpuestos.getValueAt(4, 1)) / 100;
-            ing_b = Double.parseDouble((String) tabla_indimpuestos.getValueAt(5, 1)) / 100;
-            iva = Double.parseDouble((String) tabla_indimpuestos.getValueAt(6, 1)) / 100;
-            gan = Double.parseDouble((String) tabla_indimpuestos.getValueAt(7, 1)) / 100;
-            cont_p = Double.parseDouble((String) tabla_indimpuestos.getValueAt(8, 1)) / 100;
-            ob_s = Double.parseDouble((String) tabla_indimpuestos.getValueAt(9, 1)) / 100;
+        } catch (Exception e) {
+            System.err.println("Error en tabla_indimpuestosPropertyChange");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_tabla_indimpuestosPropertyChange
 
@@ -315,6 +358,25 @@ public class Impuestos extends javax.swing.JFrame {
             Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
+
+    private void tabla_impuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_impuestosPropertyChange
+        // TODO add your handling code here:
+        try {
+            if (imp_impuestos == true) {
+
+                Utilidad.Tabla.exportar(impuestos_f, tabla_impuestos);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_tabla_impuestosPropertyChange
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        imp_impuestos = true;
+
+    }//GEN-LAST:event_formWindowOpened
 
     public void iva_ventas(ArrayList ing_iva) {
         iva_v.clear();
@@ -353,9 +415,9 @@ public class Impuestos extends javax.swing.JFrame {
 
         if (tabla_impuestos.getRowCount() > 0) {
             Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(0);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(0, EBITDA.arr_ganancias.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(0, ebitda.arr_ganancias.toArray());
         } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ganancias.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(ebitda.arr_ganancias.toArray());
         }
 
     }
@@ -364,9 +426,9 @@ public class Impuestos extends javax.swing.JFrame {
 
         if (tabla_impuestos.getRowCount() > 4) {
             Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(4);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(4, EBITDA.arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(4, ebitda.arr_ing_br.toArray());
         } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(EBITDA.arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(ebitda.arr_ing_br.toArray());
         }
     }
 

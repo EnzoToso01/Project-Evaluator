@@ -227,8 +227,6 @@ public class Empleados extends javax.swing.JFrame {
             importar_emp();
             sueldos.add(calculo_total_sueldos());
         }
-       
-        System.out.println(sueldos);
 
         if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
             //  Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());

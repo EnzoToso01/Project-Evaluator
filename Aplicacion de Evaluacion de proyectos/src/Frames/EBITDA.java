@@ -24,14 +24,12 @@ public class EBITDA extends javax.swing.JFrame {
     /**
      * Creates new form EBITDA
      */
-    private File ebitda = new File("C:\\Project evaluator\\ebitda.txt");
+    private File ebitda_f = new File("C:\\Project evaluator\\ebitda.txt");
     private ArrayList<Double> ingresos = new ArrayList();
     private ArrayList<Double> egresos = new ArrayList();
     private ArrayList arr_ebitda = new ArrayList();
-    public static ArrayList arr_ing_br = new ArrayList();
     private ArrayList arr_iva = new ArrayList();
     private ArrayList arr_intereses = new ArrayList();
-    public static ArrayList arr_ganancias = new ArrayList();
     private ArrayList arr_sub_s_gan = new ArrayList();
     private ArrayList arr_amort = new ArrayList();
     private ArrayList arr_sub_c_amort = new ArrayList();
@@ -39,28 +37,30 @@ public class EBITDA extends javax.swing.JFrame {
     private ArrayList arr_payback = new ArrayList();
     private ArrayList arr_riesgo = new ArrayList();
     private ArrayList arr_r_neto = new ArrayList();
+    public ArrayList arr_ing_br = new ArrayList();
+    public ArrayList arr_ganancias = new ArrayList();
     private Riesgo riesgo;
+    private Impuestos impuestos;
 
     public EBITDA() {
 
     }
 
-    public EBITDA(Riesgo riesgo) {
+    public EBITDA(Riesgo riesgo, Impuestos impuestos) {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
         Color a = new Color(40, 44, 52);
         getContentPane().setBackground(a);
-        this.riesgo = riesgo;
         Color b = new Color(26, 29, 34);
         tabla_EBITDA.getTableHeader().setBackground(b);
+        this.riesgo = riesgo;
+        this.impuestos = impuestos;
     }
 
     /**
      * @param args the command line arguments
      */
-  
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -199,7 +199,7 @@ public class EBITDA extends javax.swing.JFrame {
     }
 
     public File getEbitda() {
-        return ebitda;
+        return ebitda_f;
     }
 
     public JTable getTabla_ebitda() {
@@ -246,7 +246,7 @@ public class EBITDA extends javax.swing.JFrame {
             arr_ing_br.add(0, "Ingresos Brutos");
         }
         for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
-            arr_ing_br.add(ingresos.get(i) * Impuestos.ing_b);
+            arr_ing_br.add(ingresos.get(i) * impuestos.ing_b);
         }
 
         if (tabla_EBITDA.getRowCount() >= 4) {
@@ -264,7 +264,7 @@ public class EBITDA extends javax.swing.JFrame {
             arr_iva.add(0, "IVA");
         }
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            arr_iva.add((double) Impuestos.iva_v.get(i) - (double) Impuestos.iva_c.get(i));
+            arr_iva.add((double) impuestos.iva_v.get(i) - (double) impuestos.iva_c.get(i));
         }
 
         if (tabla_EBITDA.getRowCount() >= 5) {
@@ -353,7 +353,7 @@ public class EBITDA extends javax.swing.JFrame {
         }
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             if ((double) arr_sub_c_amort.get(i) > 0) {
-                arr_ganancias.add((double) arr_sub_c_amort.get(i) * Impuestos.gan);
+                arr_ganancias.add((double) arr_sub_c_amort.get(i) * impuestos.gan);
             } else {
                 arr_ganancias.add(0.0);
             }

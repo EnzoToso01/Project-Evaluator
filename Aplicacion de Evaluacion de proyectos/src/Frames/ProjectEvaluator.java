@@ -45,10 +45,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private IngVsGas ingvsgas;
     private Empleados empleados;
     private Indicadores indicadores;
-    private File directorio;
-    private File nombredelproyecto;
-    private File añosvidaproyecto;
-    private File directorio_ingvsgas;
+    private File directorio_f;
+    private File nombredelproyecto_f;
+    private File añosvidaproyecto_f;
+    private File directorio_ingvsgas_f;
     public static String direccion;
     public static String nombreproyecto_str;
 
@@ -63,12 +63,14 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //crea los objetos de los demas jframes
         credito = new Credito();
         riesgo = new Riesgo();
-        ebitda = new EBITDA(riesgo);
         impuestos = new Impuestos();
+        ebitda = new EBITDA(riesgo, impuestos);
+        impuestos.setEBITDA(ebitda);
         ingvsgas = new IngVsGas(ebitda, impuestos);
+         impuestos.setIngVsGas(ingvsgas);
         empleados = new Empleados(ingvsgas);
         indicadores = new Indicadores(ebitda, ingvsgas);
-        añosvidaproyecto = new File("C:\\Project evaluator\\Longevidad del proyecto.txt");
+        añosvidaproyecto_f = new File("C:\\Project evaluator\\Longevidad del proyecto.txt");
 
     }
 
@@ -687,7 +689,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
         if (!nombreproyecto_str.equals("")) {
             //inicializa ingvsgas
-            setear_ingvsgas();
+            ingvsgas.setear_ingvsgas();
+            //Realiza los valores para ebitda e impuestos
+            ingvsgas.setear_ebitda_imp();
             //importa el jtextfield
             IngVsGas.inversion = new File(ProjectEvaluator.direccion + "IngVsGas\\inversion.txt");
             Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
@@ -714,7 +718,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_indicadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_indicadoresMouseClicked
         // TODO add your handling code here:
-
+        //Inicializa la ventana indicadores
         if (!nombreproyecto_str.equals("")) {
 
             ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
@@ -722,7 +726,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             Utilidad.Tabla.inicializar(indicadores.getTabla_indicadores());
             Utilidad.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
             //inicializa ingvsgas
-            setear_ingvsgas();
+            ingvsgas.setear_ingvsgas();
             //setea ebitda
             ingvsgas.setear_ebitda_imp();
             //inicializa indicadores
@@ -770,49 +774,19 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_indicadoresActionPerformed
 
-    private void setear_ingvsgas() {
-
-        //para inicializar ingvsgas
-        ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
-        ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
-
-        //inicializa ing y eg
-        Utilidad.Tabla.inicializar(ingvsgas.getTabla_ingresos());
-        Utilidad.Tabla.inicializar(ingvsgas.getTabla_egresos());
-
-        //imp ing eg con iva
-        ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
-        ingvsgas.getjComboBoxivaeg().setSelectedItem("Con IVA");
-        ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
-        ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
-
-        //imp ing y eg
-        ingvsgas.getjComboBoxivaing().setSelectedItem("Sin IVA");
-        ingvsgas.getjComboBoxivaeg().setSelectedItem("Sin IVA");
-
-        //actualiza totales        
-        ingvsgas.calculo_total_ing(ingvsgas.getTabla_ingresos());
-        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
-        import_ingeg = true;
-
-        Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 30);
-        Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 30);
-
-    }
+   
 
     private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
 
         // TODO add your handling code here:
+        //Inicializa la ventana de EBITDA
         if (!nombreproyecto_str.equals("")) {
-
             //inicializa datos Ebitda y imp
             Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
             Utilidad.Tabla.inicializar(ebitda.getTabla_ebitda());
             Utilidad.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
-
             //inicializa ingvsgas
-            setear_ingvsgas();
-
+            ingvsgas.setear_ingvsgas();
             try {
                 Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
                 ingvsgas.setear_ebitda_imp();
@@ -822,7 +796,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
         }
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
@@ -847,13 +820,12 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_empleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_empleadosMouseClicked
         // TODO add your handling code here:
+        //Inicializa la ventana de Empleados
         if (!nombreproyecto_str.equals("")) {
-
             Utilidad.Tabla.get_modelo(empleados.getTabla_tasas()).setRowCount(0);
             Empleados.tasas = new File(ProjectEvaluator.direccion + "\\Sueldos\\tasas.txt");;
             Utilidad.Tabla.importar(Empleados.tasas, empleados.getTabla_tasas());
             Utilidad.Tabla.filas_defecto(empleados.getTabla_tasas(), 1);
-
             empleados.inicializar_combo();
             empleados.importar_emp();
             empleados.setImp_sueldos(true);
@@ -869,7 +841,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             empleados.total_desc();
             empleados.total_neto();
             empleados.getJtf_total_sueldos().setText(String.valueOf(empleados.calculo_total_sueldos()));
-            // empleados.arr_sueldos();
+            empleados.arr_sueldos();
             Utilidad.Tabla.filas_defecto(empleados.getTabla_sueldos(), 70);
             empleados.setVisible(true);
         } else {
@@ -898,13 +870,17 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void btn_impuestosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_impuestosMouseClicked
         // TODO add your handling code here:
+        //Inicializa la ventana de impuestos
         if (!nombreproyecto_str.equals("")) {
 
             Utilidad.Tabla.inicializar(impuestos.getTabla_impuestos());
-            Utilidad.Tabla.importar(impuestos.getImpuestos(), impuestos.getTabla_impuestos());
-            Utilidad.Tabla.importar(impuestos.getIndimpuestos(), impuestos.getTabla_indimpuestos());
+            impuestos.setImpuestos(direccion + "\\Impuestos\\impuestos.txt");
+            impuestos.setIndimpuestos(direccion + "\\Impuestos\\indicadores impuestos.txt");
+            Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_impuestos());
+            Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_indimpuestos());
             //añade filas por defecto si no hay ninguna en la tabla
-            impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos(), impuestos.getTabla_indimpuestos());
+            impuestos.filas_datos_impuestos(impuestos.getTabla_impuestos());
+            impuestos.filas_datos_indimpuestos(impuestos.getTabla_indimpuestos());
             impuestos.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -1029,11 +1005,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     }//GEN-LAST:event_panel_creditoMouseExited
 
     private void importar_longev() {
-        Utilidad.JtextField.importar_jtf(añosvidaproyecto, jtf_añosvida);
+        Utilidad.JtextField.importar_jtf(añosvidaproyecto_f, jtf_añosvida);
     }
 
     private void importar_nombreproyecto() {
-        Utilidad.JtextField.importar_jtf(nombredelproyecto, jtf_nombreproyecto);
+        Utilidad.JtextField.importar_jtf(nombredelproyecto_f, jtf_nombreproyecto);
     }
 
 
@@ -1043,7 +1019,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         try {
             longevidad = Integer.parseInt(jtf_añosvida.getText());
             if (longevidad > 0) {
-                Utilidad.JtextField.exportar_jtf(añosvidaproyecto, jtf_añosvida);
+                Utilidad.JtextField.exportar_jtf(añosvidaproyecto_f, jtf_añosvida);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
 
@@ -1164,10 +1140,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
                 nombreproyecto_str = jtf_nombreproyecto.getText();
                 direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
-                directorio = new File(direccion);
-                directorio.mkdirs();
-                nombredelproyecto = new File(direccion + "Nombre del proyecto.txt");
-                Utilidad.JtextField.exportar_jtf(nombredelproyecto, jtf_nombreproyecto);
+                directorio_f = new File(direccion);
+                directorio_f.mkdirs();
+                nombredelproyecto_f = new File(direccion + "Nombre del proyecto.txt");
+                Utilidad.JtextField.exportar_jtf(nombredelproyecto_f, jtf_nombreproyecto);
 
             } else {
                 jtf_nombreproyecto.setText(" Ingrese el nombre de su proyecto...");

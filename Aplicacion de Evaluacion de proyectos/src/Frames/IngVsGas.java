@@ -6,6 +6,7 @@
 package Frames;
 
 import Clases.Utilidad;
+import static Frames.ProjectEvaluator.import_ingeg;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -301,9 +302,39 @@ public class IngVsGas extends javax.swing.JFrame {
 
     }
 
+    public void setear_ingvsgas() {
+        //Realiza o establece todos los valores para ingvsgas
+        //para inicializar ingvsgas
+        ((DefaultTableModel) getTabla_ingresos().getModel()).setRowCount(0);
+        ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
+
+        //inicializa ing y eg
+        Utilidad.Tabla.inicializar(getTabla_ingresos());
+        Utilidad.Tabla.inicializar(getTabla_egresos());
+
+        //imp ing eg con iva
+        getjComboBoxivaing().setSelectedItem("Con IVA");
+        getjComboBoxivaeg().setSelectedItem("Con IVA");
+        ((DefaultTableModel) getTabla_ingresos().getModel()).setRowCount(0);
+        ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
+
+        //imp ing y eg
+        getjComboBoxivaing().setSelectedItem("Sin IVA");
+        getjComboBoxivaeg().setSelectedItem("Sin IVA");
+
+        //actualiza totales        
+        calculo_total_ing(getTabla_ingresos());
+        calculo_total_eg(getTabla_egresos());
+        import_ingeg = true;
+
+        Utilidad.Tabla.filas_defecto(getTabla_ingresos(), 30);
+        Utilidad.Tabla.filas_defecto(getTabla_egresos(), 30);
+
+    }
+
     public void setear_ebitda_imp() {
 
-        //setea datos de Ebitda    
+        //setea datos de Ebitda e impuestos   
         Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
         ebitda.setIngresos(suma_totales_ing);
         ebitda.setEgresos(suma_totales_eg);
