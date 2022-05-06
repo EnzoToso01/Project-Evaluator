@@ -6,7 +6,9 @@
 package Frames;
 
 import Clases.Utilidad;
+import static Frames.ProjectEvaluator.direccion;
 import static Frames.ProjectEvaluator.import_ingeg;
+import static Frames.ProjectEvaluator.nombreproyecto_str;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,6 +44,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
@@ -164,6 +167,14 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public ArrayList<Double> getTotal_eg_iva() {
         return total_eg_iva;
+    }
+
+    public JLabel getTxtegresos() {
+        return txtegresos;
+    }
+
+    public JLabel getTxtingresos() {
+        return txtingresos;
     }
 
     public ArrayList calculo_datos(JTable tabla) {
@@ -327,8 +338,8 @@ public class IngVsGas extends javax.swing.JFrame {
         calculo_total_eg(getTabla_egresos());
         import_ingeg = true;
 
-        Utilidad.Tabla.filas_defecto(getTabla_ingresos(), 30);
-        Utilidad.Tabla.filas_defecto(getTabla_egresos(), 30);
+        Utilidad.Tabla.filas_defecto(getTabla_ingresos(), 11);
+        Utilidad.Tabla.filas_defecto(getTabla_egresos(), 11);
 
     }
 
@@ -381,14 +392,14 @@ public class IngVsGas extends javax.swing.JFrame {
         tabla_ingresos = new javax.swing.JTable();
         scroll_egresos = new javax.swing.JScrollPane();
         tabla_egresos = new javax.swing.JTable();
-        btn_añadirfila_ing = new javax.swing.JButton();
-        btn_quitarfila_ing = new javax.swing.JButton();
-        btn_añadirfila_eg = new javax.swing.JButton();
-        btn_quitarfila_eg = new javax.swing.JButton();
         jComboBoxivaing = new javax.swing.JComboBox<>();
         jComboBoxivaeg = new javax.swing.JComboBox<>();
         txtinv = new javax.swing.JLabel();
         jtf_inv = new javax.swing.JTextField();
+        btn_añadirfila_ing = new javax.swing.JButton();
+        btn_quitarfila_ing = new javax.swing.JButton();
+        btn_añadirfila_eg = new javax.swing.JButton();
+        btn_quitarfila_eg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IngVsGas");
@@ -405,11 +416,11 @@ public class IngVsGas extends javax.swing.JFrame {
 
         txtingresos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtingresos.setForeground(new java.awt.Color(240, 255, 255));
-        txtingresos.setText("Ingresos del Proyecto");
+        txtingresos.setText("Ingresos");
 
         txtegresos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         txtegresos.setForeground(new java.awt.Color(240, 255, 255));
-        txtegresos.setText("Egresos del Proyecto");
+        txtegresos.setText("Egresos");
 
         tabla_ingresos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -447,38 +458,6 @@ public class IngVsGas extends javax.swing.JFrame {
         });
         scroll_egresos.setViewportView(tabla_egresos);
 
-        btn_añadirfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_ing.setText("añadir fila");
-        btn_añadirfila_ing.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_añadirfila_ingActionPerformed(evt);
-            }
-        });
-
-        btn_quitarfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_ing.setText("quitar fila");
-        btn_quitarfila_ing.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_quitarfila_ingActionPerformed(evt);
-            }
-        });
-
-        btn_añadirfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_eg.setText("añadir fila");
-        btn_añadirfila_eg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_añadirfila_egActionPerformed(evt);
-            }
-        });
-
-        btn_quitarfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_eg.setText("quitar fila");
-        btn_quitarfila_eg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_quitarfila_egActionPerformed(evt);
-            }
-        });
-
         jComboBoxivaing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jComboBoxivaing.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin IVA", "Con IVA" }));
         jComboBoxivaing.addItemListener(new java.awt.event.ItemListener() {
@@ -513,75 +492,111 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         });
 
+        btn_añadirfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_añadirfila_ing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_ing.setAutoscrolls(true);
+        btn_añadirfila_ing.setDefaultCapable(false);
+        btn_añadirfila_ing.setFocusable(false);
+        btn_añadirfila_ing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirfila_ingActionPerformed(evt);
+            }
+        });
+
+        btn_quitarfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_quitarfila_ing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_ing.setDefaultCapable(false);
+        btn_quitarfila_ing.setFocusable(false);
+        btn_quitarfila_ing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarfila_ingActionPerformed(evt);
+            }
+        });
+
+        btn_añadirfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_añadirfila_eg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_eg.setAutoscrolls(true);
+        btn_añadirfila_eg.setDefaultCapable(false);
+        btn_añadirfila_eg.setFocusable(false);
+        btn_añadirfila_eg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirfila_egActionPerformed(evt);
+            }
+        });
+
+        btn_quitarfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_quitarfila_eg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_eg.setDefaultCapable(false);
+        btn_quitarfila_eg.setFocusable(false);
+        btn_quitarfila_eg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarfila_egActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(scroll_egresos)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtegresos, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(136, 136, 136)
-                                .addComponent(btn_añadirfila_eg)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_quitarfila_eg)
-                                .addGap(196, 196, 196))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtingresos, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxivaing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136)
-                        .addComponent(btn_añadirfila_ing)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_quitarfila_ing)
-                        .addGap(198, 198, 198)))
-                .addGap(17, 17, 17))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scroll_ingresos)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtingresos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(331, 561, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtinv)
-                            .addComponent(jtf_inv, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(scroll_ingresos)
+                            .addComponent(scroll_egresos)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtegresos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_añadirfila_eg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_quitarfila_eg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_inv, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtinv))
+                                .addGap(378, 378, 378)
+                                .addComponent(jComboBoxivaing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_añadirfila_ing, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_quitarfila_ing, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(16, 16, 16)
+                .addComponent(txtingresos)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_añadirfila_ing)
-                            .addComponent(btn_quitarfila_ing)
-                            .addComponent(jComboBoxivaing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtingresos, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtinv)
-                        .addGap(1, 1, 1)
-                        .addComponent(jtf_inv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(scroll_ingresos, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtegresos, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_añadirfila_eg)
-                    .addComponent(btn_quitarfila_eg))
+                        .addGap(4, 4, 4)
+                        .addComponent(jtf_inv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jComboBoxivaing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_añadirfila_ing)
+                            .addComponent(btn_quitarfila_ing, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll_egresos, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(scroll_ingresos, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_añadirfila_eg)
+                        .addComponent(btn_quitarfila_eg, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtegresos)
+                        .addComponent(jComboBoxivaeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scroll_egresos, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -595,61 +610,19 @@ public class IngVsGas extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
 
-    private void btn_añadirfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ingActionPerformed
-        // TODO add your handling code here
-        //Añade filas a ingresos
-        Vector<?> rowData = null;
-        Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, rowData);
-
-    }//GEN-LAST:event_btn_añadirfila_ingActionPerformed
-
-    private void btn_quitarfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ingActionPerformed
-        // TODO add your handling code here:
-        //Quita filas a ingresos (se quita la ultima por defecto)
-
-        if (tabla_ingresos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
-            } while (tabla_ingresos.getSelectedRowCount() >= 1);
-
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(0);
-        }
-    }//GEN-LAST:event_btn_quitarfila_ingActionPerformed
-
-    private void btn_añadirfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_egActionPerformed
-        // TODO add your handling code here:   
-        Vector<?> rowData = null;
-        Utilidad.Tabla.get_modelo(tabla_egresos).insertRow(0, rowData);
-    }//GEN-LAST:event_btn_añadirfila_egActionPerformed
-
-    private void btn_quitarfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_egActionPerformed
-        // TODO add your handling code here:
-
-        if (tabla_egresos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
-            } while (tabla_egresos.getSelectedRowCount() >= 1);
-
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(0);
-        }
-    }//GEN-LAST:event_btn_quitarfila_egActionPerformed
-
-
     private void jComboBoxivaingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxivaingItemStateChanged
         // TODO add your handling code here:
         Utilidad.Tabla.get_modelo(tabla_ingresos).setRowCount(0);
         //importa la nueva tabla
-        if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
-            ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
+        if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {       
+            ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");   
             Utilidad.Tabla.importar(ingresos, tabla_ingresos);
         } else {
             ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
             Utilidad.Tabla.importar(ingresosiva, tabla_ingresos);
 
         }
-        Utilidad.Tabla.filas_defecto(tabla_ingresos, 30);
+        Utilidad.Tabla.filas_defecto(tabla_ingresos, 11);
 
         calculo_total_ing(tabla_ingresos);
 
@@ -667,7 +640,7 @@ public class IngVsGas extends javax.swing.JFrame {
             egresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos (IVA).txt");
             Utilidad.Tabla.importar(egresosiva, tabla_egresos);
         }
-        Utilidad.Tabla.filas_defecto(tabla_egresos, 30);
+        Utilidad.Tabla.filas_defecto(tabla_egresos, 11);
 
         calculo_total_eg(tabla_egresos);
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
@@ -676,17 +649,24 @@ public class IngVsGas extends javax.swing.JFrame {
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio 
-        if (ProjectEvaluator.import_ingeg == true) {
-            if (jComboBoxivaing.getSelectedIndex() == 0) {
-                ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
-                Utilidad.Tabla.exportar(ingresos, tabla_ingresos);
+        try {
+            if (ProjectEvaluator.import_ingeg == true) {
+                if (jComboBoxivaing.getSelectedIndex() == 0) {
+                    direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                    ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
+                    Utilidad.Tabla.exportar(ingresos, tabla_ingresos);
 
-            } else {
-                ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
-                Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
+                } else {
+                    direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                    ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
+                    Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
+                }
+                calculo_total_ing(tabla_ingresos);
+                setear_ebitda_imp();
             }
-            calculo_total_ing(tabla_ingresos);
-            setear_ebitda_imp();
+        } catch (Exception e) {
+            System.err.println("Error en tabla_ingresosPropertyChange,IngVsGas");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -694,29 +674,36 @@ public class IngVsGas extends javax.swing.JFrame {
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
         // TODO add your handling code here:
         //guarda al realizar cualquier cambio
-        if (ProjectEvaluator.import_ingeg == true) {
-            if (jComboBoxivaeg.getSelectedIndex() == 0) {
-                egresos = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos.txt");
-                Utilidad.Tabla.exportar(egresos, tabla_egresos);
-            } else {
-                egresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos (IVA).txt");
-                Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
+        try {
+            if (ProjectEvaluator.import_ingeg == true) {
+                if (jComboBoxivaeg.getSelectedIndex() == 0) {
+                 
+                    egresos = new File("C:\\Project evaluator\\" + nombreproyecto_str + "\\IngVsGas\\egresos.txt");
+                    Utilidad.Tabla.exportar(egresos, tabla_egresos);
+                } else {
+                    direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                    egresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos (IVA).txt");
+                    Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
+                }
+                calculo_total_eg(tabla_egresos);
+                setear_ebitda_imp();
             }
-            calculo_total_eg(tabla_egresos);
-            setear_ebitda_imp();
+
+        } catch (Exception e) {
+            System.err.println("Error en tabla_egresosPropertyChange,IngVsGas");
+            e.printStackTrace();
         }
+
+
     }//GEN-LAST:event_tabla_egresosPropertyChange
+
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        // TODO adding
-        /*  calculo_total_ing(tabla_ingresos);
-        calculo_total_eg(tabla_egresos);
-        ebitda.setIngresos(suma_totales_ing);
-        ebitda.setEgresos(suma_totales_eg); */
-        directorio = new File(ProjectEvaluator.direccion + "\\IngVsGas");
+        direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+        directorio = new File(direccion + "\\IngVsGas\\");
         directorio.mkdirs();
-
+        setear_ingvsgas();
 
     }//GEN-LAST:event_formWindowOpened
 
@@ -730,6 +717,44 @@ public class IngVsGas extends javax.swing.JFrame {
     private void jtf_invPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_invPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_invPropertyChange
+
+    private void btn_añadirfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ingActionPerformed
+        // TODO add your handling code here
+        //Añade filas a ing
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, rowData);
+    }//GEN-LAST:event_btn_añadirfila_ingActionPerformed
+
+    private void btn_quitarfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ingActionPerformed
+        // TODO add your handling code here:
+        //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
+        if (tabla_ingresos.getSelectedRowCount() >= 1) {
+            do {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
+            } while (tabla_ingresos.getSelectedRowCount() >= 1);
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(0);
+        }
+    }//GEN-LAST:event_btn_quitarfila_ingActionPerformed
+
+    private void btn_añadirfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_egActionPerformed
+        // TODO add your handling code here:
+        //Añade filas a ing
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_egresos).insertRow(0, rowData);
+    }//GEN-LAST:event_btn_añadirfila_egActionPerformed
+
+    private void btn_quitarfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_egActionPerformed
+        // TODO add your handling code here:
+        //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
+        if (tabla_egresos.getSelectedRowCount() >= 1) {
+            do {
+                Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
+            } while (tabla_egresos.getSelectedRowCount() >= 1);
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(0);
+        }
+    }//GEN-LAST:event_btn_quitarfila_egActionPerformed
 
     /**
      * @param args the command line arguments

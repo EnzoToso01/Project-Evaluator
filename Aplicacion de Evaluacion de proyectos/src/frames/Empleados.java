@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -97,6 +98,12 @@ public class Empleados extends javax.swing.JFrame {
         return combo_años;
     }
 
+    public JLabel getTxtsueldos() {
+        return txtsueldos;
+    }
+
+    
+    
     public void importar_emp() {
         Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
         //importa la tabla correspondiente al combo
@@ -253,10 +260,10 @@ public class Empleados extends javax.swing.JFrame {
         jtf_total_sueldos = new javax.swing.JTextField();
         txttotalsueldos = new javax.swing.JLabel();
         combo_años = new javax.swing.JComboBox<>();
-        btn_añadirfila_emp = new javax.swing.JButton();
-        btn_quitarfila_emp = new javax.swing.JButton();
         scroll_tasas = new javax.swing.JScrollPane();
         tabla_tasas = new javax.swing.JTable();
+        btn_añadirfila_sueld = new javax.swing.JButton();
+        btn_quitarfila_sueld = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Empleados");
@@ -339,22 +346,6 @@ public class Empleados extends javax.swing.JFrame {
             }
         });
 
-        btn_añadirfila_emp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_emp.setText("añadir fila");
-        btn_añadirfila_emp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_añadirfila_empActionPerformed(evt);
-            }
-        });
-
-        btn_quitarfila_emp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_emp.setText("quitar fila");
-        btn_quitarfila_emp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_quitarfila_empActionPerformed(evt);
-            }
-        });
-
         tabla_tasas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -375,50 +366,69 @@ public class Empleados extends javax.swing.JFrame {
         });
         scroll_tasas.setViewportView(tabla_tasas);
 
+        btn_añadirfila_sueld.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_añadirfila_sueld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_sueld.setAutoscrolls(true);
+        btn_añadirfila_sueld.setDefaultCapable(false);
+        btn_añadirfila_sueld.setFocusable(false);
+        btn_añadirfila_sueld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirfila_sueldActionPerformed(evt);
+            }
+        });
+
+        btn_quitarfila_sueld.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_quitarfila_sueld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_sueld.setDefaultCapable(false);
+        btn_quitarfila_sueld.setFocusable(false);
+        btn_quitarfila_sueld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarfila_sueldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(scroll_sueldos)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(txtsueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addComponent(txtsueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(149, 149, 149)
                 .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txttotalsueldos, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txttotalsueldos, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
-                        .addGap(28, 28, 28)
-                        .addComponent(btn_añadirfila_emp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_quitarfila_emp)
-                        .addGap(227, 227, 227))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_añadirfila_sueld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_quitarfila_sueld, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scroll_sueldos))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(txttotalsueldos)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_añadirfila_emp)
-                        .addComponent(btn_quitarfila_emp))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtsueldos)))
-                .addGap(40, 40, 40)
-                .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtf_total_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combo_años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtsueldos))
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scroll_tasas, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_añadirfila_sueld)
+                        .addComponent(btn_quitarfila_sueld, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addGap(18, 18, 18)
                 .addComponent(scroll_sueldos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -432,28 +442,6 @@ public class Empleados extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_combo_añosActionPerformed
-
-    private void btn_añadirfila_empActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_empActionPerformed
-        // TODO add your handling code here
-        //Añade filas a imp
-
-        Vector<?> rowData = null;
-        Utilidad.Tabla.get_modelo(tabla_sueldos).addRow(rowData);
-    }//GEN-LAST:event_btn_añadirfila_empActionPerformed
-
-    private void btn_quitarfila_empActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_empActionPerformed
-        // TODO add your handling code here:
-        //Quita filas a imp, si no se selecciona una fila,se elimina la ultima
-
-        if (tabla_sueldos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
-            } while (tabla_sueldos.getSelectedRowCount() >= 1);
-
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
-        }
-    }//GEN-LAST:event_btn_quitarfila_empActionPerformed
 
     private void combo_añosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combo_añosMouseClicked
         // TODO add your handling code here:
@@ -546,6 +534,25 @@ public class Empleados extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jtf_total_sueldosPropertyChange
 
+    private void btn_añadirfila_sueldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_sueldActionPerformed
+        // TODO add your handling code here
+        //Añade filas a cred
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_sueldos).addRow(rowData);
+    }//GEN-LAST:event_btn_añadirfila_sueldActionPerformed
+
+    private void btn_quitarfila_sueldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_sueldActionPerformed
+        // TODO add your handling code here:
+        //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
+        if (tabla_sueldos.getSelectedRowCount() >= 1) {
+            do {
+                Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
+            } while (tabla_sueldos.getSelectedRowCount() >= 1);
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
+        }
+    }//GEN-LAST:event_btn_quitarfila_sueldActionPerformed
+
     public void inicializar_combo() {
 
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
@@ -562,8 +569,8 @@ public class Empleados extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_añadirfila_emp;
-    private javax.swing.JButton btn_quitarfila_emp;
+    private javax.swing.JButton btn_añadirfila_sueld;
+    private javax.swing.JButton btn_quitarfila_sueld;
     private javax.swing.JComboBox<String> combo_años;
     private javax.swing.JTextField jtf_total_sueldos;
     private javax.swing.JScrollPane scroll_sueldos;

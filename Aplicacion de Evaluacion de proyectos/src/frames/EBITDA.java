@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -73,8 +74,8 @@ public class EBITDA extends javax.swing.JFrame {
         txtebitda = new javax.swing.JLabel();
         scroll_ebitda = new javax.swing.JScrollPane();
         tabla_EBITDA = new javax.swing.JTable();
-        btn_añadirfila_ebi = new javax.swing.JButton();
-        btn_quitarfila_ebi = new javax.swing.JButton();
+        btn_añadirfila_ebitda = new javax.swing.JButton();
+        btn_quitarfila_ebitda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EBITDA");
@@ -117,19 +118,24 @@ public class EBITDA extends javax.swing.JFrame {
         });
         scroll_ebitda.setViewportView(tabla_EBITDA);
 
-        btn_añadirfila_ebi.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_ebi.setText("añadir fila");
-        btn_añadirfila_ebi.addActionListener(new java.awt.event.ActionListener() {
+        btn_añadirfila_ebitda.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_añadirfila_ebitda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_ebitda.setAutoscrolls(true);
+        btn_añadirfila_ebitda.setDefaultCapable(false);
+        btn_añadirfila_ebitda.setFocusable(false);
+        btn_añadirfila_ebitda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_añadirfila_ebiActionPerformed(evt);
+                btn_añadirfila_ebitdaActionPerformed(evt);
             }
         });
 
-        btn_quitarfila_ebi.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_ebi.setText("quitar fila");
-        btn_quitarfila_ebi.addActionListener(new java.awt.event.ActionListener() {
+        btn_quitarfila_ebitda.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_quitarfila_ebitda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_ebitda.setDefaultCapable(false);
+        btn_quitarfila_ebitda.setFocusable(false);
+        btn_quitarfila_ebitda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_quitarfila_ebiActionPerformed(evt);
+                btn_quitarfila_ebitdaActionPerformed(evt);
             }
         });
 
@@ -137,27 +143,27 @@ public class EBITDA extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(txtebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(312, 312, 312)
-                .addComponent(btn_añadirfila_ebi)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_quitarfila_ebi)
-                .addContainerGap(167, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(scroll_ebitda)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_añadirfila_ebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_quitarfila_ebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scroll_ebitda, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtebitda, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_añadirfila_ebi)
-                    .addComponent(btn_quitarfila_ebi))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_añadirfila_ebitda)
+                        .addComponent(btn_quitarfila_ebitda, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(txtebitda))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scroll_ebitda, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
@@ -214,6 +220,12 @@ public class EBITDA extends javax.swing.JFrame {
         return arr_r_neto;
     }
 
+    public JLabel getTxtebitda() {
+        return txtebitda;
+    }
+
+    
+    
     public void calculo_ebitda() {
         try {
             arr_ebitda.clear();
@@ -454,26 +466,6 @@ public class EBITDA extends javax.swing.JFrame {
     }
 
 
-    private void btn_añadirfila_ebiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ebiActionPerformed
-        // TODO add your handling code here
-        //Añade filas a ebitda
-        Vector<?> rowData = null;
-        Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(rowData);
-    }//GEN-LAST:event_btn_añadirfila_ebiActionPerformed
-
-    private void btn_quitarfila_ebiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ebiActionPerformed
-        // TODO add your handling code here:
-        //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-
-        if (tabla_EBITDA.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
-            } while (tabla_EBITDA.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
-        }
-    }//GEN-LAST:event_btn_quitarfila_ebiActionPerformed
-
     private void tabla_EBITDAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabla_EBITDAFocusGained
         // TODO add your handling code here:
 
@@ -497,10 +489,29 @@ public class EBITDA extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formMouseMoved
 
+    private void btn_añadirfila_ebitdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ebitdaActionPerformed
+        // TODO add your handling code here
+        //Añade filas a cred
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(rowData);
+    }//GEN-LAST:event_btn_añadirfila_ebitdaActionPerformed
+
+    private void btn_quitarfila_ebitdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ebitdaActionPerformed
+        // TODO add your handling code here:
+        //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
+        if (tabla_EBITDA.getSelectedRowCount() >= 1) {
+            do {
+                Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
+            } while (tabla_EBITDA.getSelectedRowCount() >= 1);
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
+        }
+    }//GEN-LAST:event_btn_quitarfila_ebitdaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_añadirfila_ebi;
-    private javax.swing.JButton btn_quitarfila_ebi;
+    private javax.swing.JButton btn_añadirfila_ebitda;
+    private javax.swing.JButton btn_quitarfila_ebitda;
     private javax.swing.JScrollPane scroll_ebitda;
     private javax.swing.JTable tabla_EBITDA;
     private javax.swing.JLabel txtebitda;

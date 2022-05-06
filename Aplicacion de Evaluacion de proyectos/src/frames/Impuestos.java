@@ -19,6 +19,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -97,6 +98,15 @@ public class Impuestos extends javax.swing.JFrame {
         this.ingvsgas = ingvsgas;
     }
 
+    public JLabel getTxtimpuestos() {
+        return txtimpuestos;
+    }
+
+    public JLabel getTxttasasimpuestos() {
+        return txttasasimpuestos;
+    }
+
+    
     public void filas_datos_impuestos(JTable tablaimp) {
         //Resetea e inicializa los datos de la tabla impuestos
         Utilidad.Tabla.get_modelo(tablaimp).setRowCount(0);
@@ -157,13 +167,14 @@ public class Impuestos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtimpuestos = new javax.swing.JLabel();
+        txttasasimpuestos = new javax.swing.JLabel();
         scroll_impuestos = new javax.swing.JScrollPane();
         tabla_impuestos = new javax.swing.JTable();
-        btn_añadirfila_imp = new javax.swing.JButton();
-        btn_quitarfila_imp = new javax.swing.JButton();
         scroll_indimpuestos = new javax.swing.JScrollPane();
         tabla_indimpuestos = new javax.swing.JTable();
+        txtimpuestos = new javax.swing.JLabel();
+        btn_añadirfila_imp = new javax.swing.JButton();
+        btn_quitarfila_imp = new javax.swing.JButton();
         btn_añadirfila_indimp = new javax.swing.JButton();
         btn_quitarfila_indimp = new javax.swing.JButton();
 
@@ -178,9 +189,9 @@ public class Impuestos extends javax.swing.JFrame {
             }
         });
 
-        txtimpuestos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
-        txtimpuestos.setForeground(new java.awt.Color(240, 255, 255));
-        txtimpuestos.setText("Impuestos");
+        txttasasimpuestos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        txttasasimpuestos.setForeground(new java.awt.Color(240, 255, 255));
+        txttasasimpuestos.setText("Tasas de impuestos");
 
         tabla_impuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -198,22 +209,6 @@ public class Impuestos extends javax.swing.JFrame {
         });
         scroll_impuestos.setViewportView(tabla_impuestos);
 
-        btn_añadirfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_imp.setText("añadir fila");
-        btn_añadirfila_imp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_añadirfila_impActionPerformed(evt);
-            }
-        });
-
-        btn_quitarfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_imp.setText("quitar fila");
-        btn_quitarfila_imp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_quitarfila_impActionPerformed(evt);
-            }
-        });
-
         tabla_indimpuestos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -230,8 +225,36 @@ public class Impuestos extends javax.swing.JFrame {
         });
         scroll_indimpuestos.setViewportView(tabla_indimpuestos);
 
+        txtimpuestos.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
+        txtimpuestos.setForeground(new java.awt.Color(240, 255, 255));
+        txtimpuestos.setText("Impuestos");
+
+        btn_añadirfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_añadirfila_imp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_imp.setAutoscrolls(true);
+        btn_añadirfila_imp.setDefaultCapable(false);
+        btn_añadirfila_imp.setFocusable(false);
+        btn_añadirfila_imp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirfila_impActionPerformed(evt);
+            }
+        });
+
+        btn_quitarfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_quitarfila_imp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_imp.setDefaultCapable(false);
+        btn_quitarfila_imp.setFocusable(false);
+        btn_quitarfila_imp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarfila_impActionPerformed(evt);
+            }
+        });
+
         btn_añadirfila_indimp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_indimp.setText("añadir fila");
+        btn_añadirfila_indimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_indimp.setAutoscrolls(true);
+        btn_añadirfila_indimp.setDefaultCapable(false);
+        btn_añadirfila_indimp.setFocusable(false);
         btn_añadirfila_indimp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_añadirfila_indimpActionPerformed(evt);
@@ -239,7 +262,9 @@ public class Impuestos extends javax.swing.JFrame {
         });
 
         btn_quitarfila_indimp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_indimp.setText("quitar fila");
+        btn_quitarfila_indimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_indimp.setDefaultCapable(false);
+        btn_quitarfila_indimp.setFocusable(false);
         btn_quitarfila_indimp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_quitarfila_indimpActionPerformed(evt);
@@ -250,68 +275,52 @@ public class Impuestos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtimpuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(436, 436, 436)
-                        .addComponent(btn_añadirfila_imp)
+                        .addComponent(txtimpuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
+                        .addComponent(btn_añadirfila_imp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_quitarfila_imp)
-                        .addGap(0, 161, Short.MAX_VALUE))
+                        .addComponent(btn_quitarfila_imp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txttasasimpuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_añadirfila_indimp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_quitarfila_indimp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(scroll_indimpuestos)
                     .addComponent(scroll_impuestos))
                 .addGap(17, 17, 17))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_añadirfila_indimp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_quitarfila_indimp)
-                .addGap(173, 173, 173))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_añadirfila_imp)
-                    .addComponent(btn_quitarfila_imp)
-                    .addComponent(txtimpuestos))
-                .addGap(19, 19, 19)
-                .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_añadirfila_indimp)
-                    .addComponent(btn_quitarfila_indimp))
-                .addGap(18, 18, 18)
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtimpuestos)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_añadirfila_imp)
+                        .addComponent(btn_quitarfila_imp, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_añadirfila_indimp)
+                            .addComponent(btn_quitarfila_indimp, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txttasasimpuestos)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scroll_indimpuestos, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_añadirfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_impActionPerformed
-        // TODO add your handling code here
-        //Añade filas a imp  
-        Vector<?> rowData = null;
-        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(rowData);
-    }//GEN-LAST:event_btn_añadirfila_impActionPerformed
-
-    private void btn_quitarfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_impActionPerformed
-        // TODO add your handling code here:
-        //Quita filas a imp, si no se selecciona una fila,se elimina la ultima
-
-        if (tabla_impuestos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
-            } while (tabla_impuestos.getSelectedRowCount() >= 1);
-
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
-        }
-    }//GEN-LAST:event_btn_quitarfila_impActionPerformed
 
     private void tabla_indimpuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indimpuestosPropertyChange
         // TODO add your handling code here:
@@ -340,25 +349,6 @@ public class Impuestos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabla_indimpuestosPropertyChange
 
-    private void btn_añadirfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_indimpActionPerformed
-        // TODO add your handling code here:
-        //Añade filas a imp
-        Vector<?> rowData = null;
-        Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(rowData);
-    }//GEN-LAST:event_btn_añadirfila_indimpActionPerformed
-
-    private void btn_quitarfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indimpActionPerformed
-        // TODO add your handling code here:
-        if (tabla_indimpuestos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getSelectedRow());
-            } while (tabla_indimpuestos.getSelectedRowCount() >= 1);
-
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getRowCount() - 1);
-        }
-    }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
-
     private void tabla_impuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_impuestosPropertyChange
         // TODO add your handling code here:
         try {
@@ -377,6 +367,33 @@ public class Impuestos extends javax.swing.JFrame {
         imp_impuestos = true;
 
     }//GEN-LAST:event_formWindowOpened
+
+    private void btn_añadirfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_impActionPerformed
+        // TODO add your handling code here
+        //Añade filas a cred
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(rowData);
+    }//GEN-LAST:event_btn_añadirfila_impActionPerformed
+
+    private void btn_quitarfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_impActionPerformed
+        // TODO add your handling code here:
+        //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
+        if (tabla_impuestos.getSelectedRowCount() >= 1) {
+            do {
+                Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
+            } while (tabla_impuestos.getSelectedRowCount() >= 1);
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
+        }
+    }//GEN-LAST:event_btn_quitarfila_impActionPerformed
+
+    private void btn_añadirfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_indimpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_añadirfila_indimpActionPerformed
+
+    private void btn_quitarfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indimpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
 
     public void iva_ventas(ArrayList ing_iva) {
         iva_v.clear();
@@ -480,6 +497,7 @@ public class Impuestos extends javax.swing.JFrame {
     private javax.swing.JTable tabla_impuestos;
     private javax.swing.JTable tabla_indimpuestos;
     private javax.swing.JLabel txtimpuestos;
+    private javax.swing.JLabel txttasasimpuestos;
     // End of variables declaration//GEN-END:variables
 
 }

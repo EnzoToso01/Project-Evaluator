@@ -2,6 +2,7 @@ package Clases;
 
 import Frames.IngVsGas;
 import Frames.ProjectEvaluator;
+import static Frames.ProjectEvaluator.nombreproyecto_str;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class Utilidad {
-
 
     public static class Tabla {
 
@@ -60,8 +60,10 @@ public class Utilidad {
             // crea el archivo si no existe
             if (!archivo.exists()) {
                 try {
+                   
                     archivo.createNewFile();
                 } catch (Exception ex) {
+                    System.err.println("Error en exportar,Utilidad");
                     ex.printStackTrace();
                 }
             }
