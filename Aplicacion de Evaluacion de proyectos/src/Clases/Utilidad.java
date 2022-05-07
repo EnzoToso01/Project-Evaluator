@@ -60,7 +60,7 @@ public class Utilidad {
             // crea el archivo si no existe
             if (!archivo.exists()) {
                 try {
-                   
+
                     archivo.createNewFile();
                 } catch (Exception ex) {
                     System.err.println("Error en exportar,Utilidad");
@@ -99,6 +99,20 @@ public class Utilidad {
             }
         }
 
+        public static int buscar_fila(String nombre_fila, JTable tabla) {
+            int num_fila = -1;
+            for (int i = 0; i <= tabla.getRowCount() - 1; i++) {
+                try {
+                    if (tabla.getValueAt(i, 0).equals(nombre_fila)) {
+                        num_fila = i;
+                    }
+                } catch (NullPointerException e) {
+                    tabla.setValueAt("", i, 0);
+                }
+            }
+            return num_fila;
+        }
+
         public static DefaultTableModel get_modelo(JTable tabla) {
             DefaultTableModel tblmodel = (DefaultTableModel) tabla.getModel();
             return tblmodel;
@@ -111,6 +125,7 @@ public class Utilidad {
             }
             return fila;
         }
+
     }
 
     public static class JtextField {

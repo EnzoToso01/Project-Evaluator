@@ -391,7 +391,8 @@ public class EBITDA extends javax.swing.JFrame {
             Utilidad.Tabla.get_modelo(tabla_EBITDA).insertRow(10, arr_total.toArray());
         } else {
             Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_total.toArray());
-        }
+        } 
+        
     }
 
     public void calculo_payback() {

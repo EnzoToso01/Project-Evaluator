@@ -12,6 +12,7 @@ import static Frames.ProjectEvaluator.nombreproyecto_str;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Event;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -376,13 +377,40 @@ public class IngVsGas extends javax.swing.JFrame {
             //establece que inv es el valor del jtf y añade a ingresos la inv
             inv = Double.parseDouble(jtf_inv.getText());
             Object[] arrinv = {"Inversión inicial", inv};
-            if (Utilidad.Tabla.get_modelo(tabla_ingresos).getValueAt(0, 0).equals("Inversión inicial")) {
-                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(0);
+            //busca la fila inv y si no la encuentra la crea,si la encuentra la reemplaza
+            int fila_inv = Utilidad.Tabla.buscar_fila("Inversión inicial", tabla_ingresos);
+            if (fila_inv == -1) {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, arrinv);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_inv);
+                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_inv, arrinv);
             }
-            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, arrinv);
-        } catch (NumberFormatException e) {
-            System.err.println("Error en inversion (IngVsGas)");
+            saldo_caja_inicial();
+        } catch (NumberFormatException | NullPointerException e) {
+            System.err.println("Error en setear_inv (IngVsGas)");
+            e.printStackTrace();
+            //para evitar null exceptions
+            Utilidad.Tabla.get_modelo(tabla_ingresos).setValueAt("", 1, 0);
+
         }
+    }
+
+    public void saldo_caja_inicial() {
+        //añade el saldo inicial en los ingresos
+        ArrayList saldo_caja = new ArrayList();
+        saldo_caja.addAll(ebitda.getArr_total());
+        saldo_caja.remove(0);
+        saldo_caja.add(0, "Saldo inicial de caja disponible");
+        saldo_caja.add(1, 0.0);
+
+        int fila_caja = Utilidad.Tabla.buscar_fila("Saldo inicial de caja disponible", tabla_ingresos);
+        if (fila_caja == -1) {
+            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_caja);
+            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_caja, saldo_caja.toArray());
+        }
+
     }
 
     /**
@@ -630,7 +658,7 @@ public class IngVsGas extends javax.swing.JFrame {
         } else {
             ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
             Utilidad.Tabla.importar(ingresosiva, tabla_ingresos);
-            System.err.println("");
+
         }
         Utilidad.Tabla.filas_defecto(tabla_ingresos, 11);
 
@@ -653,6 +681,7 @@ public class IngVsGas extends javax.swing.JFrame {
         Utilidad.Tabla.filas_defecto(tabla_egresos, 11);
 
         calculo_total_eg(tabla_egresos);
+
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
 
@@ -662,17 +691,21 @@ public class IngVsGas extends javax.swing.JFrame {
         try {
             if (ProjectEvaluator.import_ingeg == true) {
                 if (jComboBoxivaing.getSelectedIndex() == 0) {
-                    direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                    //  direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
                     ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
                     Utilidad.Tabla.exportar(ingresos, tabla_ingresos);
 
                 } else {
-                    direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                    //  direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
                     ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
                     Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
                 }
-                calculo_total_ing(tabla_ingresos);
-                setear_ebitda_imp();
+                //hace varias veces los seteos para actualizar total ebitda con saldo caja inicial
+                for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                    calculo_total_ing(tabla_ingresos);
+                    setear_ebitda_imp();
+                    saldo_caja_inicial();
+                }
             }
         } catch (Exception e) {
             System.err.println("Error en tabla_ingresosPropertyChange,IngVsGas");
@@ -687,16 +720,16 @@ public class IngVsGas extends javax.swing.JFrame {
         try {
             if (ProjectEvaluator.import_ingeg == true) {
                 if (jComboBoxivaeg.getSelectedIndex() == 0) {
-
                     egresos = new File("C:\\Project evaluator\\" + nombreproyecto_str + "\\IngVsGas\\egresos.txt");
                     Utilidad.Tabla.exportar(egresos, tabla_egresos);
                 } else {
-                    direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                    //direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
                     egresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\egresos (IVA).txt");
                     Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
                 }
                 calculo_total_eg(tabla_egresos);
                 setear_ebitda_imp();
+                saldo_caja_inicial();
             }
 
         } catch (Exception e) {
