@@ -630,7 +630,7 @@ public class IngVsGas extends javax.swing.JFrame {
         } else {
             ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
             Utilidad.Tabla.importar(ingresosiva, tabla_ingresos);
-
+            System.err.println("");
         }
         Utilidad.Tabla.filas_defecto(tabla_ingresos, 11);
 
