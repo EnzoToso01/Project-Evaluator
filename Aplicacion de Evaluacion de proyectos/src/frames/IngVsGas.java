@@ -237,10 +237,12 @@ public class IngVsGas extends javax.swing.JFrame {
         if (total_ing.isEmpty() == true && total_ing_iva.isEmpty() == true && suma_totales_ing.isEmpty() == true) {
 
             for (int i = 0; i <= ProjectEvaluator.longevidad; i++) {
+
                 total_ing.add(0.0);
                 total_ing_iva.add(0.0);
                 suma_totales_ing.add(0.0);
             }
+
         }
         //iguala los arrays a el array datos segun corresponda
         if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
@@ -371,7 +373,13 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public void setear_inv() {
         try {
+            //establece que inv es el valor del jtf y añade a ingresos la inv
             inv = Double.parseDouble(jtf_inv.getText());
+            Object[] arrinv = {"Inversión inicial", inv};
+            if (Utilidad.Tabla.get_modelo(tabla_ingresos).getValueAt(0, 0).equals("Inversión inicial")) {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(0);
+            }
+            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, arrinv);
         } catch (NumberFormatException e) {
             System.err.println("Error en inversion (IngVsGas)");
         }
@@ -431,6 +439,7 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         ));
         tabla_ingresos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabla_ingresos.setFocusable(false);
         tabla_ingresos.setShowGrid(true);
         tabla_ingresos.setUpdateSelectionOnSort(false);
         tabla_ingresos.setVerifyInputWhenFocusTarget(false);
@@ -449,6 +458,7 @@ public class IngVsGas extends javax.swing.JFrame {
                 "Egresos"
             }
         ));
+        tabla_egresos.setFocusable(false);
         tabla_egresos.setShowGrid(true);
         tabla_egresos.setSurrendersFocusOnKeystroke(true);
         tabla_egresos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -614,8 +624,8 @@ public class IngVsGas extends javax.swing.JFrame {
         // TODO add your handling code here:
         Utilidad.Tabla.get_modelo(tabla_ingresos).setRowCount(0);
         //importa la nueva tabla
-        if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {       
-            ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");   
+        if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
+            ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
             Utilidad.Tabla.importar(ingresos, tabla_ingresos);
         } else {
             ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
@@ -677,7 +687,7 @@ public class IngVsGas extends javax.swing.JFrame {
         try {
             if (ProjectEvaluator.import_ingeg == true) {
                 if (jComboBoxivaeg.getSelectedIndex() == 0) {
-                 
+
                     egresos = new File("C:\\Project evaluator\\" + nombreproyecto_str + "\\IngVsGas\\egresos.txt");
                     Utilidad.Tabla.exportar(egresos, tabla_egresos);
                 } else {
