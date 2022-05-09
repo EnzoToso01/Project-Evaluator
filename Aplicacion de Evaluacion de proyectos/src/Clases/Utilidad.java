@@ -2,7 +2,6 @@ package Clases;
 
 import Frames.IngVsGas;
 import Frames.ProjectEvaluator;
-import static Frames.ProjectEvaluator.nombreproyecto_str;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -60,7 +59,6 @@ public class Utilidad {
             // crea el archivo si no existe
             if (!archivo.exists()) {
                 try {
-
                     archivo.createNewFile();
                 } catch (Exception ex) {
                     System.err.println("Error en exportar,Utilidad");
@@ -126,7 +124,22 @@ public class Utilidad {
             return fila;
         }
 
+        public static void check_insert_fila(JTable tabla, int index, ArrayList arraylist) {
+            try {
+                if (index > 0) {
+                    if (tabla.getRowCount() >= index) {
+                        Utilidad.Tabla.get_modelo(tabla).removeRow(index - 1);
+                        Utilidad.Tabla.get_modelo(tabla).insertRow(index - 1, arraylist.toArray());
+                    } else {
+                        Utilidad.Tabla.get_modelo(tabla).addRow(arraylist.toArray());
+                    }
+                }  
+            } catch (IndexOutOfBoundsException e) {
+                System.err.println("Error en check_insert_fila (Utilidad)");
+            }
+        }
     }
+    //CLASS JTEXTFIELD
 
     public static class JtextField {
 
@@ -164,13 +177,9 @@ public class Utilidad {
                 bw.write(jtf.getText());
                 bw.close();
                 fw.close();
-
             } catch (IOException ex) {
                 Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
-
     }
-
 }

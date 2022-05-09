@@ -6,6 +6,7 @@
 package Frames;
 
 import Clases.Utilidad;
+import static Frames.ProjectEvaluator.direccion;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,10 +48,12 @@ public class Impuestos extends javax.swing.JFrame {
     public double cont_p = 0.26;
     public double ob_s = 0.11;
     private boolean imp_impuestos = false;
-    public ArrayList arr_ing_br = new ArrayList();
-    public ArrayList iva_c = new ArrayList();
-    public ArrayList iva_v = new ArrayList();
-    public ArrayList calc_total = new ArrayList();
+    private ArrayList arr_ing_br = new ArrayList();
+    private ArrayList arr_iva = new ArrayList();
+    private ArrayList arr_ganancias = new ArrayList();
+    private ArrayList iva_c = new ArrayList();
+    private ArrayList iva_v = new ArrayList();
+    private ArrayList calc_total = new ArrayList();
     private EBITDA ebitda;
     private IngVsGas ingvsgas;
 
@@ -74,19 +77,13 @@ public class Impuestos extends javax.swing.JFrame {
     }
 
     public File getImpuestos_f() {
+        impuestos_f = new File(direccion + "\\Impuestos\\impuestos.txt");
         return impuestos_f;
     }
 
     public File getIndimpuestos_f() {
+        indimpuestos_f = new File(direccion + "\\Impuestos\\indicadores impuestos.txt");
         return indimpuestos_f;
-    }
-
-    public void setImpuestos(String dir) {
-        this.impuestos_f = new File(dir);
-    }
-
-    public void setIndimpuestos(String dir) {
-        this.indimpuestos_f = new File(dir);
     }
 
     public void setEBITDA(EBITDA ebitda) {
@@ -100,6 +97,7 @@ public class Impuestos extends javax.swing.JFrame {
     }
 
     public JLabel getTxtimpuestos() {
+
         return txtimpuestos;
     }
 
@@ -107,11 +105,21 @@ public class Impuestos extends javax.swing.JFrame {
         return txttasasimpuestos;
     }
 
-    
+    public ArrayList getArr_ing_br() {
+        return arr_ing_br;
+    }
+
+    public ArrayList getArr_iva() {
+        return arr_iva;
+    }
+
+    public ArrayList getArr_ganancias() {
+        return arr_ganancias;
+    }
+
     public void filas_datos_impuestos(JTable tablaimp) {
         //Resetea e inicializa los datos de la tabla impuestos
         Utilidad.Tabla.get_modelo(tablaimp).setRowCount(0);
-
         String dato1[] = {"Impuesto a las ganancias"};
         String dato2[] = {"IVA Ventas"};
         String dato3[] = {"IVA Compras"};
@@ -124,16 +132,13 @@ public class Impuestos extends javax.swing.JFrame {
         Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato4);
         Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato5);
         Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(dato6);
-
         Utilidad.Tabla.filas_defecto(tabla_impuestos, 10);
-
     }
 
     public void filas_datos_indimpuestos(JTable tablaindimp) {
 
         //Resetea e inicializa los datos de la tabla indicadores de impuestos
         Utilidad.Tabla.get_modelo(tablaindimp).setRowCount(0);
-
         String dato1[] = {"Tasa de descuento", String.valueOf(tas_desc * 100)};
         String dato2[] = {"Tasa de interés", String.valueOf(tas_int * 100)};
         String dato3[] = {"Tasa de crecimiento de la población", String.valueOf(tas_pob * 100)};
@@ -144,7 +149,6 @@ public class Impuestos extends javax.swing.JFrame {
         String dato8[] = {"Ganancias", String.valueOf(gan * 100)};
         String dato9[] = {"Contribuciones patronales", String.valueOf(cont_p * 100)};
         String dato10[] = {"Obra Social", String.valueOf(ob_s * 100)};
-
         Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato1);
         Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato2);
         Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato3);
@@ -156,27 +160,65 @@ public class Impuestos extends javax.swing.JFrame {
         Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato9);
         Utilidad.Tabla.get_modelo(tabla_indimpuestos).addRow(dato10);
         Utilidad.Tabla.filas_defecto(tabla_indimpuestos, 10);
-
     }
-    
-      public void calculo_ing_brutos() {
-        arr_ing_br.clear();
-        if (arr_ing_br.isEmpty() == true) {
-            arr_ing_br.add(0, "Ingresos Brutos");
-        }
-        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
-            arr_ing_br.add(ebitda.ingresos.get(i) * ing_b);
-        }
 
-        if (ebitda.getTabla_ebitda().getRowCount() >= 4) {
-            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(3);
-            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).insertRow(3, arr_ing_br.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).addRow(arr_ing_br.toArray());
-        }
+    public void calculo_ing_brutos() {
 
+        try {
+            arr_ing_br.clear();
+            if (arr_ing_br.isEmpty() == true) {
+                arr_ing_br.add(0, "Ingresos Brutos");
+            }
+            for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
+                arr_ing_br.add(ebitda.ingresos.get(i) * ing_b);
+            }
+            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 5, arr_ganancias);
+            Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 4, arr_ing_br);
+
+        } catch (Exception e) {
+            System.err.println("Error en calculo_ing_brutos (Impuestos)");
+            e.printStackTrace();
+        }
     }
-    
+
+    public void calculo_iva() {
+
+        try {
+            arr_iva.clear();
+            if (arr_iva.isEmpty() == true) {
+                arr_iva.add(0, "IVA");
+            }
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                arr_iva.add((double) iva_v.get(i) - (double) iva_c.get(i));
+            }
+            Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 5, arr_iva);
+        } catch (Exception e) {
+            System.err.println("Error en calculo_iva (Impuestos)");
+            e.printStackTrace();
+        }
+    }
+
+    public void calculo_ganancias() {
+        try {
+            arr_ganancias.clear();
+            if (arr_ganancias.isEmpty() == true) {
+                arr_ganancias.add(0, "Ganancias 35%");
+            }
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                if ((double) ebitda.getArr_sub_c_amort().get(i) > 0) {
+                    arr_ganancias.add((double) ebitda.getArr_sub_c_amort().get(i) * gan);
+                } else {
+                    arr_ganancias.add(0.0);
+                }
+            }
+            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 0, arr_ganancias);
+            Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 10, arr_ganancias);
+
+        } catch (Exception e) {
+            System.err.println("Error en calculo_ganancias (Impuestos)");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -221,6 +263,7 @@ public class Impuestos extends javax.swing.JFrame {
                 "impuesto"
             }
         ));
+        tabla_impuestos.setFocusable(false);
         tabla_impuestos.setShowGrid(true);
         tabla_impuestos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -237,6 +280,7 @@ public class Impuestos extends javax.swing.JFrame {
                 "Indicador", "Valor"
             }
         ));
+        tabla_indimpuestos.setFocusable(false);
         tabla_indimpuestos.setShowGrid(true);
         tabla_indimpuestos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -360,11 +404,16 @@ public class Impuestos extends javax.swing.JFrame {
                 ingvsgas.setear_ebitda_imp();
             }
             if (imp_impuestos == true) {
+                File dir_indimp = new File(direccion + "\\Impuestos\\");
+                if (!dir_indimp.exists()) {
+                    dir_indimp.mkdirs();
+                }
+                indimpuestos_f = new File(direccion + "\\Impuestos\\indicadores impuestos.txt");
                 Utilidad.Tabla.exportar(indimpuestos_f, tabla_indimpuestos);
             }
 
         } catch (Exception e) {
-            System.err.println("Error en tabla_indimpuestosPropertyChange");
+            System.err.println("Error en tabla_indimpuestosPropertyChange (Impuestos)");
             e.printStackTrace();
         }
     }//GEN-LAST:event_tabla_indimpuestosPropertyChange
@@ -373,10 +422,15 @@ public class Impuestos extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if (imp_impuestos == true) {
-
+                File dir_imp = new File(direccion + "\\Impuestos\\");
+                if (!dir_imp.exists()) {
+                    dir_imp.mkdirs();
+                }
+                impuestos_f = new File(direccion + "\\Impuestos\\impuestos.txt");
                 Utilidad.Tabla.exportar(impuestos_f, tabla_impuestos);
             }
         } catch (Exception e) {
+            System.err.println("Error en tabla_impuestosPropertyChange (Impuestos)");
             e.printStackTrace();
         }
 
@@ -416,65 +470,44 @@ public class Impuestos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
 
     public void iva_ventas(ArrayList ing_iva) {
-        iva_v.clear();
-        iva_v.add(0, "IVA Ventas");
 
-        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
-            iva_v.add((double) ing_iva.get(i) * iva);
-        }
+        try {
+            iva_v.clear();
+            iva_v.add(0, "IVA Ventas");
 
-        if (tabla_impuestos.getRowCount() > 1) {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(1);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(1, iva_v.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(iva_v.toArray());
+            for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
+                iva_v.add((double) ing_iva.get(i) * iva);
+            }
+
+            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 2, iva_v);
+        } catch (Exception e) {
+            System.err.println("Error en iva_ventas (Impuestos)");
+            e.printStackTrace();
         }
     }
 
     public void iva_compras(ArrayList eg_iva) {
-        iva_c.clear();
-        iva_c.add(0, "IVA Compras");
 
-        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
-            iva_c.add((double) eg_iva.get(i) * iva);
-        }
+        try {
+            iva_c.clear();
+            iva_c.add(0, "IVA Compras");
+            for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
+                iva_c.add((double) eg_iva.get(i) * iva);
+            }
 
-        if (tabla_impuestos.getRowCount() > 2) {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(2);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(2, iva_c.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(iva_c.toArray());
-        }
-
-    }
-
-    public void ganancias() {
-
-        if (tabla_impuestos.getRowCount() > 0) {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(0);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(0, ebitda.arr_ganancias.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(ebitda.arr_ganancias.toArray());
-        }
-
-    }
-
-    public void ing_b() {
-
-        if (tabla_impuestos.getRowCount() > 4) {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(4);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(4, arr_ing_br.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(arr_ing_br.toArray());
+            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 3, iva_c);
+        } catch (Exception e) {
+            System.err.println("Error en iva_compras (Impuestos)");
+            e.printStackTrace();
         }
     }
 
     public void calculo_total_imp() {
         double total = 0;
-        calc_total.clear();
-        calc_total.add(0, "Total de Impuestos");
-        //acumula la suma de los valores
         try {
+            calc_total.clear();
+            calc_total.add(0, "Total de Impuestos");
+            //acumula la suma de los valores
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                 for (int j = 0; j < tabla_impuestos.getRowCount(); j++) {
                     //convierte los datos null de la primera columna en string para evitar null exceptions 
@@ -495,12 +528,7 @@ public class Impuestos extends javax.swing.JFrame {
 
         }
 
-        if (tabla_impuestos.getRowCount() > 5) {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(5);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(5, calc_total.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(calc_total.toArray());
-        }
+        Utilidad.Tabla.check_insert_fila(tabla_impuestos, 6, calc_total);
     }
 
     /**

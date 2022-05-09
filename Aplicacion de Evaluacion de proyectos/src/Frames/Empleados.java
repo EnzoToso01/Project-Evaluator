@@ -102,33 +102,39 @@ public class Empleados extends javax.swing.JFrame {
         return txtsueldos;
     }
 
-    
-    
     public void importar_emp() {
-        Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
-        //importa la tabla correspondiente al combo
-        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            if (combo_años.getSelectedIndex() + 1 == i) {
-                File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
-                Utilidad.Tabla.importar(sueldos, tabla_sueldos);
+        try {
+            Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
+            //importa la tabla correspondiente al combo
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                if (combo_años.getSelectedIndex() + 1 == i) {
+                    File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
+                    Utilidad.Tabla.importar(sueldos, tabla_sueldos);
 
+                }
             }
+        } catch (Exception e) {
+            System.err.println("Error en importar_emp (Empleados)");
         }
-
     }
 
     public void total_sueldos() {
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
-                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
-            } catch (NullPointerException | NumberFormatException e) {
+        try {
+            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+                try {
+                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
+                } catch (NullPointerException | NumberFormatException e) {
 
+                }
             }
+        } catch (Exception e) {
+            System.err.println("Error en total_sueldos (Empleados)");
         }
     }
 
     public void antiguedad() {
+
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
                 double result = 84.64 * Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4)));
@@ -137,9 +143,11 @@ public class Empleados extends javax.swing.JFrame {
 
             }
         }
+
     }
 
     public void presentismo() {
+
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
                 double result = 0.0833 * Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)));
@@ -148,9 +156,11 @@ public class Empleados extends javax.swing.JFrame {
 
             }
         }
+
     }
 
     public void bruto() {
+
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
                 double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
@@ -159,6 +169,7 @@ public class Empleados extends javax.swing.JFrame {
 
             }
         }
+
     }
 
     public void tasas(double tasa) {
@@ -182,6 +193,7 @@ public class Empleados extends javax.swing.JFrame {
                 }
             }
         } catch (NullPointerException | NumberFormatException e) {
+
         }
     }
 
@@ -199,16 +211,16 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void total_neto() {
+       
+            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+                try {
+                    double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
+                } catch (NullPointerException | NumberFormatException e) {
 
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
-                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
-            } catch (NullPointerException | NumberFormatException e) {
-
+                }
             }
-        }
-
+        
     }
 
     public double calculo_total_sueldos() {
@@ -218,7 +230,7 @@ public class Empleados extends javax.swing.JFrame {
             try {
                 total = total + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7)));
             } catch (NullPointerException | NumberFormatException e) {
-
+                e.printStackTrace();
             }
         }
         return total;
@@ -226,23 +238,28 @@ public class Empleados extends javax.swing.JFrame {
 
     public void arr_sueldos() {
         //crea un arraylist con los sueldos y lo añade a una fila de egresos de IngVsGas CREA WARNING DE SORTING
-        ArrayList sueldos = new ArrayList();
-        sueldos.add("Sueldos");
-        int selecteditem = combo_años.getSelectedIndex();
-        for (int i = 1; i <= combo_años.getItemCount(); i++) {
-            combo_años.setSelectedItem("Año " + i);
-            importar_emp();
-            sueldos.add(calculo_total_sueldos());
-        }
+        try {
+            ArrayList sueldos = new ArrayList();
+            sueldos.add("Sueldos");
+            int selecteditem = combo_años.getSelectedIndex();
+            for (int i = 1; i <= combo_años.getItemCount(); i++) {
+                combo_años.setSelectedItem("Año " + i);
+                importar_emp();
+                sueldos.add(calculo_total_sueldos());
+            }
 
-        if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
-            //  Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(ingvsgas.getTabla_egresos().getRowCount() - 3);
-            Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(ingvsgas.getTabla_egresos().getRowCount() - 2, sueldos.toArray());
+            if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
+                //  Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
+            } else {
+                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(ingvsgas.getTabla_egresos().getRowCount() - 3);
+                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(ingvsgas.getTabla_egresos().getRowCount() - 2, sueldos.toArray());
+            }
+            ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
+            combo_años.setSelectedIndex(selecteditem);
+        } catch (Exception e) {
+            System.err.println("Error en arr_sueldos (Empleados)");
+            e.printStackTrace();
         }
-        ingvsgas.calculo_total_eg(ingvsgas.getTabla_egresos());
-        combo_años.setSelectedIndex(selecteditem);
     }
 
     /**
@@ -450,47 +467,18 @@ public class Empleados extends javax.swing.JFrame {
             Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }//GEN-LAST:event_combo_añosMouseClicked
 
     private void combo_añosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_añosItemStateChanged
         // TODO add your handling code here:
-
-        //importa la nueva tabla
-        importar_emp();
-        Utilidad.Tabla.filas_defecto(tabla_sueldos, 30);
-        //establece valores de empleados
-        total_sueldos();
-        antiguedad();
-        presentismo();
-        bruto();
-        tasas(tas_jub);
-        tasas(tas_ob);
-        tasas(tas_ley);
-        tasas(tas_sec);
-        total_desc();
-        total_neto();
-        jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
-    }//GEN-LAST:event_combo_añosItemStateChanged
-
-    private void tabla_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_sueldosPropertyChange
-        // TODO add your handling code here:
-
-        if (imp_s == true) {
-            try {
-                for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                    if (combo_años.getSelectedIndex() + 1 == i) {
-                        File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
-                        Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        try {
+            //importa la nueva tabla
+            importar_emp();
+            Utilidad.Tabla.filas_defecto(tabla_sueldos, 30);
+            //establece valores de empleados
             total_sueldos();
             antiguedad();
             presentismo();
@@ -502,23 +490,63 @@ public class Empleados extends javax.swing.JFrame {
             total_desc();
             total_neto();
             jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
-            arr_sueldos();
+        } catch (Exception e) {
+            System.err.println("Error en combo_añosItemStateChanged (Empleados)");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_combo_añosItemStateChanged
+
+    private void tabla_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_sueldosPropertyChange
+        // TODO add your handling code here:
+        try {
+            if (imp_s == true) {
+                try {
+                    for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                        if (combo_años.getSelectedIndex() + 1 == i) {
+                            File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
+                            Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                total_sueldos();
+                antiguedad();
+                presentismo();
+                bruto();
+                tasas(tas_jub);
+                tasas(tas_ob);
+                tasas(tas_ley);
+                tasas(tas_sec);
+                total_desc();
+                total_neto();
+                jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
+                arr_sueldos();
+            }
+        } catch (Exception e) {
+            System.err.println("Error en tabla_sueldosPropertyChange (Empleados)");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_tabla_sueldosPropertyChange
 
     private void tabla_tasasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_tasasPropertyChange
         // TODO add your handling code here:
-        Utilidad.Tabla.filas_defecto(tabla_tasas, 1);
-        if (imp_tas == true) {
-            File tasas = new File(ProjectEvaluator.direccion + "\\Sueldos\\tasas.txt");
-            Utilidad.Tabla.exportar(tasas, tabla_tasas);
-
+        try {
+            Utilidad.Tabla.filas_defecto(tabla_tasas, 1);
+            if (imp_tas == true) {
+                File tasas = new File(ProjectEvaluator.direccion + "\\Sueldos\\tasas.txt");
+                Utilidad.Tabla.exportar(tasas, tabla_tasas);
+            }
+            tasas(tas_jub);
+            tasas(tas_ob);
+            tasas(tas_ley);
+            tasas(tas_sec);
+        } catch (Exception e) {
+            System.err.println("Error en tabla_tasasPropertyChange (Empleados)");
+            e.printStackTrace();
         }
-        tasas(tas_jub);
-        tasas(tas_ob);
-        tasas(tas_ley);
-        tasas(tas_sec);
-
     }//GEN-LAST:event_tabla_tasasPropertyChange
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

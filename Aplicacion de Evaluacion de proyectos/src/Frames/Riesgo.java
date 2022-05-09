@@ -58,6 +58,7 @@ public class Riesgo extends javax.swing.JFrame {
         txtriesgos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFocusable(false);
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -139,7 +140,10 @@ public class Riesgo extends javax.swing.JFrame {
                 tabla_riesgos.setValueAt(result, i, 9);
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-
+            for (int i = 0; i < tabla_riesgos.getRowCount(); i++) {
+              tabla_riesgos.setValueAt("",i, 5);
+              tabla_riesgos.setValueAt("",i, 7);           
+            }
         }
     }
 
