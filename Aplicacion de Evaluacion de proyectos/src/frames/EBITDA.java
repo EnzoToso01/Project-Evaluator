@@ -26,8 +26,8 @@ public class EBITDA extends javax.swing.JFrame {
      * Creates new form EBITDA
      */
     private File ebitda_f = new File("C:\\Project evaluator\\ebitda.txt");
-    private ArrayList<Double> ingresos = new ArrayList();
-    private ArrayList<Double> egresos = new ArrayList();
+    public ArrayList<Double> ingresos = new ArrayList();
+    public ArrayList<Double> egresos = new ArrayList();
     private ArrayList arr_ebitda = new ArrayList();
     private ArrayList arr_iva = new ArrayList();
     private ArrayList arr_intereses = new ArrayList();
@@ -38,7 +38,7 @@ public class EBITDA extends javax.swing.JFrame {
     private ArrayList arr_payback = new ArrayList();
     private ArrayList arr_riesgo = new ArrayList();
     private ArrayList arr_r_neto = new ArrayList();
-    public ArrayList arr_ing_br = new ArrayList();
+    // public ArrayList arr_ing_br = new ArrayList();
     public ArrayList arr_ganancias = new ArrayList();
     private Riesgo riesgo;
     private Impuestos impuestos;
@@ -252,7 +252,7 @@ public class EBITDA extends javax.swing.JFrame {
         }
     }
 
-    public void calculo_ing_brutos() {
+  /*  public void calculo_ing_brutos() {
         arr_ing_br.clear();
         if (arr_ing_br.isEmpty() == true) {
             arr_ing_br.add(0, "Ingresos Brutos");
@@ -268,7 +268,7 @@ public class EBITDA extends javax.swing.JFrame {
             Utilidad.Tabla.get_modelo(tabla_EBITDA).addRow(arr_ing_br.toArray());
         }
 
-    }
+    } */
 
     public void calculo_iva() {
         arr_iva.clear();
@@ -311,7 +311,7 @@ public class EBITDA extends javax.swing.JFrame {
             arr_sub_s_gan.add(0, "Subtotal sin ganancias");
         }
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            arr_sub_s_gan.add((double) arr_ebitda.get(i) - (double) arr_ing_br.get(i) - (double) arr_iva.get(i) - (double) arr_intereses.get(i));
+            arr_sub_s_gan.add((double) arr_ebitda.get(i) - (double) impuestos.arr_ing_br.get(i) - (double) arr_iva.get(i) - (double) arr_intereses.get(i));
 
         }
         if (tabla_EBITDA.getRowCount() >= 7) {

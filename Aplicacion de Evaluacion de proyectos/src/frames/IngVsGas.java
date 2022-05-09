@@ -353,7 +353,7 @@ public class IngVsGas extends javax.swing.JFrame {
         ebitda.setIngresos(suma_totales_ing);
         ebitda.setEgresos(suma_totales_eg);
         ebitda.calculo_ebitda();
-        ebitda.calculo_ing_brutos();
+        impuestos.calculo_ing_brutos();
         impuestos.iva_ventas(total_ing_iva);
         impuestos.iva_compras(total_eg_iva);
         ebitda.calculo_iva();

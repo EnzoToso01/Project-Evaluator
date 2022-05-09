@@ -47,6 +47,7 @@ public class Impuestos extends javax.swing.JFrame {
     public double cont_p = 0.26;
     public double ob_s = 0.11;
     private boolean imp_impuestos = false;
+    public ArrayList arr_ing_br = new ArrayList();
     public ArrayList iva_c = new ArrayList();
     public ArrayList iva_v = new ArrayList();
     public ArrayList calc_total = new ArrayList();
@@ -157,6 +158,25 @@ public class Impuestos extends javax.swing.JFrame {
         Utilidad.Tabla.filas_defecto(tabla_indimpuestos, 10);
 
     }
+    
+      public void calculo_ing_brutos() {
+        arr_ing_br.clear();
+        if (arr_ing_br.isEmpty() == true) {
+            arr_ing_br.add(0, "Ingresos Brutos");
+        }
+        for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
+            arr_ing_br.add(ebitda.ingresos.get(i) * ing_b);
+        }
+
+        if (ebitda.getTabla_ebitda().getRowCount() >= 4) {
+            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).removeRow(3);
+            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).insertRow(3, arr_ing_br.toArray());
+        } else {
+            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).addRow(arr_ing_br.toArray());
+        }
+
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -443,9 +463,9 @@ public class Impuestos extends javax.swing.JFrame {
 
         if (tabla_impuestos.getRowCount() > 4) {
             Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(4);
-            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(4, ebitda.arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).insertRow(4, arr_ing_br.toArray());
         } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(ebitda.arr_ing_br.toArray());
+            Utilidad.Tabla.get_modelo(tabla_impuestos).addRow(arr_ing_br.toArray());
         }
     }
 
