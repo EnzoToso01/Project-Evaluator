@@ -717,8 +717,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                     //Realiza los valores para ebitda e impuestos
                     ingvsgas.setear_ebitda_imp();
                     //importa el jtextfield
-                    IngVsGas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                    Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
+                    ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
+                    Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
                     ingvsgas.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -754,8 +754,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //Realiza los valores para ebitda e impuestos
                 ingvsgas.setear_ebitda_imp();
                 //importa el jtextfield
-                IngVsGas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
+                 ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
+                Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
                 ingvsgas.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -790,7 +790,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
                 ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
 
-                Utilidad.Tabla.inicializar(indicadores.getTabla_indicadores());
+                Utilidad.Tabla.inicializar_col(indicadores.getTabla_indicadores());
                 Utilidad.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
                 //inicializa ingvsgas
                 ingvsgas.setear_ingvsgas();
@@ -799,18 +799,20 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //inicializa indicadores
                 Utilidad.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
                 indicadores.setear_interes();
-                IngVsGas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
+                 ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
+                Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
                 //calculo van sin riesgo y con riesgo
                 ingvsgas.setear_inv();
-                indicadores.calculo_van();
+                indicadores.añadir_indicadores();
+              /*  indicadores.calculo_van();
                 indicadores.calculo_van_r();
                 indicadores.calculo_ivan();
-                indicadores.calculo_ivan_r();
+                indicadores.calculo_ivan_r(); 
+                indicadores.añadir_valores_actuales();
                 indicadores.calculo_TIR();
                 indicadores.calculo_TIR_r();
                 indicadores.calculo_vac();
-                indicadores.calculo_razonBC();
+                indicadores.calculo_razonBC();*/
                 //añade filas por defecto si no hay ninguna en la tabla
                 Utilidad.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
                 indicadores.setImp(true);
@@ -854,7 +856,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
                 //inicializa datos Ebitda y imp
                 Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
-                Utilidad.Tabla.inicializar(ebitda.getTabla_ebitda());
+                Utilidad.Tabla.inicializar_col(ebitda.getTabla_ebitda());
                 Utilidad.Tabla.importar(ebitda.getEbitda(), ebitda.getTabla_ebitda());
                 //inicializa ingvsgas
                 ingvsgas.setear_ingvsgas();
@@ -954,7 +956,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
 
-                Utilidad.Tabla.inicializar(impuestos.getTabla_impuestos());        
+                Utilidad.Tabla.inicializar_col(impuestos.getTabla_impuestos());        
                 Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_impuestos());
                 Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_indimpuestos());
                 //añade filas por defecto si no hay ninguna en la tabla
@@ -1109,8 +1111,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
 
                 //inicializa ing y eg
-                Utilidad.Tabla.inicializar(ingvsgas.getTabla_ingresos());
-                Utilidad.Tabla.inicializar(ingvsgas.getTabla_egresos());
+                Utilidad.Tabla.inicializar_col(ingvsgas.getTabla_ingresos());
+                Utilidad.Tabla.inicializar_col(ingvsgas.getTabla_egresos());
                 //imp ing eg con iva
                 ingvsgas.getjComboBoxivaing().setSelectedItem("Con IVA");
                 ingvsgas.getjComboBoxivaeg().setSelectedItem("Con IVA");
@@ -1150,7 +1152,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
 
-                Utilidad.Tabla.inicializar(riesgo.getTabla_riesgos());
+                Utilidad.Tabla.inicializar_col(riesgo.getTabla_riesgos());
                 Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
                 Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 50);
                 riesgo.setImp(true);

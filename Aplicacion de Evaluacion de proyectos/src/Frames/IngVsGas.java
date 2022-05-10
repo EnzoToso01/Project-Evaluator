@@ -71,10 +71,10 @@ public class IngVsGas extends javax.swing.JFrame {
     private File ingresosiva;
     private File egresos;
     private File egresosiva;
-    public static File inversion;
     private EBITDA ebitda;
     private Impuestos impuestos;
-    public static double inv;
+    public File inversion;
+    public double inv;
 
     IngVsGas() {
 
@@ -182,8 +182,8 @@ public class IngVsGas extends javax.swing.JFrame {
         double total = 0;
         ArrayList datos = new ArrayList();
         //para evitar indexoutofbounds exceptions
-        Utilidad.Tabla.inicializar(tabla_ingresos);
-        Utilidad.Tabla.inicializar(tabla_egresos);
+        Utilidad.Tabla.inicializar_col(tabla_ingresos);
+        Utilidad.Tabla.inicializar_col(tabla_egresos);
         try {
             //chequea si las rows Totales existen y las borra 
             for (int i = 0; i < tabla.getRowCount(); i++) {
@@ -229,97 +229,54 @@ public class IngVsGas extends javax.swing.JFrame {
         return datos;
     }
 
-    public void calculo_total_ing(JTable tabla) {
-
-        ArrayList aux = new ArrayList();
-        try {
-            //añade valores por defecto a los arraylist de totales
-            if (total_ing.isEmpty() == true && total_ing_iva.isEmpty() == true && suma_totales_ing.isEmpty() == true) {
-
-                for (int i = 0; i <= ProjectEvaluator.longevidad; i++) {
-
-                    total_ing.add(0.0);
-                    total_ing_iva.add(0.0);
-                    suma_totales_ing.add(0.0);
-                }
-
-            }
-            //iguala los arrays a el array datos segun corresponda
-            if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
-                total_ing = (ArrayList<Double>) calculo_datos(tabla).clone();
-                aux.clear();
-                aux.addAll(total_ing);
-                aux.add(0, "Total");
-                Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
-            } else {
-                total_ing_iva = (ArrayList<Double>) calculo_datos(tabla).clone();
-                aux.clear();
-                aux.addAll(total_ing_iva);
-                aux.add(0, "Total");
-                Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
-            }
-            // realiza la suma de los totales
-            suma_totales_ing.set(0, "Total Final");
-            //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                try {
-                    suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
-                } catch (IndexOutOfBoundsException e) {
-                    suma_totales_ing.add(0.0);
-                }
-            }
-            //añade los totales a las tablas
-            Utilidad.Tabla.get_modelo(tabla).addRow(suma_totales_ing.toArray());
-        } catch (Exception e) {
-            System.err.println("Error en calculo_total_ingresos (IngVsGas)");
-            e.printStackTrace();
-        }
-    }
-
-    public void calculo_total_eg(JTable tabla) {
+    public void calculo_totales(JTable tabla, ArrayList<Double> total, ArrayList<Double> total_iva, ArrayList suma_totales, JComboBox jcombobox) {
 
         ArrayList aux = new ArrayList();
 
         try {
 
             //añade valores por defecto a los arraylist de totales
-            if (total_eg.isEmpty() == true && total_eg_iva.isEmpty() == true && suma_totales_eg.isEmpty() == true) {
+            if (total.isEmpty() == true && total_iva.isEmpty() == true && suma_totales.isEmpty() == true) {
 
                 for (int i = 0; i <= ProjectEvaluator.longevidad; i++) {
-                    total_eg.add(0.0);
-                    total_eg_iva.add(0.0);
-                    suma_totales_eg.add(0.0);
+                    total.add(0.0);
+                    total_iva.add(0.0);
+                    suma_totales.add(0.0);
                 }
             }
+
             //iguala los arrays a el array datos segun corresponda
-            if (jComboBoxivaeg.getSelectedItem().equals("Sin IVA")) {
-                total_eg = (ArrayList<Double>) calculo_datos(tabla).clone();
+            if (jcombobox.getSelectedItem().equals("Sin IVA")) {
+                total = (ArrayList<Double>) calculo_datos(tabla);
+              
                 aux.clear();
-                aux.addAll(total_eg);
+                aux.addAll(total);
                 aux.add(0, "Total");
                 Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
             } else {
-                total_eg_iva = (ArrayList<Double>) calculo_datos(tabla).clone();
+                total_iva = (ArrayList<Double>) calculo_datos(tabla);
+             
                 aux.clear();
-                aux.addAll(total_eg_iva);
+                aux.addAll(total_iva);
                 aux.add(0, "Total");
                 Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
             }
             // realiza la suma de los totales
-            suma_totales_eg.set(0, "Total Final");
+            suma_totales.clear();
+            suma_totales.add(0, "Total Final");
             //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                 try {
-                    suma_totales_eg.set(i, total_eg.get(i - 1) + total_eg_iva.get(i - 1));
+                    suma_totales.add(total.get(i - 1) + total_iva.get(i - 1));
                 } catch (IndexOutOfBoundsException e) {
-                    suma_totales_eg.add(0.0);
+                   
+                    suma_totales.add(0.0);
                 }
             }
             //añade los totales a las tablas
-            Utilidad.Tabla.get_modelo(tabla).addRow(suma_totales_eg.toArray());
-
+            Utilidad.Tabla.get_modelo(tabla).addRow(suma_totales.toArray());
         } catch (Exception e) {
-            System.err.println("Error en calculo_total_egresos(IngVsGas)");
+            System.err.println("Error en calculo_total (IngVsGas)");
             e.printStackTrace();
         }
     }
@@ -332,8 +289,8 @@ public class IngVsGas extends javax.swing.JFrame {
             ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
 
             //inicializa ing y eg
-            Utilidad.Tabla.inicializar(getTabla_ingresos());
-            Utilidad.Tabla.inicializar(getTabla_egresos());
+            Utilidad.Tabla.inicializar_col(getTabla_ingresos());
+            Utilidad.Tabla.inicializar_col(getTabla_egresos());
 
             //imp ing eg con iva
             getjComboBoxivaing().setSelectedItem("Con IVA");
@@ -346,8 +303,8 @@ public class IngVsGas extends javax.swing.JFrame {
             getjComboBoxivaeg().setSelectedItem("Sin IVA");
 
             //actualiza totales        
-            calculo_total_ing(getTabla_ingresos());
-            calculo_total_eg(getTabla_egresos());
+            calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
+            calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
             import_ingeg = true;
 
             Utilidad.Tabla.filas_defecto(getTabla_ingresos(), 11);
@@ -380,7 +337,7 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.calculo_payback();
             ebitda.calculo_riesgo();
             ebitda.calculo_r_neto();
-           // impuestos.ing_b();
+            // impuestos.ing_b();
             impuestos.calculo_total_imp();
         } catch (Exception e) {
             System.err.println("Error en setear_ebitda_imp (IngVsGas)");
@@ -394,7 +351,7 @@ public class IngVsGas extends javax.swing.JFrame {
             inv = Double.parseDouble(jtf_inv.getText());
             Object[] arrinv = {"Inversión inicial", inv};
             //busca la fila inv y si no la encuentra la crea,si la encuentra la reemplaza
-            int fila_inv = Utilidad.Tabla.buscar_fila("Inversión inicial", tabla_ingresos);
+            int fila_inv = Utilidad.Tabla.buscar_indice_fila("Inversión inicial", tabla_ingresos);
             if (fila_inv == -1) {
                 Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, arrinv);
             } else {
@@ -419,7 +376,7 @@ public class IngVsGas extends javax.swing.JFrame {
         saldo_caja.add(0, "Saldo inicial de caja disponible");
         saldo_caja.add(1, 0.0);
 
-        int fila_caja = Utilidad.Tabla.buscar_fila("Saldo inicial de caja disponible", tabla_ingresos);
+        int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
         if (fila_caja == -1) {
             Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
         } else {
@@ -678,7 +635,7 @@ public class IngVsGas extends javax.swing.JFrame {
         }
         Utilidad.Tabla.filas_defecto(tabla_ingresos, 11);
 
-        calculo_total_ing(tabla_ingresos);
+        calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
 
     }//GEN-LAST:event_jComboBoxivaingItemStateChanged
 
@@ -696,7 +653,7 @@ public class IngVsGas extends javax.swing.JFrame {
         }
         Utilidad.Tabla.filas_defecto(tabla_egresos, 11);
 
-        calculo_total_eg(tabla_egresos);
+        calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
 
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
@@ -719,7 +676,8 @@ public class IngVsGas extends javax.swing.JFrame {
                 //hace varias veces los seteos para actualizar total ebitda con saldo caja inicial en (CON IVA)
                 if (jComboBoxivaing.getSelectedIndex() == 0) {
                     for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                        calculo_total_ing(tabla_ingresos);
+                        calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
+
                         setear_ebitda_imp();
                         saldo_caja_inicial();
                     }
@@ -745,7 +703,7 @@ public class IngVsGas extends javax.swing.JFrame {
                     egresosiva = new File(direccion + "IngVsGas\\egresos (IVA).txt");
                     Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
                 }
-                calculo_total_eg(tabla_egresos);
+                calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
                 setear_ebitda_imp();
                 saldo_caja_inicial();
             }

@@ -49,6 +49,7 @@ public class Indicadores extends javax.swing.JFrame {
     private ArrayList ivan_r = new ArrayList();
     private ArrayList tir = new ArrayList();
     private ArrayList tir_r = new ArrayList();
+    private ArrayList vpi = new ArrayList();
     private ArrayList vac = new ArrayList();
     private ArrayList razonbc = new ArrayList();
     private double tasa_interes;
@@ -113,195 +114,140 @@ public class Indicadores extends javax.swing.JFrame {
         return txtindicadores;
     }
 
-    public void calculo_van() {
-        double acum = 0;
-        van.clear();
+    public ArrayList calculo_van(ArrayList flujos, String titulo) {
+
+        ArrayList resultado = new ArrayList();
         try {
+            double acum = 0;
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                 //suma todos los VA correspondiendo a la cantidad de años
                 for (int t = 1; t <= i; t++) {
-                    acum = acum + Double.parseDouble(String.valueOf(ebitda.getArr_total().get(t))) / Math.pow(1 + (tasa_interes / 100), t);
+                    acum = acum + Double.parseDouble(String.valueOf(flujos.get(t))) / Math.pow(1 + (tasa_interes / 100), t);
                 }
                 //resta la inv
-                acum = acum - IngVsGas.inv;
-                van.add(acum);
+                acum = acum - ingvsgas.inv;
+                resultado.add(acum);
                 acum = 0;
             }
-            van.add(0, "VAN (Sin Riesgo)");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 1) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(0);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(0, van.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(van.toArray());
-            }
+            resultado.add(0, titulo);
         } catch (Exception e) {
             System.err.println("Error en calculo_van (Indicadores)");
             e.printStackTrace();
         }
+        return resultado;
     }
 
-    public void calculo_van_r() {
-        double acum = 0;
-        van_r.clear();
+    public void añadir_indicadores() {
         try {
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                //suma todos los VA correspondiendo a la cantidad de años
-                for (int t = 1; t <= i; t++) {
-                    acum = acum + Double.parseDouble(String.valueOf(ebitda.getArr_r_neto().get(t))) / Math.pow(1 + (tasa_interes / 100), t);
-                }
-                //resta la inv
-                acum = acum - IngVsGas.inv;
-                van_r.add(acum);
-                acum = 0;
-            }
-            van_r.add(0, "VAN (Con Riesgo)");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 2) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(1);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(1, van_r.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(van_r.toArray());
-            }
+            //se añade el van sin riesgo
+            van.clear();
+            van.addAll(calculo_van(ebitda.getArr_total(), "VAN (Sin Riesgo)"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 1, van);
+
+            //se añade el van con riesgo
+            van_r.clear();
+            van_r.addAll(calculo_van(ebitda.getArr_r_neto(), "VAN (Con Riesgo)"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 2, van_r);
+
+            //se añade el ivan
+            ivan.clear();
+            ivan.addAll(calculo_ivan(van, "IVAN (Sin Riesgo)"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 3, ivan);
+
+            //se añade el ivan con riesgo
+            ivan_r.clear();
+            ivan_r.addAll(calculo_ivan(van_r, "IVAN (Con Riesgo)"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 4, ivan_r);
+
+            //se añade la TIR sin riesgo
+            tir.clear();
+            tir.addAll(calculo_TIR(ebitda.getArr_total(),"TIR (Sin Riesgo)"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 5, tir);
+
+            //se añade la TIR con riesgo
+            tir_r.clear();
+            tir_r.addAll(calculo_TIR(ebitda.getArr_r_neto(),"TIR (Con Riesgo)"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 6, tir_r);
+
+            //se añade el vpi
+            vpi.clear();
+            vpi.addAll(calculo_van(ingvsgas.getSuma_totales_ing(), "VPI"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 7, vpi);
+
+            //se añade el vac
+            vac.clear();
+            vac.addAll(calculo_van(ingvsgas.getSuma_totales_eg(), "VAC"));
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 8, vac);
+            
+            //se añade razon b/c
+            razonbc.clear();
+            razonbc.addAll(calculo_razonBC());
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 9,  razonbc);
+
+            //se añade el payback
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 10, ebitda.getArr_payback());
+            
         } catch (Exception e) {
-            System.err.println("Error en calculo_van_r (Indicadores)");
+            System.err.println("Error en añadir_valores_actuales (Indicadores)");
             e.printStackTrace();
         }
     }
 
-    public void calculo_ivan() {
-        ivan.clear();
-        try {
-            for (int t = 1; t <= ProjectEvaluator.longevidad; t++) {
-                ivan.add(Double.parseDouble(String.valueOf(van.get(t))) / IngVsGas.inv);
-            }
+    public ArrayList calculo_ivan(ArrayList flujos, String titulo) {
 
-            ivan.add(0, "IVAN (Sin Riesgo)");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 3) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(2);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(2, ivan.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(ivan.toArray());
+        ArrayList resultado = new ArrayList();
+        try {
+
+            for (int t = 1; t <= ProjectEvaluator.longevidad; t++) {
+                resultado.add(Double.parseDouble(String.valueOf(flujos.get(t))) / ingvsgas.inv);
             }
+            resultado.add(0, titulo);
+
         } catch (Exception e) {
             System.err.println("Error en calculo_ivan (Indicadores)");
             e.printStackTrace();
         }
+        return resultado;
     }
 
-    public void calculo_ivan_r() {
-        ivan_r.clear();
-        try {
-            for (int t = 1; t <= ProjectEvaluator.longevidad; t++) {
-                ivan_r.add(Double.parseDouble(String.valueOf(van_r.get(t))) / IngVsGas.inv);
-            }
-            ivan_r.add(0, "IVAN (Con Riesgo)");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 4) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(3);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(3, ivan_r.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(ivan_r.toArray());
-            }
-        } catch (Exception e) {
-            System.err.println("Error en calculo_van_r (Indicadores)");
-            e.printStackTrace();
-        }
-    }
+    public ArrayList calculo_TIR(ArrayList flujos_list,String titulo) {
 
-    public void calculo_TIR() {
+        ArrayList resultado = new ArrayList();
         try {
-            tir.clear();
             double[] flujos = new double[ebitda.getArr_total().size()];
             //se inserta la inversion en los flujos
             flujos[0] = Double.parseDouble(String.valueOf(ingvsgas.getJtf_inv().getText())) * -1;
             for (int j = 1; j <= ProjectEvaluator.longevidad; j++) {
                 for (int i = 1; i <= j; i++) {
-                    flujos[i] = Double.parseDouble(String.valueOf(ebitda.getArr_total().get(i)));
+                    flujos[i] = Double.parseDouble(String.valueOf(flujos_list.get(i)));
 
                 }
-                tir.add(Irr.irr(flujos, 0));
+                resultado.add(Irr.irr(flujos, 0) * 100);
             }
-            tir.add(0, "TIR (Sin Riesgo)");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 5) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(4);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(4, tir.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(tir.toArray());
-            }
+            resultado.add(0, titulo);
+
         } catch (Exception e) {
             System.err.println("Error en Calculo_TIR (Indicadores)");
             e.printStackTrace();
         }
+        return resultado;
     }
 
-    public void calculo_TIR_r() {
-        tir_r.clear();
-        try {
-            double[] flujos = new double[ebitda.getArr_r_neto().size()];
-            //se inserta la inversion en los flujos
-            flujos[0] = Double.parseDouble(String.valueOf(ingvsgas.getJtf_inv().getText())) * -1;
-            for (int j = 1; j <= ProjectEvaluator.longevidad; j++) {
-                for (int i = 1; i <= j; i++) {
-                    flujos[i] = Double.parseDouble(String.valueOf(ebitda.getArr_r_neto().get(i)));
-
-                }
-                tir_r.add(Irr.irr(flujos, 0));
-            }
-            tir_r.add(0, "TIR (Con Riesgo)");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 6) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(5);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(5, tir_r.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(tir_r.toArray());
-            }
-        } catch (Exception e) {
-            System.err.println("Error en calculo_TIR_r (Indicadores)");
-            e.printStackTrace();
-        }
-    }
-
-    public void calculo_vac() {
-        double acum = 0;
-        vac.clear();
-        try {
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                //suma todos los VA correspondiendo a la cantidad de años
-                for (int t = 1; t <= i; t++) {
-                    acum = acum + Double.parseDouble(String.valueOf(ingvsgas.getSuma_totales_eg().get(t))) / Math.pow(1 + (tasa_interes / 100), t);
-                }
-                //resta la inv
-                acum = acum - IngVsGas.inv;
-                vac.add(acum);
-                acum = 0;
-            }
-            vac.add(0, "VAC");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 7) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(6);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(6, vac.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(vac.toArray());
-            }
-        } catch (Exception e) {
-            System.err.println("Error en calculo_vac (Indicadores)");
-            e.printStackTrace();
-        }
-    }
-
-    public void calculo_razonBC() {
-        razonbc.clear();
+    
+    public ArrayList calculo_razonBC() {
+        
+        ArrayList resultado = new ArrayList();
         try {
             for (int t = 1; t <= ProjectEvaluator.longevidad; t++) {
-                razonbc.add(Double.parseDouble(String.valueOf(van.get(t))) / Double.parseDouble(String.valueOf(vac.get(t))));
+                resultado.add(Double.parseDouble(String.valueOf(vpi.get(t))) / Double.parseDouble(String.valueOf(vac.get(t))));
             }
-            razonbc.add(0, "Razón B/C");
-            if (Utilidad.Tabla.get_modelo(tabla_indicadores).getRowCount() >= 8) {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(7);
-                Utilidad.Tabla.get_modelo(tabla_indicadores).insertRow(7, razonbc.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).addRow(razonbc.toArray());
-            }
+            resultado.add(0, "Razón B/C");
+
         } catch (Exception e) {
             System.err.println("Error en calculo_razonBC (Indicadores)");
             e.printStackTrace();
         }
+        return resultado;
     }
 
     /**
@@ -464,10 +410,9 @@ public class Indicadores extends javax.swing.JFrame {
         // TODO add your handling code here: 
         try {
             setear_interes();
-            calculo_van();
-            calculo_van_r();
-            calculo_ivan();
-            calculo_ivan_r();
+            añadir_indicadores();
+            /*    calculo_ivan();
+            calculo_ivan_r(); */
             Utilidad.JtextField.exportar_jtf(interes, jtf_interes);
         } catch (Exception e) {
             System.err.println("Error en jtf_interesActionPerformed (Indicadores)");
@@ -487,15 +432,14 @@ public class Indicadores extends javax.swing.JFrame {
                 //inicializa indicadores
                 Utilidad.JtextField.importar_jtf(interes, jtf_interes);
                 setear_interes();
-                Utilidad.JtextField.importar_jtf(IngVsGas.inversion, ingvsgas.getJtf_inv());
-                //calculo van sin riesgo y con riesgo
-                calculo_van();
-                calculo_van_r();
-                calculo_ivan();
+                Utilidad.JtextField.importar_jtf(ingvsgas.inversion, ingvsgas.getJtf_inv());
+                //calculo van 
+                añadir_indicadores();
+                /*   calculo_ivan();
                 calculo_ivan_r();
                 calculo_TIR();
                 calculo_vac();
-                calculo_razonBC();
+                calculo_razonBC(); */
 
                 try {
                     Utilidad.Tabla.exportar(indicadores, tabla_indicadores);

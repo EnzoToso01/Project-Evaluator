@@ -20,7 +20,7 @@ public class Utilidad {
 
     public static class Tabla {
 
-        public static void inicializar(JTable tabla) {
+        public static void inicializar_col(JTable tabla) {
             //Asigna los años del proyecto a las tablas
             //Se salta las columnas ya agregadas para no rehacerlas o resta las columnas cortadas
             DefaultTableModel tbl = get_modelo(tabla);
@@ -97,7 +97,7 @@ public class Utilidad {
             }
         }
 
-        public static int buscar_fila(String nombre_fila, JTable tabla) {
+        public static int buscar_indice_fila(String nombre_fila, JTable tabla) {
             int num_fila = -1;
             for (int i = 0; i <= tabla.getRowCount() - 1; i++) {
                 try {

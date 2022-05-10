@@ -338,7 +338,7 @@ public class EBITDA extends javax.swing.JFrame {
     public void calculo_riesgo() {
         arr_riesgo.clear();
         double acum = 0;
-        Utilidad.Tabla.inicializar(riesgo.getTabla_riesgos());
+        Utilidad.Tabla.inicializar_col(riesgo.getTabla_riesgos());
         Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
         Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 70);
         riesgo.setImp(true);
