@@ -69,7 +69,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         ingvsgas = new IngVsGas(ebitda, impuestos);
         empleados = new Empleados(ingvsgas);
         indicadores = new Indicadores(ebitda, ingvsgas);
-
     }
 
     public static void main(String args[]) {
@@ -718,7 +717,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                     ingvsgas.setear_ebitda_imp();
                     //importa el jtextfield
                     ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                    Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
+                    Utilidad.JtextField.importar_jtf(ingvsgas.inversion, ingvsgas.getJtf_inv());
+                    ingvsgas.setindicadores(indicadores);
                     ingvsgas.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -754,12 +754,12 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //Realiza los valores para ebitda e impuestos
                 ingvsgas.setear_ebitda_imp();
                 //importa el jtextfield
-                 ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
+                ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
+                Utilidad.JtextField.importar_jtf(ingvsgas.inversion, ingvsgas.getJtf_inv());
+                ingvsgas.setindicadores(indicadores);
                 ingvsgas.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
             }
 
         } catch (Exception e) {
@@ -799,12 +799,12 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //inicializa indicadores
                 Utilidad.JtextField.importar_jtf(indicadores.getInteres(), indicadores.getJtf_interes());
                 indicadores.setear_interes();
-                 ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
+                ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
+                Utilidad.JtextField.importar_jtf(ingvsgas.inversion, ingvsgas.getJtf_inv());
                 //calculo van sin riesgo y con riesgo
                 ingvsgas.setear_inv();
                 indicadores.añadir_indicadores();
-              /*  indicadores.calculo_van();
+                /*  indicadores.calculo_van();
                 indicadores.calculo_van_r();
                 indicadores.calculo_ivan();
                 indicadores.calculo_ivan_r(); 
@@ -956,7 +956,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
 
-                Utilidad.Tabla.inicializar_col(impuestos.getTabla_impuestos());        
+                Utilidad.Tabla.inicializar_col(impuestos.getTabla_impuestos());
                 Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_impuestos());
                 Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_indimpuestos());
                 //añade filas por defecto si no hay ninguna en la tabla
