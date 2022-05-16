@@ -60,7 +60,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono_app.png")));
-
         //crea los objetos de los demas jframes
         credito = new Credito();
         riesgo = new Riesgo();
@@ -69,7 +68,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         ingvsgas = new IngVsGas(ebitda, impuestos);
         empleados = new Empleados(ingvsgas);
         indicadores = new Indicadores(ebitda, ingvsgas);
-
     }
 
     public static void main(String args[]) {
@@ -756,6 +754,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //importa el jtextfield
                  ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
                 Utilidad.JtextField.importar_jtf( ingvsgas.inversion, ingvsgas.getJtf_inv());
+                ingvsgas.setIndicadores(indicadores);
                 ingvsgas.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);

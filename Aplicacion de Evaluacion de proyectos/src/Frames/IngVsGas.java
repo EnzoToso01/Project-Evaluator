@@ -73,13 +73,11 @@ public class IngVsGas extends javax.swing.JFrame {
     private File egresosiva;
     private EBITDA ebitda;
     private Impuestos impuestos;
+    private Indicadores indicadores;
     public File inversion;
     public double inv;
 
-    IngVsGas() {
-
-    }
-
+   
     public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -175,6 +173,10 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public JLabel getTxtingresos() {
         return txtingresos;
+    }
+    
+    public void setIndicadores(Indicadores indicadores) {
+        this.indicadores=indicadores;
     }
 
     public ArrayList calculo_datos(JTable tabla) {
@@ -677,11 +679,11 @@ public class IngVsGas extends javax.swing.JFrame {
                 if (jComboBoxivaing.getSelectedIndex() == 0) {
                     for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                         calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
-
                         setear_ebitda_imp();
                         saldo_caja_inicial();
                     }
                 }
+                indicadores.añadir_indicadores();
             }
         } catch (Exception e) {
             System.err.println("Error en tabla_ingresosPropertyChange,IngVsGas");
@@ -698,14 +700,14 @@ public class IngVsGas extends javax.swing.JFrame {
                 if (jComboBoxivaeg.getSelectedIndex() == 0) {
                     egresos = new File(direccion + "\\IngVsGas\\egresos.txt");
                     Utilidad.Tabla.exportar(egresos, tabla_egresos);
-                } else {
-                    //direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
+                } else {              
                     egresosiva = new File(direccion + "IngVsGas\\egresos (IVA).txt");
                     Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
                 }
                 calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
                 setear_ebitda_imp();
                 saldo_caja_inicial();
+                indicadores.añadir_indicadores();
             }
 
         } catch (Exception e) {
