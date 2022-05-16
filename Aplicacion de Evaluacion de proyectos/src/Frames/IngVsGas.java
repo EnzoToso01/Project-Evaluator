@@ -73,9 +73,12 @@ public class IngVsGas extends javax.swing.JFrame {
     private File egresosiva;
     private EBITDA ebitda;
     private Impuestos impuestos;
-    private Indicadores indicadores;
     public File inversion;
     public double inv;
+
+    IngVsGas() {
+
+    }
 
     public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();
@@ -174,10 +177,6 @@ public class IngVsGas extends javax.swing.JFrame {
         return txtingresos;
     }
 
-    public void setindicadores(Indicadores indicadores) {
-        this.indicadores = indicadores;
-    }
-
     public ArrayList calculo_datos(JTable tabla) {
 
         double total = 0;
@@ -249,14 +248,14 @@ public class IngVsGas extends javax.swing.JFrame {
             //iguala los arrays a el array datos segun corresponda
             if (jcombobox.getSelectedItem().equals("Sin IVA")) {
                 total = (ArrayList<Double>) calculo_datos(tabla);
-
+              
                 aux.clear();
                 aux.addAll(total);
                 aux.add(0, "Total");
                 Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
             } else {
                 total_iva = (ArrayList<Double>) calculo_datos(tabla);
-
+             
                 aux.clear();
                 aux.addAll(total_iva);
                 aux.add(0, "Total");
@@ -270,7 +269,7 @@ public class IngVsGas extends javax.swing.JFrame {
                 try {
                     suma_totales.add(total.get(i - 1) + total_iva.get(i - 1));
                 } catch (IndexOutOfBoundsException e) {
-
+                   
                     suma_totales.add(0.0);
                 }
             }
@@ -674,16 +673,15 @@ public class IngVsGas extends javax.swing.JFrame {
                     ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
                     Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
                 }
-                //hace varias veces los seteos para actualizar total ebitda con saldo caja inicial en (Sin IVA)
+                //hace varias veces los seteos para actualizar total ebitda con saldo caja inicial en (CON IVA)
                 if (jComboBoxivaing.getSelectedIndex() == 0) {
                     for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                         calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
+
                         setear_ebitda_imp();
                         saldo_caja_inicial();
                     }
                 }
-                //se actualizan indicadores
-                indicadores.añadir_indicadores();
             }
         } catch (Exception e) {
             System.err.println("Error en tabla_ingresosPropertyChange,IngVsGas");
@@ -705,17 +703,9 @@ public class IngVsGas extends javax.swing.JFrame {
                     egresosiva = new File(direccion + "IngVsGas\\egresos (IVA).txt");
                     Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
                 }
-                //hace varias veces los seteos para actualizar total ebitda con saldo caja inicial en (Sin IVA) y además se actualiza el total de egresos
                 calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
-                if (jComboBoxivaing.getSelectedIndex() == 0) {
-                    for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                        calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
-                        setear_ebitda_imp();
-                        saldo_caja_inicial();
-                    }
-                }
-                //se actualizan indicadores
-                indicadores.añadir_indicadores();
+                setear_ebitda_imp();
+                saldo_caja_inicial();
             }
 
         } catch (Exception e) {
