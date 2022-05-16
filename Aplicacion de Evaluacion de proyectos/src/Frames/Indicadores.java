@@ -114,6 +114,29 @@ public class Indicadores extends javax.swing.JFrame {
         return txtindicadores;
     }
 
+    public ArrayList calculo_van(ArrayList flujos, String titulo) {
+
+        ArrayList resultado = new ArrayList();
+        try {
+            double acum = 0;
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                //suma todos los VA correspondiendo a la cantidad de años
+                for (int t = 1; t <= i; t++) {
+                    acum = acum + Double.parseDouble(String.valueOf(flujos.get(t))) / Math.pow(1 + (tasa_interes / 100), t);
+                }
+                //resta la inv
+                acum = acum - ingvsgas.inv;
+                resultado.add(acum);
+                acum = 0;
+            }
+            resultado.add(0, titulo);
+        } catch (Exception e) {
+            System.err.println("Error en calculo_van (Indicadores)");
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+
     public void añadir_indicadores() {
         try {
             //se añade el van sin riesgo
@@ -138,12 +161,12 @@ public class Indicadores extends javax.swing.JFrame {
 
             //se añade la TIR sin riesgo
             tir.clear();
-            tir.addAll(calculo_TIR(ebitda.getArr_total(), "TIR (Sin Riesgo)"));
+            tir.addAll(calculo_TIR(ebitda.getArr_total(),"TIR (Sin Riesgo)"));
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 5, tir);
 
             //se añade la TIR con riesgo
             tir_r.clear();
-            tir_r.addAll(calculo_TIR(ebitda.getArr_r_neto(), "TIR (Con Riesgo)"));
+            tir_r.addAll(calculo_TIR(ebitda.getArr_r_neto(),"TIR (Con Riesgo)"));
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 6, tir_r);
 
             //se añade el vpi
@@ -155,45 +178,19 @@ public class Indicadores extends javax.swing.JFrame {
             vac.clear();
             vac.addAll(calculo_van(ingvsgas.getSuma_totales_eg(), "VAC"));
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 8, vac);
-
+            
             //se añade razon b/c
             razonbc.clear();
             razonbc.addAll(calculo_razonBC());
-            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 9, razonbc);
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 9,  razonbc);
 
             //se añade el payback
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 10, ebitda.getArr_payback());
-
-            //se añade el payback (tiempo) en el jtf
-            jtf_payback.setText(payback_tiempo());
-
+            
         } catch (Exception e) {
             System.err.println("Error en añadir_valores_actuales (Indicadores)");
             e.printStackTrace();
         }
-    }
-
-    public ArrayList calculo_van(ArrayList flujos, String titulo) {
-
-        ArrayList resultado = new ArrayList();
-        try {
-            double acum = 0;
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                //suma todos los VA correspondiendo a la cantidad de años
-                for (int t = 1; t <= i; t++) {
-                    acum = acum + Double.parseDouble(String.valueOf(flujos.get(t))) / Math.pow(1 + (tasa_interes / 100), t);
-                }
-                //resta la inv
-                acum = acum - ingvsgas.inv;
-                resultado.add(acum);
-                acum = 0;
-            }
-            resultado.add(0, titulo);
-        } catch (Exception e) {
-            System.err.println("Error en calculo_van (Indicadores)");
-            e.printStackTrace();
-        }
-        return resultado;
     }
 
     public ArrayList calculo_ivan(ArrayList flujos, String titulo) {
@@ -213,7 +210,7 @@ public class Indicadores extends javax.swing.JFrame {
         return resultado;
     }
 
-    public ArrayList calculo_TIR(ArrayList flujos_list, String titulo) {
+    public ArrayList calculo_TIR(ArrayList flujos_list,String titulo) {
 
         ArrayList resultado = new ArrayList();
         try {
@@ -236,8 +233,9 @@ public class Indicadores extends javax.swing.JFrame {
         return resultado;
     }
 
+    
     public ArrayList calculo_razonBC() {
-
+        
         ArrayList resultado = new ArrayList();
         try {
             for (int t = 1; t <= ProjectEvaluator.longevidad; t++) {
@@ -250,83 +248,6 @@ public class Indicadores extends javax.swing.JFrame {
             e.printStackTrace();
         }
         return resultado;
-    }
-
-    public int buscar_periodo_rec() {
-        //busca el periodo en donde el payback equivale a 0 o positivo
-        int periodo = -1;
-        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            if (Double.parseDouble(ebitda.getArr_payback().get(i).toString()) >= 0) {
-                periodo = i;
-                break;
-            }
-        }
-        return periodo;
-    }
-
-    public String payback_tiempo() {
-
-        String payback = "";
-        double tiempo = 0.0;
-        double diferencia = 0.0;
-        int periodo = buscar_periodo_rec();
-        int periodo_prev = 1;
-        String años;
-        String meses;
-        String dias;
-
-        //en caso de que el periodo de payback haya sido mayor q uno, se resta uno para establecer el periodo_prev, sino se deja como 1
-        if (periodo > 1) {
-            periodo_prev = periodo - 1;
-        }
-
-        try {
-            //calcula la diferencia que existe entre el periodo anterior al payback y al que dio positivo
-            if (periodo != -1) {
-               
-                diferencia = -(double) (ebitda.getArr_payback().get(periodo_prev)) + (double) (ebitda.getArr_payback().get(periodo));
-
-                //regla de tres simple para buscar el payback
-                tiempo = 12 * (-(double) ebitda.getArr_payback().get(periodo_prev)) / diferencia;
-
-                //el tiempo esta en meses, deben calcularse los dias
-                double parteDecimal = tiempo % 1; // El resto de dividir al número entre 1
-                int parteEntera = (int) (tiempo - parteDecimal); // Resta la parte decimal para obtener la parte entera
-
-                //Años
-                años = String.valueOf(periodo_prev);
-                if (periodo_prev == 1) {
-                    años = años + " Año";
-                } else {
-                    años = años + " Años";
-                }
-
-                //Meses
-                meses = String.valueOf(parteEntera);
-                if (parteEntera < 2) {
-                    meses = meses + " Mes";
-                } else {
-                    meses = meses + " Meses";
-                }
-
-                //Días
-                dias = String.valueOf((int) (Math.ceil(parteDecimal * 30))); //se redondea los días a uno mas en caso de tener decimal
-                if (parteEntera < 2) {
-                    dias = dias + " Día"; //se multiplica la parte decimal por la cantidad de dias promedio de un mes
-                } else {
-                    dias = dias + " Días";
-                }
-
-                payback = años + "," + meses + " y " + dias;
-
-            } else {
-                payback = "No se encontró el Payback";
-            }
-        } catch (Exception e) {
-            System.err.println("Error en payback_tiempo (Indicadores)");
-            e.printStackTrace();
-        }
-        return payback;
     }
 
     /**
@@ -345,8 +266,6 @@ public class Indicadores extends javax.swing.JFrame {
         btn_quitarfila_ind = new javax.swing.JButton();
         txtinteres = new javax.swing.JLabel();
         jtf_interes = new javax.swing.JTextField();
-        jtf_payback = new javax.swing.JTextField();
-        txtpayback = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Indicadores");
@@ -419,25 +338,6 @@ public class Indicadores extends javax.swing.JFrame {
             }
         });
 
-        jtf_payback.setEditable(false);
-        jtf_payback.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jtf_payback.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jtf_payback.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_paybackActionPerformed(evt);
-            }
-        });
-        jtf_payback.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jtf_paybackPropertyChange(evt);
-            }
-        });
-
-        txtpayback.setBackground(new java.awt.Color(255, 255, 255));
-        txtpayback.setFont(new java.awt.Font("Bahnschrift", 0, 12)); // NOI18N
-        txtpayback.setForeground(new java.awt.Color(255, 255, 255));
-        txtpayback.setText("Payback (tiempo)");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -452,10 +352,6 @@ public class Indicadores extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtinteres)
                             .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtpayback)
-                            .addComponent(jtf_payback, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -473,12 +369,7 @@ public class Indicadores extends javax.swing.JFrame {
                         .addGap(11, 11, 11)
                         .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txtpayback)
-                                .addGap(1, 1, 1)
-                                .addComponent(jtf_payback, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btn_añadirfila_ind))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(txtinteres)
@@ -567,14 +458,6 @@ public class Indicadores extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void jtf_paybackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_paybackActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtf_paybackActionPerformed
-
-    private void jtf_paybackPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_paybackPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtf_paybackPropertyChange
-
     /**
      * @param args the command line arguments
      */
@@ -583,11 +466,9 @@ public class Indicadores extends javax.swing.JFrame {
     private javax.swing.JButton btn_añadirfila_ind;
     private javax.swing.JButton btn_quitarfila_ind;
     private javax.swing.JTextField jtf_interes;
-    private javax.swing.JTextField jtf_payback;
     private javax.swing.JScrollPane scroll_indicadores;
     private javax.swing.JTable tabla_indicadores;
     private javax.swing.JLabel txtindicadores;
     private javax.swing.JLabel txtinteres;
-    private javax.swing.JLabel txtpayback;
     // End of variables declaration//GEN-END:variables
 }
