@@ -8,47 +8,16 @@ package Frames;
 import Clases.Utilidad;
 import static Frames.ProjectEvaluator.direccion;
 import static Frames.ProjectEvaluator.import_ingeg;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Event;
-import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import static java.lang.System.out;
 import javax.swing.JFrame;
-import java.sql.*;
-import java.util.Arrays;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 /**
  *
@@ -77,7 +46,6 @@ public class IngVsGas extends javax.swing.JFrame {
     public File inversion;
     public double inv;
 
-   
     public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -95,304 +63,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
     }
 
-    public EBITDA getEbitda() {
-        return ebitda;
-    }
-
-    public Impuestos getImpuestos() {
-        return impuestos;
-    }
-
-    public JComboBox<String> getjComboBoxivaeg() {
-        return jComboBoxivaeg;
-    }
-
-    public JComboBox<String> getjComboBoxivaing() {
-        return jComboBoxivaing;
-    }
-
-    public JTextField getJtf_inv() {
-        return jtf_inv;
-    }
-
-    public File getIngresos() {
-        return ingresos;
-    }
-
-    public File getIngresosiva() {
-        return ingresosiva;
-    }
-
-    public File getEgresos() {
-        return egresos;
-    }
-
-    public File getEgresosiva() {
-        return egresosiva;
-    }
-
-    public double getInv() {
-        return inv;
-    }
-
-    public JTable getTabla_egresos() {
-        return tabla_egresos;
-    }
-
-    public JTable getTabla_ingresos() {
-        return tabla_ingresos;
-    }
-
-    public ArrayList getSuma_totales_ing() {
-        return suma_totales_ing;
-    }
-
-    public ArrayList getSuma_totales_eg() {
-        return suma_totales_eg;
-    }
-
-    public ArrayList<Double> getTotal_ing() {
-        return total_ing;
-    }
-
-    public ArrayList<Double> getTotal_ing_iva() {
-        return total_ing_iva;
-    }
-
-    public ArrayList<Double> getTotal_eg() {
-        return total_eg;
-    }
-
-    public ArrayList<Double> getTotal_eg_iva() {
-        return total_eg_iva;
-    }
-
-    public JLabel getTxtegresos() {
-        return txtegresos;
-    }
-
-    public JLabel getTxtingresos() {
-        return txtingresos;
-    }
-    
-    public void setIndicadores(Indicadores indicadores) {
-        this.indicadores=indicadores;
-    }
-
-    public ArrayList calculo_datos(JTable tabla) {
-
-        double total = 0;
-        ArrayList datos = new ArrayList();
-        //para evitar indexoutofbounds exceptions
-        Utilidad.Tabla.inicializar_col(tabla_ingresos);
-        Utilidad.Tabla.inicializar_col(tabla_egresos);
-        try {
-            //chequea si las rows Totales existen y las borra 
-            for (int i = 0; i < tabla.getRowCount(); i++) {
-                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total")) {
-                    Utilidad.Tabla.get_modelo(tabla).removeRow(i);
-
-                }
-            }
-            for (int i = 0; i < tabla.getRowCount(); i++) {
-                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total Final")) {
-                    Utilidad.Tabla.get_modelo(tabla).removeRow(i);
-
-                }
-            }
-            //acumula la suma de los valores
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                for (int j = 0; j < tabla.getRowCount(); j++) {
-                    //convierte los datos null de la primera columna en string para evitar null exceptions 
-                    if (tabla.getValueAt(j, 0) == null) {
-                        Utilidad.Tabla.get_modelo(tabla).setValueAt("", j, 0);
-
-                    }
-                    if (tabla.getValueAt(j, i) != null) {
-                        if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total")) {
-                            try {
-                                total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
-                            } catch (NumberFormatException e) {
-                                System.err.println("Error en Calculo Total");
-                                System.err.println(e);
-                            }
-                        }
-                    }
-                }
-
-                datos.add(total);
-                total = 0;
-            }
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Error en Calculo_Total (IngVsGas)");
-            System.err.println(e);
-        }
-        return datos;
-    }
-
-    public void calculo_totales(JTable tabla, ArrayList<Double> total, ArrayList<Double> total_iva, ArrayList suma_totales, JComboBox jcombobox) {
-
-        ArrayList aux = new ArrayList();
-
-        try {
-
-            //añade valores por defecto a los arraylist de totales
-            if (total.isEmpty() == true && total_iva.isEmpty() == true && suma_totales.isEmpty() == true) {
-
-                for (int i = 0; i <= ProjectEvaluator.longevidad; i++) {
-                    total.add(0.0);
-                    total_iva.add(0.0);
-                    suma_totales.add(0.0);
-                }
-            }
-
-            //iguala los arrays a el array datos segun corresponda
-            if (jcombobox.getSelectedItem().equals("Sin IVA")) {
-                total = (ArrayList<Double>) calculo_datos(tabla);
-              
-                aux.clear();
-                aux.addAll(total);
-                aux.add(0, "Total");
-                Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
-            } else {
-                total_iva = (ArrayList<Double>) calculo_datos(tabla);
-             
-                aux.clear();
-                aux.addAll(total_iva);
-                aux.add(0, "Total");
-                Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
-            }
-            // realiza la suma de los totales
-            suma_totales.clear();
-            suma_totales.add(0, "Total Final");
-            //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                try {
-                    suma_totales.add(total.get(i - 1) + total_iva.get(i - 1));
-                } catch (IndexOutOfBoundsException e) {
-                   
-                    suma_totales.add(0.0);
-                }
-            }
-            //añade los totales a las tablas
-            Utilidad.Tabla.get_modelo(tabla).addRow(suma_totales.toArray());
-        } catch (Exception e) {
-            System.err.println("Error en calculo_total (IngVsGas)");
-            e.printStackTrace();
-        }
-    }
-
-    public void setear_ingvsgas() {
-        //Realiza o establece todos los valores para ingvsgas
-        try {
-            //para inicializar ingvsgas
-            ((DefaultTableModel) getTabla_ingresos().getModel()).setRowCount(0);
-            ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
-
-            //inicializa ing y eg
-            Utilidad.Tabla.inicializar_col(getTabla_ingresos());
-            Utilidad.Tabla.inicializar_col(getTabla_egresos());
-
-            //imp ing eg con iva
-            getjComboBoxivaing().setSelectedItem("Con IVA");
-            getjComboBoxivaeg().setSelectedItem("Con IVA");
-            ((DefaultTableModel) getTabla_ingresos().getModel()).setRowCount(0);
-            ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
-
-            //imp ing y eg
-            getjComboBoxivaing().setSelectedItem("Sin IVA");
-            getjComboBoxivaeg().setSelectedItem("Sin IVA");
-
-            //actualiza totales        
-            calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
-            calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
-            import_ingeg = true;
-
-            Utilidad.Tabla.filas_defecto(getTabla_ingresos(), 11);
-            Utilidad.Tabla.filas_defecto(getTabla_egresos(), 11);
-        } catch (Exception e) {
-            System.err.println("Error en setear_ingvsgas (IngVsGas)");
-            e.printStackTrace();
-        }
-    }
-
-    public void setear_ebitda_imp() {
-
-        //setea datos de Ebitda e impuestos 
-        try {
-            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
-            ebitda.setIngresos(suma_totales_ing);
-            ebitda.setEgresos(suma_totales_eg);
-            ebitda.calculo_ebitda();
-            impuestos.calculo_ing_brutos();
-            impuestos.iva_ventas(total_ing_iva);
-            impuestos.iva_compras(total_eg_iva);
-            impuestos.calculo_iva();
-            ebitda.calculo_intereses();
-            ebitda.calculo_subt_s_gan();
-            ebitda.calculo_amortizaciones();
-            ebitda.calculo_sub_c_amort();
-            impuestos.calculo_ganancias();
-            // impuestos.ganancias();
-            ebitda.calculo_total();
-            ebitda.calculo_payback();
-            ebitda.calculo_riesgo();
-            ebitda.calculo_r_neto();
-            // impuestos.ing_b();
-            impuestos.calculo_total_imp();
-        } catch (Exception e) {
-            System.err.println("Error en setear_ebitda_imp (IngVsGas)");
-            e.printStackTrace();
-        }
-    }
-
-    public void setear_inv() {
-        try {
-            //establece que inv es el valor del jtf y añade a ingresos la inv
-            inv = Double.parseDouble(jtf_inv.getText());
-            Object[] arrinv = {"Inversión inicial", inv};
-            //busca la fila inv y si no la encuentra la crea,si la encuentra la reemplaza
-            int fila_inv = Utilidad.Tabla.buscar_indice_fila("Inversión inicial", tabla_ingresos);
-            if (fila_inv == -1) {
-                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, arrinv);
-            } else {
-                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_inv);
-                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_inv, arrinv);
-            }
-            saldo_caja_inicial();
-        } catch (NumberFormatException | NullPointerException e) {
-            System.err.println("Error en setear_inv (IngVsGas)");
-            e.printStackTrace();
-            //para evitar null exceptions
-            Utilidad.Tabla.get_modelo(tabla_ingresos).setValueAt("", 1, 0);
-
-        }
-    }
-
-    public void saldo_caja_inicial() {
-        //añade el saldo inicial en los ingresos
-        ArrayList saldo_caja = new ArrayList();
-        saldo_caja.addAll(ebitda.getArr_total());
-        saldo_caja.remove(0);
-        saldo_caja.add(0, "Saldo inicial de caja disponible");
-        saldo_caja.add(1, 0.0);
-
-        int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
-        if (fila_caja == -1) {
-            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_caja);
-            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_caja, saldo_caja.toArray());
-        }
-
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    //Código autogenerado
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -497,11 +168,6 @@ public class IngVsGas extends javax.swing.JFrame {
         jtf_inv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtf_invActionPerformed(evt);
-            }
-        });
-        jtf_inv.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jtf_invPropertyChange(evt);
             }
         });
 
@@ -615,16 +281,291 @@ public class IngVsGas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Getters
+    public EBITDA getEbitda() {
+        return ebitda;
+    }
 
+    public Impuestos getImpuestos() {
+        return impuestos;
+    }
+
+    public JComboBox<String> getjComboBoxivaeg() {
+        return jComboBoxivaeg;
+    }
+
+    public JComboBox<String> getjComboBoxivaing() {
+        return jComboBoxivaing;
+    }
+
+    public JTextField getJtf_inv() {
+        return jtf_inv;
+    }
+
+    public File getIngresos() {
+        return ingresos;
+    }
+
+    public File getIngresosiva() {
+        return ingresosiva;
+    }
+
+    public File getEgresos() {
+        return egresos;
+    }
+
+    public File getEgresosiva() {
+        return egresosiva;
+    }
+
+    public double getInv() {
+        return inv;
+    }
+
+    public JTable getTabla_egresos() {
+        return tabla_egresos;
+    }
+
+    public JTable getTabla_ingresos() {
+        return tabla_ingresos;
+    }
+
+    public ArrayList getSuma_totales_ing() {
+        return suma_totales_ing;
+    }
+
+    public ArrayList getSuma_totales_eg() {
+        return suma_totales_eg;
+    }
+
+    public ArrayList<Double> getTotal_ing() {
+        return total_ing;
+    }
+
+    public ArrayList<Double> getTotal_ing_iva() {
+        return total_ing_iva;
+    }
+
+    public ArrayList<Double> getTotal_eg() {
+        return total_eg;
+    }
+
+    public ArrayList<Double> getTotal_eg_iva() {
+        return total_eg_iva;
+    }
+
+    public JLabel getTxtegresos() {
+        return txtegresos;
+    }
+
+    public JLabel getTxtingresos() {
+        return txtingresos;
+    }
+
+    //Setters
+    public void setIndicadores(Indicadores indicadores) {
+        this.indicadores = indicadores;
+    }
+
+    //Métodos
+    public ArrayList calculo_datos(JTable tabla) {
+        //realiza la suma para el calculo total en una columna de ingresos o egresos
+        double total = 0;
+        ArrayList datos = new ArrayList();
+        //para evitar indexoutofbounds exceptions
+        Utilidad.Tabla.inicializar_col(tabla_ingresos);
+        Utilidad.Tabla.inicializar_col(tabla_egresos);
+        try {
+            //chequea si las rows Totales existen y las borra 
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total")) {
+                    Utilidad.Tabla.get_modelo(tabla).removeRow(i);
+                }
+            }
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                if (tabla.getValueAt(i, 0) != null && tabla.getValueAt(i, 0).equals("Total Final")) {
+                    Utilidad.Tabla.get_modelo(tabla).removeRow(i);
+                }
+            }
+            //acumula la suma de los valores
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                for (int j = 0; j < tabla.getRowCount(); j++) {
+                    //convierte los datos null de la primera columna en string para evitar null exceptions 
+                    if (tabla.getValueAt(j, 0) == null) {
+                        Utilidad.Tabla.get_modelo(tabla).setValueAt("", j, 0);
+                    }
+                    if (tabla.getValueAt(j, i) != null) {
+                        if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total")) {
+                            try {
+                                total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
+                            } catch (NumberFormatException e) {
+                                System.err.println("Error en Calculo Total");
+                                System.err.println(e);
+                            }
+                        }
+                    }
+                }
+                datos.add(total);
+                total = 0;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Error en Calculo_Total (IngVsGas)");
+            System.err.println(e);
+        }
+        return datos;
+    }
+
+    public void calculo_totales(JTable tabla, ArrayList<Double> total, ArrayList<Double> total_iva, ArrayList suma_totales, JComboBox jcombobox) {
+        //Realiza los diferentes arrays de calculo total para ingresos o egresos y los añade a sus respectivas tablas
+        ArrayList aux = new ArrayList();
+        try {
+            //añade valores por defecto a los arraylist de totales
+            if (total.isEmpty() == true && total_iva.isEmpty() == true && suma_totales.isEmpty() == true) {
+                for (int i = 0; i <= ProjectEvaluator.longevidad; i++) {
+                    total.add(0.0);
+                    total_iva.add(0.0);
+                    suma_totales.add(0.0);
+                }
+            }
+            //iguala los arrays a el array datos segun corresponda
+            if (jcombobox.getSelectedItem().equals("Sin IVA")) {
+                total = (ArrayList<Double>) calculo_datos(tabla);
+                aux.clear();
+                aux.addAll(total);
+                aux.add(0, "Total");
+                Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
+            } else {
+                total_iva = (ArrayList<Double>) calculo_datos(tabla);
+                aux.clear();
+                aux.addAll(total_iva);
+                aux.add(0, "Total");
+                Utilidad.Tabla.get_modelo(tabla).addRow(aux.toArray());
+            }
+            // realiza la suma de los totales
+            suma_totales.clear();
+            suma_totales.add(0, "Total Final");
+            //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                try {
+                    suma_totales.add(total.get(i - 1) + total_iva.get(i - 1));
+                } catch (IndexOutOfBoundsException e) {
+                    suma_totales.add(0.0);
+                }
+            }
+            //añade los totales a las tablas
+            Utilidad.Tabla.get_modelo(tabla).addRow(suma_totales.toArray());
+        } catch (Exception e) {
+            System.err.println("Error en calculo_total (IngVsGas)");
+            e.printStackTrace();
+        }
+    }
+
+    public void setear_ingvsgas() {
+        //Realiza o establece todos los valores para ingvsgas
+        try {
+            //para inicializar ingvsgas
+            ((DefaultTableModel) getTabla_ingresos().getModel()).setRowCount(0);
+            ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
+            //inicializa ing y eg
+            Utilidad.Tabla.inicializar_col(getTabla_ingresos());
+            Utilidad.Tabla.inicializar_col(getTabla_egresos());
+            //imp ing eg con iva
+            getjComboBoxivaing().setSelectedItem("Con IVA");
+            getjComboBoxivaeg().setSelectedItem("Con IVA");
+            ((DefaultTableModel) getTabla_ingresos().getModel()).setRowCount(0);
+            ((DefaultTableModel) getTabla_egresos().getModel()).setRowCount(0);
+            //imp ing y eg
+            getjComboBoxivaing().setSelectedItem("Sin IVA");
+            getjComboBoxivaeg().setSelectedItem("Sin IVA");
+            //actualiza totales        
+            calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
+            calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
+            import_ingeg = true;
+            Utilidad.Tabla.filas_defecto(getTabla_ingresos(), 11);
+            Utilidad.Tabla.filas_defecto(getTabla_egresos(), 11);
+        } catch (Exception e) {
+            System.err.println("Error en setear_ingvsgas (IngVsGas)");
+            e.getMessage();
+        }
+    }
+
+    public void setear_ebitda_imp() {
+        //setea datos de Ebitda e impuestos 
+        try {
+            Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
+            ebitda.setIngresos(suma_totales_ing);
+            ebitda.setEgresos(suma_totales_eg);
+            ebitda.calculo_ebitda();
+            impuestos.calculo_ing_brutos();
+            impuestos.iva_ventas(total_ing_iva);
+            impuestos.iva_compras(total_eg_iva);
+            impuestos.calculo_iva();
+            ebitda.calculo_intereses();
+            ebitda.calculo_subt_s_gan();
+            ebitda.calculo_amortizaciones();
+            ebitda.calculo_sub_c_amort();
+            impuestos.calculo_ganancias();
+            // impuestos.ganancias();
+            ebitda.calculo_total();
+            ebitda.calculo_payback();
+            ebitda.calculo_riesgo();
+            ebitda.calculo_r_neto();
+            // impuestos.ing_b();
+            impuestos.calculo_total_imp();
+        } catch (Exception e) {
+            System.err.println("Error en setear_ebitda_imp (IngVsGas)");
+            e.getMessage();
+        }
+    }
+
+    public void setear_inv() {
+        try {
+            //establece que inv es el valor del jtf y añade a ingresos la inv
+            inv = Double.parseDouble(jtf_inv.getText());
+            Object[] arrinv = {"Inversión inicial", inv};
+            //busca la fila inv y si no la encuentra la crea,si la encuentra la reemplaza
+            int fila_inv = Utilidad.Tabla.buscar_indice_fila("Inversión inicial", tabla_ingresos);
+            if (fila_inv == -1) {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, arrinv);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_inv);
+                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_inv, arrinv);
+            }
+            saldo_caja_inicial();
+        } catch (NumberFormatException | NullPointerException e) {
+            System.err.println("Error en setear_inv (IngVsGas)");
+            e.getMessage();
+            //para evitar null exceptions
+            Utilidad.Tabla.get_modelo(tabla_ingresos).setValueAt("", 1, 0);
+        }
+    }
+
+    public void saldo_caja_inicial() {
+        //añade el saldo inicial en los ingresos
+        ArrayList saldo_caja = new ArrayList();
+        saldo_caja.addAll(ebitda.getArr_total());
+        saldo_caja.remove(0);
+        saldo_caja.add(0, "Saldo inicial de caja disponible");
+        saldo_caja.add(1, 0.0);
+        int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
+        if (fila_caja == -1) {
+            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_caja);
+            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_caja, saldo_caja.toArray());
+        }
+    }
+
+    //Eventos
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
+        //setea a sin iva los combobox al cerrar ventana
         jComboBoxivaing.setSelectedItem("Sin IVA");
         jComboBoxivaeg.setSelectedItem("Sin IVA");
     }//GEN-LAST:event_formWindowClosing
 
 
     private void jComboBoxivaingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxivaingItemStateChanged
-        // TODO add your handling code here:
+        //Importa la tabla correspondiente cuando se cambia de item 
         Utilidad.Tabla.get_modelo(tabla_ingresos).setRowCount(0);
         //importa la nueva tabla
         if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
@@ -633,16 +574,13 @@ public class IngVsGas extends javax.swing.JFrame {
         } else {
             ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
             Utilidad.Tabla.importar(ingresosiva, tabla_ingresos);
-
         }
         Utilidad.Tabla.filas_defecto(tabla_ingresos, 11);
-
         calculo_totales(tabla_ingresos, total_ing, total_ing_iva, suma_totales_ing, jComboBoxivaing);
-
     }//GEN-LAST:event_jComboBoxivaingItemStateChanged
 
     private void jComboBoxivaegItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxivaegItemStateChanged
-        // TODO add your handling code here:
+        //Importa la tabla correspondiente cuando se cambia de item 
         DefaultTableModel tblmodel = (DefaultTableModel) tabla_egresos.getModel();
         tblmodel.setRowCount(0);
         //importa la nueva tabla
@@ -654,14 +592,11 @@ public class IngVsGas extends javax.swing.JFrame {
             Utilidad.Tabla.importar(egresosiva, tabla_egresos);
         }
         Utilidad.Tabla.filas_defecto(tabla_egresos, 11);
-
         calculo_totales(tabla_egresos, total_eg, total_eg_iva, suma_totales_eg, jComboBoxivaeg);
-
     }//GEN-LAST:event_jComboBoxivaegItemStateChanged
 
 
     private void tabla_ingresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_ingresosPropertyChange
-        // TODO add your handling code here:
         //guarda al realizar cualquier cambio 
         try {
             if (ProjectEvaluator.import_ingeg == true) {
@@ -669,7 +604,6 @@ public class IngVsGas extends javax.swing.JFrame {
                     //  direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
                     ingresos = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos.txt");
                     Utilidad.Tabla.exportar(ingresos, tabla_ingresos);
-
                 } else {
                     //  direccion = "C:\\Project evaluator\\" + nombreproyecto_str + "\\";
                     ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
@@ -687,20 +621,19 @@ public class IngVsGas extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.err.println("Error en tabla_ingresosPropertyChange,IngVsGas");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
 
     private void tabla_egresosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_egresosPropertyChange
-        // TODO add your handling code here:
         //guarda al realizar cualquier cambio
         try {
             if (ProjectEvaluator.import_ingeg == true) {
                 if (jComboBoxivaeg.getSelectedIndex() == 0) {
                     egresos = new File(direccion + "\\IngVsGas\\egresos.txt");
                     Utilidad.Tabla.exportar(egresos, tabla_egresos);
-                } else {              
+                } else {
                     egresosiva = new File(direccion + "IngVsGas\\egresos (IVA).txt");
                     Utilidad.Tabla.exportar(egresosiva, tabla_egresos);
                 }
@@ -709,34 +642,26 @@ public class IngVsGas extends javax.swing.JFrame {
                 saldo_caja_inicial();
                 indicadores.añadir_indicadores();
             }
-
         } catch (Exception e) {
             System.err.println("Error en tabla_egresosPropertyChange,IngVsGas");
-            e.printStackTrace();
+            e.getMessage();
         }
-
-
     }//GEN-LAST:event_tabla_egresosPropertyChange
 
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-
+        //crea el directorio ingvsgas y setea ingvsgas
         directorio = new File(direccion + "\\IngVsGas\\");
         directorio.mkdirs();
         setear_ingvsgas();
-
     }//GEN-LAST:event_formWindowOpened
 
     private void jtf_invActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_invActionPerformed
-        // TODO add your handling code here:
+        // setea la inversion y la guarda
         setear_inv();
         inversion = new File(ProjectEvaluator.direccion + "IngVsGas\\inversion.txt");
         Utilidad.JtextField.exportar_jtf(inversion, jtf_inv);
     }//GEN-LAST:event_jtf_invActionPerformed
-
-    private void jtf_invPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_invPropertyChange
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtf_invPropertyChange
 
     private void btn_añadirfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_ingActionPerformed
         // TODO add your handling code here
@@ -746,7 +671,6 @@ public class IngVsGas extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_añadirfila_ingActionPerformed
 
     private void btn_quitarfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ingActionPerformed
-        // TODO add your handling code here:
         //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
         if (tabla_ingresos.getSelectedRowCount() >= 1) {
             do {
