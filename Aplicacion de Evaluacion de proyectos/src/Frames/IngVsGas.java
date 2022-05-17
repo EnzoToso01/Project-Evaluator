@@ -8,6 +8,9 @@ package Frames;
 import Clases.Utilidad;
 import static Frames.ProjectEvaluator.direccion;
 import static Frames.ProjectEvaluator.import_ingeg;
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 import java.awt.Color;
 import java.io.File;
 import javax.swing.JFrame;
@@ -45,6 +48,9 @@ public class IngVsGas extends javax.swing.JFrame {
     private Indicadores indicadores;
     public File inversion;
     public double inv;
+
+    public IngVsGas() {
+    }
 
     public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();

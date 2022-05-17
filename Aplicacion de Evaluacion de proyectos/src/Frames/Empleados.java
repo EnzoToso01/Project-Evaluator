@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Frames;
 
 import Clases.Utilidad;
@@ -13,10 +8,8 @@ import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,9 +17,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Empleados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Empleados
-     */
     private File directorio;
     public static File tasas;
     private boolean imp_tas = false;
@@ -50,223 +40,7 @@ public class Empleados extends javax.swing.JFrame {
         this.ingvsgas = ingvsgas;
     }
 
-    public boolean getImp_tas() {
-        return imp_tas;
-    }
-
-    public void setImp_tas(boolean imp_tas) {
-        this.imp_tas = imp_tas;
-    }
-
-    public JTable getTabla_sueldos() {
-        return tabla_sueldos;
-    }
-
-    public File getTasas() {
-        return tasas;
-    }
-
-    public JTable getTabla_tasas() {
-        return tabla_tasas;
-    }
-
-    public double getTas_jub() {
-        return tas_jub;
-    }
-
-    public double getTas_ob() {
-        return tas_ob;
-    }
-
-    public double getTas_ley() {
-        return tas_ley;
-    }
-
-    public double getTas_sec() {
-        return tas_sec;
-    }
-
-    public JTextField getJtf_total_sueldos() {
-        return jtf_total_sueldos;
-    }
-
-    public void setImp_sueldos(boolean imp_s) {
-        this.imp_s = imp_s;
-    }
-
-    public JComboBox<String> getCombo_años() {
-        return combo_años;
-    }
-
-    public JLabel getTxtsueldos() {
-        return txtsueldos;
-    }
-
-    public void importar_emp() {
-        try {
-            Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
-            //importa la tabla correspondiente al combo
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                if (combo_años.getSelectedIndex() + 1 == i) {
-                    File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
-                    Utilidad.Tabla.importar(sueldos, tabla_sueldos);
-
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Error en importar_emp (Empleados)");
-        }
-    }
-
-    public void total_sueldos() {
-        try {
-            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-                try {
-                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
-                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
-                } catch (NullPointerException | NumberFormatException e) {
-
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Error en total_sueldos (Empleados)");
-        }
-    }
-
-    public void antiguedad() {
-
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                double result = 84.64 * Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4)));
-                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 5);
-            } catch (NullPointerException | NumberFormatException e) {
-
-            }
-        }
-
-    }
-
-    public void presentismo() {
-
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                double result = 0.0833 * Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)));
-                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 6);
-            } catch (NullPointerException | NumberFormatException e) {
-
-            }
-        }
-
-    }
-
-    public void bruto() {
-
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
-                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
-            } catch (NullPointerException | NumberFormatException e) {
-
-            }
-        }
-
-    }
-
-    public void tasas(double tasa) {
-        try {
-            tas_jub = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 0))) / 100;
-            tas_ob = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 1))) / 100;
-            tas_ley = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 2))) / 100;
-            tas_sec = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 3))) / 100;
-
-            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) * tasa;
-                if (tasa == tas_jub) {
-                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 8);
-                } else if (tasa == tas_ob) {
-                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 9);
-                } else if (tasa == tas_ley) {
-                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 10);
-                } else if (tasa == tas_sec) {
-                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 11);
-                }
-            }
-        } catch (NullPointerException | NumberFormatException e) {
-
-        }
-    }
-
-    public void total_desc() {
-
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
-                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
-            } catch (NullPointerException | NumberFormatException e) {
-
-            }
-        }
-
-    }
-
-    public void total_neto() {
-       
-            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-                try {
-                    double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
-                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
-                } catch (NullPointerException | NumberFormatException e) {
-
-                }
-            }
-        
-    }
-
-    public double calculo_total_sueldos() {
-        //Realiza el calculo total de los sueldos
-        double total = 0;
-        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
-            try {
-                total = total + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7)));
-            } catch (NullPointerException | NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        return total;
-    }
-
-    public void arr_sueldos() {
-        //crea un arraylist con los sueldos y lo añade a una fila de egresos de IngVsGas CREA WARNING DE SORTING
-        try {
-            ArrayList sueldos = new ArrayList();
-            sueldos.add("Sueldos");
-            int selecteditem = combo_años.getSelectedIndex();
-            for (int i = 1; i <= combo_años.getItemCount(); i++) {
-                combo_años.setSelectedItem("Año " + i);
-                importar_emp();
-                sueldos.add(calculo_total_sueldos());
-            }
-
-            if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
-                //  Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
-            } else {
-                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(ingvsgas.getTabla_egresos().getRowCount() - 3);
-                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(ingvsgas.getTabla_egresos().getRowCount() - 2, sueldos.toArray());
-            }          
-            ingvsgas.calculo_totales(ingvsgas.getTabla_egresos(),ingvsgas.getTotal_eg(),ingvsgas.getTotal_eg_iva(),ingvsgas.getSuma_totales_eg(),ingvsgas.getjComboBoxivaeg());
-            combo_años.setSelectedIndex(selecteditem);
-        } catch (Exception e) {
-            System.err.println("Error en arr_sueldos (Empleados)");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    //Código autogenerado
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -334,11 +108,6 @@ public class Empleados extends javax.swing.JFrame {
 
         jtf_total_sueldos.setEditable(false);
         jtf_total_sueldos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jtf_total_sueldos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jtf_total_sueldosPropertyChange(evt);
-            }
-        });
 
         txttotalsueldos.setBackground(new java.awt.Color(255, 255, 255));
         txttotalsueldos.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
@@ -355,11 +124,6 @@ public class Empleados extends javax.swing.JFrame {
         combo_años.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 combo_añosMouseClicked(evt);
-            }
-        });
-        combo_años.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combo_añosActionPerformed(evt);
             }
         });
 
@@ -453,27 +217,244 @@ public class Empleados extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Getters
+    public boolean getImp_tas() {
+        return imp_tas;
+    }
 
-    private void combo_añosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_añosActionPerformed
-        // TODO add your handling code here:
+    public void setImp_tas(boolean imp_tas) {
+        this.imp_tas = imp_tas;
+    }
 
+    public JTable getTabla_sueldos() {
+        return tabla_sueldos;
+    }
 
-    }//GEN-LAST:event_combo_añosActionPerformed
+    public File getTasas() {
+        return tasas;
+    }
 
+    public JTable getTabla_tasas() {
+        return tabla_tasas;
+    }
+
+    public double getTas_jub() {
+        return tas_jub;
+    }
+
+    public double getTas_ob() {
+        return tas_ob;
+    }
+
+    public double getTas_ley() {
+        return tas_ley;
+    }
+
+    public double getTas_sec() {
+        return tas_sec;
+    }
+
+    public JTextField getJtf_total_sueldos() {
+        return jtf_total_sueldos;
+    }
+
+    public void setImp_sueldos(boolean imp_s) {
+        this.imp_s = imp_s;
+    }
+
+    public JComboBox<String> getCombo_años() {
+        return combo_años;
+    }
+
+    public JLabel getTxtsueldos() {
+        return txtsueldos;
+    }
+
+    //Métodos
+    public void importar_emp() {
+        //importa empleados
+        try {
+            Utilidad.Tabla.get_modelo(tabla_sueldos).setRowCount(0);
+            //importa la tabla correspondiente al combo
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                if (combo_años.getSelectedIndex() + 1 == i) {
+                    File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
+                    Utilidad.Tabla.importar(sueldos, tabla_sueldos);
+
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error en importar_emp (Empleados)");
+            e.getMessage();
+        }
+    }
+
+    public void total_sueldos() {
+        //calcula el total de sueldos
+        try {
+            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+                try {
+                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
+                } catch (NullPointerException | NumberFormatException e) {
+
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error en total_sueldos (Empleados)");
+            e.getMessage();
+        }
+    }
+
+    public void antiguedad() {
+        //calcula la antiguedad
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = 84.64 * Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 4)));
+                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 5);
+            } catch (NullPointerException | NumberFormatException e) {
+                e.getMessage();
+            }
+        }
+
+    }
+
+    public void presentismo() {
+        //calcula el presentismo
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = 0.0833 * Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)));
+                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 6);
+            } catch (NullPointerException | NumberFormatException e) {
+                e.getMessage();
+            }
+        }
+
+    }
+
+    public void bruto() {
+        //calcula el sueldo bruto
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
+                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
+            } catch (NullPointerException | NumberFormatException e) {
+                e.getMessage();
+            }
+        }
+
+    }
+
+    public void tasas(double tasa) {
+        //Setea las tasas
+        try {
+            tas_jub = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 0))) / 100;
+            tas_ob = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 1))) / 100;
+            tas_ley = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 2))) / 100;
+            tas_sec = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_tasas).getValueAt(0, 3))) / 100;
+
+            for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) * tasa;
+                if (tasa == tas_jub) {
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 8);
+                } else if (tasa == tas_ob) {
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 9);
+                } else if (tasa == tas_ley) {
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 10);
+                } else if (tasa == tas_sec) {
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 11);
+                }
+            }
+        } catch (NullPointerException | NumberFormatException e) {
+            e.getMessage();
+        }
+    }
+
+    public void total_desc() {
+
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
+                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
+            } catch (NullPointerException | NumberFormatException e) {
+                e.getMessage();
+            }
+        }
+
+    }
+
+    public void total_neto() {
+
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
+                Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
+            } catch (NullPointerException | NumberFormatException e) {
+                e.getMessage();
+            }
+        }
+
+    }
+
+    public double calculo_total_sueldos() {
+        //Realiza el calculo total de los sueldos
+        double total = 0;
+        for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
+            try {
+                total = total + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7)));
+            } catch (NullPointerException | NumberFormatException e) {
+                e.getMessage();
+            }
+        }
+        return total;
+    }
+
+    public void arr_sueldos() {
+        //crea un arraylist con los sueldos y lo añade a una fila de egresos de IngVsGas CREA WARNING DE SORTING
+        try {
+            ArrayList sueldos = new ArrayList();
+            sueldos.add("Sueldos");
+            int selecteditem = combo_años.getSelectedIndex();
+            for (int i = 1; i <= combo_años.getItemCount(); i++) {
+                combo_años.setSelectedItem("Año " + i);
+                importar_emp();
+                sueldos.add(calculo_total_sueldos());
+            }
+
+            if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
+                //  Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).addRow(sueldos.toArray());
+            } else {
+                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(ingvsgas.getTabla_egresos().getRowCount() - 3);
+                Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(ingvsgas.getTabla_egresos().getRowCount() - 2, sueldos.toArray());
+            }
+            ingvsgas.calculo_totales(ingvsgas.getTabla_egresos(), ingvsgas.getTotal_eg(), ingvsgas.getTotal_eg_iva(), ingvsgas.getSuma_totales_eg(), ingvsgas.getjComboBoxivaeg());
+            combo_años.setSelectedIndex(selecteditem);
+        } catch (Exception e) {
+            System.err.println("Error en arr_sueldos (Empleados)");
+            e.printStackTrace();
+        }
+    }
+
+    public void inicializar_combo() {
+        //setea el combo_años
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+            combo_años.addItem("Año " + i);
+        }
+    }
+
+    //Eventos
     private void combo_añosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combo_añosMouseClicked
-        // TODO add your handling code here:
+        //exporta sueldos
         try {
             File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + (int) (combo_años.getSelectedIndex() + 1) + ".txt");
             Utilidad.Tabla.exportar(sueldos, tabla_sueldos);
-
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
-
     }//GEN-LAST:event_combo_añosMouseClicked
 
     private void combo_añosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_añosItemStateChanged
-        // TODO add your handling code here:
         try {
             //importa la nueva tabla
             importar_emp();
@@ -492,12 +473,12 @@ public class Empleados extends javax.swing.JFrame {
             jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
         } catch (Exception e) {
             System.err.println("Error en combo_añosItemStateChanged (Empleados)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_combo_añosItemStateChanged
 
     private void tabla_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_sueldosPropertyChange
-        // TODO add your handling code here:
+        //guarda sueldos y luego realiza todos los calculos para la tabla sueldos
         try {
             if (imp_s == true) {
                 try {
@@ -509,9 +490,8 @@ public class Empleados extends javax.swing.JFrame {
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
-
                 total_sueldos();
                 antiguedad();
                 presentismo();
@@ -527,12 +507,12 @@ public class Empleados extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.err.println("Error en tabla_sueldosPropertyChange (Empleados)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_tabla_sueldosPropertyChange
 
     private void tabla_tasasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_tasasPropertyChange
-        // TODO add your handling code here:
+        //guarda y actualiza las tasas
         try {
             Utilidad.Tabla.filas_defecto(tabla_tasas, 1);
             if (imp_tas == true) {
@@ -545,33 +525,25 @@ public class Empleados extends javax.swing.JFrame {
             tasas(tas_sec);
         } catch (Exception e) {
             System.err.println("Error en tabla_tasasPropertyChange (Empleados)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_tabla_tasasPropertyChange
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
+        //crea el directorio sueldos
         directorio = new File(ProjectEvaluator.direccion + "\\Sueldos");
         directorio.mkdirs();
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void jtf_total_sueldosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtf_total_sueldosPropertyChange
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_jtf_total_sueldosPropertyChange
-
     private void btn_añadirfila_sueldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_sueldActionPerformed
-        // TODO add your handling code here
-        //Añade filas a cred
+        //Añade filas a sueldos
         Vector<?> rowData = null;
         Utilidad.Tabla.get_modelo(tabla_sueldos).addRow(rowData);
     }//GEN-LAST:event_btn_añadirfila_sueldActionPerformed
 
     private void btn_quitarfila_sueldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_sueldActionPerformed
-        // TODO add your handling code here:
-        //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
+        //Quita filas a sueldos, si no se selecciona una fila,se elimina la ultima
         if (tabla_sueldos.getSelectedRowCount() >= 1) {
             do {
                 Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
@@ -580,17 +552,6 @@ public class Empleados extends javax.swing.JFrame {
             Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
         }
     }//GEN-LAST:event_btn_quitarfila_sueldActionPerformed
-
-    public void inicializar_combo() {
-
-        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            combo_años.addItem("Año " + i);
-        }
-    }
-
-    private Empleados() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     /**
      * @param args the command line arguments

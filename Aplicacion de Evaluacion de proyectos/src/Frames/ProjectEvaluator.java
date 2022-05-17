@@ -1,12 +1,16 @@
 package Frames;
 
 import Clases.Utilidad;
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -536,7 +540,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             credito.getTxtdatcredito().setText("Datos de Crédito de " + jtf_nombreproyecto.getText());
         } catch (Exception e) {
             System.err.println("Error en setear_titutlos (ProjectEvaluator)");
-              e.getMessage();
+            e.getMessage();
         }
     }
 
@@ -1018,8 +1022,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         if (!jtf_añosvida.getText().equals(" Ej:5")) {
             Color c = new Color(255, 255, 255);
             jtf_añosvida.setForeground(c);
-        }
-
+        }  
     }//GEN-LAST:event_formWindowOpened
 
     /**
