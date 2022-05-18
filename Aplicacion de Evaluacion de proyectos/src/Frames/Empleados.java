@@ -137,6 +137,7 @@ public class Empleados extends javax.swing.JFrame {
         ));
         tabla_tasas.setFocusable(false);
         tabla_tasas.setRequestFocusEnabled(false);
+        tabla_tasas.setRowSelectionAllowed(false);
         tabla_tasas.setShowGrid(true);
         tabla_tasas.setUpdateSelectionOnSort(false);
         tabla_tasas.setVerifyInputWhenFocusTarget(false);

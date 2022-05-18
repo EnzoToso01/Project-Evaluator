@@ -84,6 +84,7 @@ public class Credito extends javax.swing.JFrame {
                 "Dato", "Valor"
             }
         ));
+        tabla_datcredito.setFocusable(false);
         tabla_datcredito.setShowGrid(true);
         scrolldatcredito.setViewportView(tabla_datcredito);
 
