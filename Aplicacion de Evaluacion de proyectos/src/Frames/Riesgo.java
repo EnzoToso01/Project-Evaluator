@@ -1,4 +1,5 @@
 package Frames;
+
 import Clases.Utilidad;
 import java.awt.Color;
 import java.io.File;
@@ -13,7 +14,6 @@ import javax.swing.JTable;
  */
 public class Riesgo extends javax.swing.JFrame {
 
-   
     private File riesgos = new File("C:\\Project evaluator\\riesgos.txt");
     private double prob;
     private double impacto;
@@ -42,6 +42,8 @@ public class Riesgo extends javax.swing.JFrame {
         scroll_riesg = new javax.swing.JScrollPane();
         tabla_riesgos = new javax.swing.JTable();
         txtriesgos = new javax.swing.JLabel();
+        btn_añadirfila_riesg = new javax.swing.JButton();
+        btn_quitarfila_riesg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusable(false);
@@ -56,6 +58,7 @@ public class Riesgo extends javax.swing.JFrame {
                 "ID", "Factor de Riesgo", "Categoría", "Probabilidad", "Impacto", "Exposición", "Efecto", "Valor", "Respuesta", "Valor Riesgo", "Contingencia", "Responsable", "Fecha Mitigación"
             }
         ));
+        tabla_riesgos.setFocusable(false);
         tabla_riesgos.setShowGrid(true);
         tabla_riesgos.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -69,6 +72,27 @@ public class Riesgo extends javax.swing.JFrame {
         txtriesgos.setForeground(new java.awt.Color(240, 255, 255));
         txtriesgos.setText("Riesgos");
 
+        btn_añadirfila_riesg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_añadirfila_riesg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_riesg.setAutoscrolls(true);
+        btn_añadirfila_riesg.setDefaultCapable(false);
+        btn_añadirfila_riesg.setFocusable(false);
+        btn_añadirfila_riesg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_añadirfila_riesgActionPerformed(evt);
+            }
+        });
+
+        btn_quitarfila_riesg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        btn_quitarfila_riesg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_riesg.setDefaultCapable(false);
+        btn_quitarfila_riesg.setFocusable(false);
+        btn_quitarfila_riesg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarfila_riesgActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,17 +102,27 @@ public class Riesgo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtriesgos, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(scroll_riesg, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
-                        .addGap(28, 28, 28))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_añadirfila_riesg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_quitarfila_riesg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(scroll_riesg, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(txtriesgos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(txtriesgos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_añadirfila_riesg)
+                            .addComponent(btn_quitarfila_riesg, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(scroll_riesg, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                 .addGap(7, 7, 7))
         );
@@ -117,15 +151,15 @@ public class Riesgo extends javax.swing.JFrame {
     //Métodos
     public void valor_riesgo() {
         //Hace los calculos de valor_riesgo
-        try {
-            for (int i = 0; i < tabla_riesgos.getRowCount(); i++) {
-                double result = Double.valueOf(String.valueOf(tabla_riesgos.getValueAt(i, 5))) / 100 * Double.valueOf(String.valueOf(tabla_riesgos.getValueAt(i, 7)));
+
+        for (int i = 0; i < tabla_riesgos.getRowCount(); i++) {
+            try {
+                double result = Double.parseDouble(String.valueOf(tabla_riesgos.getValueAt(i, 5))) / 100 * Double.parseDouble(String.valueOf(tabla_riesgos.getValueAt(i, 7)));
                 tabla_riesgos.setValueAt(result, i, 9);
-            }
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            for (int i = 0; i < tabla_riesgos.getRowCount(); i++) {
-                tabla_riesgos.setValueAt("", i, 5);
-                tabla_riesgos.setValueAt("", i, 7);
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                //hace que los valores tengan 0 por defecto para evitar errores
+                tabla_riesgos.setValueAt(0, i, 5);
+                tabla_riesgos.setValueAt(0, i, 7);
             }
         }
     }
@@ -143,11 +177,31 @@ public class Riesgo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabla_riesgosPropertyChange
 
+    private void btn_añadirfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_riesgActionPerformed
+        // TODO add your handling code here
+        //Añade filas a ing
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_riesgos).insertRow(0, rowData);
+    }//GEN-LAST:event_btn_añadirfila_riesgActionPerformed
+
+    private void btn_quitarfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_riesgActionPerformed
+        //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
+        if (tabla_riesgos.getSelectedRowCount() >= 1) {
+            do {
+                Utilidad.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getSelectedRow());
+            } while (tabla_riesgos.getSelectedRowCount() >= 1);
+        } else {
+            Utilidad.Tabla.get_modelo(tabla_riesgos).removeRow(0);
+        }
+    }//GEN-LAST:event_btn_quitarfila_riesgActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_añadirfila_riesg;
+    private javax.swing.JButton btn_quitarfila_riesg;
     private javax.swing.JScrollPane scroll_riesg;
     private javax.swing.JTable tabla_riesgos;
     private javax.swing.JLabel txtriesgos;

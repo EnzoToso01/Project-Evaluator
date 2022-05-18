@@ -5,6 +5,7 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkCon
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -910,10 +911,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Incializa el frame riesgos
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
-
+                Utilidad.Tabla.get_modelo(riesgo.getTabla_riesgos()).setRowCount(0);
                 Utilidad.Tabla.inicializar_col(riesgo.getTabla_riesgos());
                 Utilidad.Tabla.importar(riesgo.getRiesgos(), riesgo.getTabla_riesgos());
-                Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 50);
+                Utilidad.Tabla.filas_defecto(riesgo.getTabla_riesgos(), 30);
                 riesgo.setImp(true);
                 riesgo.valor_riesgo();
                 riesgo.setVisible(true);
@@ -922,7 +923,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.err.println("Error en btn_riesgoMouseClicked (ProjectEvaluator)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_riesgoMouseClicked
 
@@ -1019,7 +1020,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         if (!jtf_añosvida.getText().equals(" Ej:5")) {
             Color c = new Color(255, 255, 255);
             jtf_añosvida.setForeground(c);
-        }  
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**

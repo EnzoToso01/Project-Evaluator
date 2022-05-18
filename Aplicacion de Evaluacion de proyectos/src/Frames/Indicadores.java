@@ -255,7 +255,7 @@ public class Indicadores extends javax.swing.JFrame {
             resultado.add(0, titulo);
         } catch (Exception e) {
             System.err.println("Error en calculo_van (Indicadores)");
-            e.printStackTrace();
+            e.getMessage();
         }
         return resultado;
     }
@@ -316,7 +316,7 @@ public class Indicadores extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.err.println("Error en añadir_valores_actuales (Indicadores)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -332,7 +332,7 @@ public class Indicadores extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.err.println("Error en calculo_ivan (Indicadores)");
-            e.printStackTrace();
+            e.getMessage();
         }
         return resultado;
     }
@@ -355,7 +355,7 @@ public class Indicadores extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.err.println("Error en Calculo_TIR (Indicadores)");
-            e.printStackTrace();
+            e.getMessage();
         }
         return resultado;
     }
@@ -371,7 +371,7 @@ public class Indicadores extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.err.println("Error en calculo_razonBC (Indicadores)");
-            e.printStackTrace();
+            e.getMessage();
         }
         return resultado;
     }
@@ -407,10 +407,8 @@ public class Indicadores extends javax.swing.JFrame {
                 } else {
                     años = periodo + " Años";
                 }
-                //calculo parte decimal del tiempo
-                System.out.println(tiempo);
+                //calculo parte decimal del tiempo      
                 double parteDecimal = tiempo % 1;
-                System.out.println(parteDecimal);
                 //calculo parte entera del tiempo
                 int parteEntera = (int) (tiempo - parteDecimal);
                 //Meses

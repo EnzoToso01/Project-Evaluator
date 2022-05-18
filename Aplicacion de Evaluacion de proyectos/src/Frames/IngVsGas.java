@@ -459,7 +459,7 @@ public class IngVsGas extends javax.swing.JFrame {
             Utilidad.Tabla.get_modelo(tabla).addRow(suma_totales.toArray());
         } catch (Exception e) {
             System.err.println("Error en calculo_total (IngVsGas)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -508,12 +508,10 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.calculo_amortizaciones();
             ebitda.calculo_sub_c_amort();
             impuestos.calculo_ganancias();
-            // impuestos.ganancias();
             ebitda.calculo_total();
             ebitda.calculo_payback();
             ebitda.calculo_riesgo();
             ebitda.calculo_r_neto();
-            // impuestos.ing_b();
             impuestos.calculo_total_imp();
         } catch (Exception e) {
             System.err.println("Error en setear_ebitda_imp (IngVsGas)");

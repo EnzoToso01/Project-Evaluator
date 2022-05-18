@@ -325,12 +325,12 @@ public class Impuestos extends javax.swing.JFrame {
             for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
                 arr_ing_br.add(ebitda.ingresos.get(i) * ing_b);
             }
-            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 5, arr_ganancias);
+            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 5, arr_ing_br);
             Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 4, arr_ing_br);
 
         } catch (Exception e) {
             System.err.println("Error en calculo_ing_brutos (Impuestos)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -347,7 +347,7 @@ public class Impuestos extends javax.swing.JFrame {
             Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 5, arr_iva);
         } catch (Exception e) {
             System.err.println("Error en calculo_iva (Impuestos)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -355,7 +355,7 @@ public class Impuestos extends javax.swing.JFrame {
         try {
             arr_ganancias.clear();
             if (arr_ganancias.isEmpty() == true) {
-                arr_ganancias.add(0, "Ganancias 35%");
+                arr_ganancias.add(0, "Impuesto a las ganancias");
             }
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                 if ((double) ebitda.getArr_sub_c_amort().get(i) > 0) {
@@ -364,12 +364,12 @@ public class Impuestos extends javax.swing.JFrame {
                     arr_ganancias.add(0.0);
                 }
             }
-            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 0, arr_ganancias);
+            Utilidad.Tabla.check_insert_fila(tabla_impuestos, 1, arr_ganancias);
             Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 10, arr_ganancias);
 
         } catch (Exception e) {
             System.err.println("Error en calculo_ganancias (Impuestos)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }
     
