@@ -1,9 +1,6 @@
 package Frames;
 
 import Clases.Utilidad;
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
 import java.awt.Color;
 import java.awt.Toolkit;
