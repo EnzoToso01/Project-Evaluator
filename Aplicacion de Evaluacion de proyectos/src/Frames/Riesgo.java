@@ -14,7 +14,7 @@ import javax.swing.JTable;
  */
 public class Riesgo extends javax.swing.JFrame {
 
-    private File riesgos = new File("C:\\Project evaluator\\riesgos.txt");
+    private File riesgos;
     private double prob;
     private double impacto;
     private double exposicion;
@@ -23,15 +23,10 @@ public class Riesgo extends javax.swing.JFrame {
 
     public Riesgo() {
         initComponents();
-        this.getContentPane().setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
-        Color b = new Color(26, 29, 34);
-        tabla_riesgos.getTableHeader().setBackground(b);
+        getContentPane().setBackground(ProjectEvaluator.fondo);
         imp = false;
-
     }
 
     //Código autogenerado
@@ -136,6 +131,7 @@ public class Riesgo extends javax.swing.JFrame {
     }
 
     public File getRiesgos() {
+        riesgos = new File(ProjectEvaluator.direccion + "riesgos.txt");
         return riesgos;
     }
 

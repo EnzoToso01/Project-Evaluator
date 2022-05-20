@@ -110,7 +110,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Container class="javax.swing.JPanel" name="panel_negro">
+    <Container class="javax.swing.JPanel" name="panel_left">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
@@ -554,7 +554,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="panel_azul">
+    <Container class="javax.swing.JPanel" name="panel_top">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="71" green="50" red="38" type="rgb"/>
@@ -570,7 +570,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="panel_azul_oscuro" min="-2" max="-2" attributes="0"/>
+                  <Component id="panel_top_left" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                   <Component id="txtTitulo" min="-2" pref="292" max="-2" attributes="0"/>
                   <EmptySpace pref="248" max="32767" attributes="0"/>
@@ -581,7 +581,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="txtTitulo" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
-                  <Component id="panel_azul_oscuro" min="-2" max="-2" attributes="0"/>
+                  <Component id="panel_top_left" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -602,7 +602,7 @@
             <Property name="text" type="java.lang.String" value="Project Evaluator"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JPanel" name="panel_azul_oscuro">
+        <Container class="javax.swing.JPanel" name="panel_top_left">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="4b" green="35" red="25" type="rgb"/>
@@ -624,5 +624,89 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="temastxt">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="18" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Temas"/>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="220" y="330" width="-1" height="-1"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxtemas">
+      <Properties>
+        <Property name="maximumRowCount" type="int" value="10"/>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="30">
+            <StringItem index="0" value="Arc Dark"/>
+            <StringItem index="1" value="Arc Dark - Orange"/>
+            <StringItem index="2" value="Carbon"/>
+            <StringItem index="3" value="Cobalt 2"/>
+            <StringItem index="4" value="Dark Flat"/>
+            <StringItem index="5" value="Dark purple"/>
+            <StringItem index="6" value="Dracula"/>
+            <StringItem index="7" value="Gradianto Deep Ocean"/>
+            <StringItem index="8" value="Gradianto Midnight Blue"/>
+            <StringItem index="9" value="Gradianto Nature Green"/>
+            <StringItem index="10" value="Gruvbox Dark Hard"/>
+            <StringItem index="11" value="Hiberbee Dark"/>
+            <StringItem index="12" value="Material Design Dark"/>
+            <StringItem index="13" value="Monocai"/>
+            <StringItem index="14" value="Nord"/>
+            <StringItem index="15" value="One Dark"/>
+            <StringItem index="16" value="Solarized Dark"/>
+            <StringItem index="17" value="Spacegray"/>
+            <StringItem index="18" value="Vuesion"/>
+            <StringItem index="19" value="Xcode-Dark"/>
+            <StringItem index="20" value="Arc Dark (Material)"/>
+            <StringItem index="21" value="Arc Dark Contrast (Material)"/>
+            <StringItem index="22" value="GitHub Dark (Material)"/>
+            <StringItem index="23" value="GitHub Dark Contrast (Material)"/>
+            <StringItem index="24" value="Monokai Pro (Material)"/>
+            <StringItem index="25" value="Monokai Pro Contrast (Material)"/>
+            <StringItem index="26" value="Moonlight Contrast (Material)"/>
+            <StringItem index="27" value="Night Owl Contrast (Material)"/>
+            <StringItem index="28" value="Solarized Dark (Material)"/>
+            <StringItem index="29" value="Solarized Dark Contrast (Material)"/>
+          </StringArray>
+        </Property>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxtemasItemStateChanged"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="220" y="360" width="260" height="-1"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JLabel" name="txttemasreinicio">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="12" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="2"/>
+        <Property name="verticalAlignment" type="int" value="1"/>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="500" y="360" width="220" height="60"/>
+        </Constraint>
+      </Constraints>
+    </Component>
   </SubComponents>
 </Form>

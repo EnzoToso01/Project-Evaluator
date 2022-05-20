@@ -48,14 +48,8 @@ public class Impuestos extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
-        Color b = new Color(26, 29, 34);
-        tabla_impuestos.getTableHeader().setBackground(b);
-        tabla_indimpuestos.getTableHeader().setBackground(b);
+        getContentPane().setBackground(ProjectEvaluator.fondo);
     }
-    
-   
 
     //Código autogenerado
     @SuppressWarnings("unchecked")
@@ -219,7 +213,7 @@ public class Impuestos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     //Getters
+    //Getters
     public JTable getTabla_impuestos() {
         return tabla_impuestos;
     }
@@ -372,7 +366,7 @@ public class Impuestos extends javax.swing.JFrame {
             e.getMessage();
         }
     }
-    
+
     private void tabla_indimpuestosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_indimpuestosPropertyChange
         // TODO add your handling code here:
         try {

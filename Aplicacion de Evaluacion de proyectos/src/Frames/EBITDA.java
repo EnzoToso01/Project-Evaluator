@@ -1,5 +1,5 @@
-
 package Frames;
+
 import Clases.Utilidad;
 import java.awt.Color;
 import java.io.File;
@@ -9,14 +9,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
-
 /**
  *
  * @author Enzo
  */
 public class EBITDA extends javax.swing.JFrame {
 
-    
     private File ebitda_f = new File("C:\\Project evaluator\\ebitda.txt");
     public ArrayList<Double> ingresos = new ArrayList();
     public ArrayList<Double> egresos = new ArrayList();
@@ -40,10 +38,7 @@ public class EBITDA extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
-        Color b = new Color(26, 29, 34);
-        tabla_EBITDA.getTableHeader().setBackground(b);
+        getContentPane().setBackground(ProjectEvaluator.fondo);
         this.riesgo = riesgo;
         this.impuestos = impuestos;
     }
@@ -51,7 +46,6 @@ public class EBITDA extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
     //Código autogenerado
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -208,7 +202,7 @@ public class EBITDA extends javax.swing.JFrame {
         aux.add(0, "Egresos");
         Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 2, aux);
     }
-    
+
     //Métodos
     public void calculo_ebitda() {
         try {

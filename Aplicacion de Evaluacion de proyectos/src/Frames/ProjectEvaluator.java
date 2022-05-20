@@ -1,15 +1,22 @@
 package Frames;
 
 import Clases.Utilidad;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
+import com.formdev.flatlaf.intellijthemes.*;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,12 +37,17 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private File nombredelproyecto_f;
     private File añosvidaproyecto_f;
     private File ult_proyecto;
+    private static File tema_f = new File("C:\\Project evaluator\\Cache\\tema.txt");
+    private static String tema_str = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkContrastIJTheme";
     public static String direccion;
+    public static Color fondo;
 
     public ProjectEvaluator() {
         initComponents();
         this.setLocationRelativeTo(null);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icono_app.png")));
+        //obtengo el color del menu principal
+        fondo = this.getBackground();
         //crea los objetos de los demas jframes
         credito = new Credito();
         riesgo = new Riesgo();
@@ -44,16 +56,26 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         ingvsgas = new IngVsGas(ebitda, impuestos);
         empleados = new Empleados(ingvsgas);
         indicadores = new Indicadores(ebitda, ingvsgas);
+        //setea colores menu principal
+        txtTitulo.setForeground(this.getBackground().brighter().brighter());
+        panel_top.setBackground(this.getBackground().darker().darker());
+        panel_top_left.setBackground(this.getBackground().darker());
     }
 
     public static void main(String args[]) {
-
+        //crea la carpeta cache para archivos temporales
+        File cache = new File("C:\\Project evaluator\\Cache\\");
+        if (!cache.exists()) {
+            cache.mkdirs();
+        }
+        //Setea el tema Flatlaf
+        tema_str = buscaFlatLaf(Utilidad.Jcombobox.importar_ult_tema(tema_f));
         try {
-            FlatAtomOneDarkContrastIJTheme.setup();
-        } catch (Exception e) {
+            UIManager.setLookAndFeel(tema_str);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+            FlatGitHubDarkContrastIJTheme.setup();
             e.getMessage();
         }
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ProjectEvaluator p = new ProjectEvaluator();
@@ -74,7 +96,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         txtnombreproyecto = new javax.swing.JLabel();
         jtf_nombreproyecto = new javax.swing.JTextField();
         jtf_añosvida = new javax.swing.JTextField();
-        panel_negro = new javax.swing.JPanel();
+        panel_left = new javax.swing.JPanel();
         panel_IngVsGas = new javax.swing.JPanel();
         btn_IngVsGas = new javax.swing.JButton();
         panel_indicadores = new javax.swing.JPanel();
@@ -89,9 +111,12 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         btn_riesgo = new javax.swing.JButton();
         panel_EBITDA = new javax.swing.JPanel();
         btn_EBITDA = new javax.swing.JButton();
-        panel_azul = new javax.swing.JPanel();
+        panel_top = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JLabel();
-        panel_azul_oscuro = new javax.swing.JPanel();
+        panel_top_left = new javax.swing.JPanel();
+        temastxt = new javax.swing.JLabel();
+        jComboBoxtemas = new javax.swing.JComboBox<>();
+        txttemasreinicio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú Principal");
@@ -145,7 +170,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         });
         getContentPane().add(jtf_añosvida, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 260, 30));
 
-        panel_negro.setBackground(new java.awt.Color(0, 0, 0));
+        panel_left.setBackground(new java.awt.Color(0, 0, 0));
 
         panel_IngVsGas.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -411,16 +436,16 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             .addComponent(btn_EBITDA, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout panel_negroLayout = new javax.swing.GroupLayout(panel_negro);
-        panel_negro.setLayout(panel_negroLayout);
-        panel_negroLayout.setHorizontalGroup(
-            panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panel_leftLayout = new javax.swing.GroupLayout(panel_left);
+        panel_left.setLayout(panel_leftLayout);
+        panel_leftLayout.setHorizontalGroup(
+            panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel_empleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panel_negroLayout.createSequentialGroup()
-                .addGroup(panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_leftLayout.createSequentialGroup()
+                .addGroup(panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel_IngVsGas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panel_negroLayout.createSequentialGroup()
-                        .addGroup(panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_leftLayout.createSequentialGroup()
+                        .addGroup(panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(panel_credito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(panel_riesgo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(panel_impuestos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,9 +454,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        panel_negroLayout.setVerticalGroup(
-            panel_negroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_negroLayout.createSequentialGroup()
+        panel_leftLayout.setVerticalGroup(
+            panel_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_leftLayout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addComponent(panel_IngVsGas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -449,47 +474,68 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 .addContainerGap(143, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panel_negro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 180, 590));
+        getContentPane().add(panel_left, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 180, 590));
 
-        panel_azul.setBackground(new java.awt.Color(56, 80, 113));
+        panel_top.setBackground(new java.awt.Color(56, 80, 113));
 
         txtTitulo.setBackground(new java.awt.Color(204, 204, 204));
         txtTitulo.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
         txtTitulo.setForeground(new java.awt.Color(85, 135, 184));
         txtTitulo.setText("Project Evaluator");
 
-        panel_azul_oscuro.setBackground(new java.awt.Color(37, 53, 75));
+        panel_top_left.setBackground(new java.awt.Color(37, 53, 75));
 
-        javax.swing.GroupLayout panel_azul_oscuroLayout = new javax.swing.GroupLayout(panel_azul_oscuro);
-        panel_azul_oscuro.setLayout(panel_azul_oscuroLayout);
-        panel_azul_oscuroLayout.setHorizontalGroup(
-            panel_azul_oscuroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panel_top_leftLayout = new javax.swing.GroupLayout(panel_top_left);
+        panel_top_left.setLayout(panel_top_leftLayout);
+        panel_top_leftLayout.setHorizontalGroup(
+            panel_top_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 180, Short.MAX_VALUE)
         );
-        panel_azul_oscuroLayout.setVerticalGroup(
-            panel_azul_oscuroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panel_top_leftLayout.setVerticalGroup(
+            panel_top_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 50, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout panel_azulLayout = new javax.swing.GroupLayout(panel_azul);
-        panel_azul.setLayout(panel_azulLayout);
-        panel_azulLayout.setHorizontalGroup(
-            panel_azulLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_azulLayout.createSequentialGroup()
-                .addComponent(panel_azul_oscuro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout panel_topLayout = new javax.swing.GroupLayout(panel_top);
+        panel_top.setLayout(panel_topLayout);
+        panel_topLayout.setHorizontalGroup(
+            panel_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_topLayout.createSequentialGroup()
+                .addComponent(panel_top_left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(248, Short.MAX_VALUE))
         );
-        panel_azulLayout.setVerticalGroup(
-            panel_azulLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panel_topLayout.setVerticalGroup(
+            panel_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panel_azulLayout.createSequentialGroup()
-                .addComponent(panel_azul_oscuro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(panel_topLayout.createSequentialGroup()
+                .addComponent(panel_top_left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panel_azul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 50));
+        getContentPane().add(panel_top, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 50));
+
+        temastxt.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        temastxt.setForeground(new java.awt.Color(255, 255, 255));
+        temastxt.setText("Temas");
+        getContentPane().add(temastxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, -1, -1));
+
+        jComboBoxtemas.setMaximumRowCount(10);
+        jComboBoxtemas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arc Dark", "Arc Dark - Orange", "Carbon", "Cobalt 2", "Dark Flat", "Dark purple", "Dracula", "Gradianto Deep Ocean", "Gradianto Midnight Blue", "Gradianto Nature Green", "Gruvbox Dark Hard", "Hiberbee Dark", "Material Design Dark", "Monocai", "Nord", "One Dark", "Solarized Dark", "Spacegray", "Vuesion", "Xcode-Dark", "Arc Dark (Material)", "Arc Dark Contrast (Material)", "GitHub Dark (Material)", "GitHub Dark Contrast (Material)", "Monokai Pro (Material)", "Monokai Pro Contrast (Material)", "Moonlight Contrast (Material)", "Night Owl Contrast (Material)", "Solarized Dark (Material)", "Solarized Dark Contrast (Material)" }));
+        jComboBoxtemas.setFocusable(false);
+        jComboBoxtemas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxtemasItemStateChanged(evt);
+            }
+        });
+        getContentPane().add(jComboBoxtemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 360, 260, -1));
+
+        txttemasreinicio.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        txttemasreinicio.setForeground(new java.awt.Color(255, 255, 255));
+        txttemasreinicio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        txttemasreinicio.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(txttemasreinicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 220, 60));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -507,10 +553,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private void importar_ult_p() {
         //importa el nombre y la longevidad del ultimo proyecto usado.
         try {
-            File cache = new File("C:\\Project evaluator\\Cache\\");
-            if (!cache.exists()) {
-                cache.mkdirs();
-            }
+
             ult_proyecto = new File("C:\\Project evaluator\\Cache\\Ultimo proyecto.txt");
             Utilidad.JtextField.importar_jtf(ult_proyecto, jtf_nombreproyecto);
             direccion = "C:\\Project evaluator\\" + jtf_nombreproyecto.getText() + "\\";
@@ -546,23 +589,24 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //reabre los frames en caso de cambiar el nombre del proyecto para cargar los nuevos datos.
         try {
             if (credito.isVisible() == true) {
-                credito.dispatchEvent(new WindowEvent(credito, WindowEvent.WINDOW_CLOSING));
+                credito.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 credito.setVisible(true);
             }
             if (riesgo.isVisible() == true) {
-                riesgo.dispatchEvent(new WindowEvent(riesgo, WindowEvent.WINDOW_CLOSING));
+                riesgo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 riesgo.setVisible(true);
             }
             if (impuestos.isVisible() == true) {
-                impuestos.dispatchEvent(new WindowEvent(impuestos, WindowEvent.WINDOW_CLOSING));
+                impuestos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 impuestos.setVisible(true);
             }
             if (ebitda.isVisible() == true) {
-                ebitda.dispatchEvent(new WindowEvent(impuestos, WindowEvent.WINDOW_CLOSING));
+                ebitda.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 ebitda.setVisible(true);
             }
             if (ingvsgas.isVisible() == true) {
-                ingvsgas.dispatchEvent(new WindowEvent(impuestos, WindowEvent.WINDOW_CLOSING));
+                ingvsgas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //inicializa ingvsgas
                 if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
                     //inicializa ingvsgas
                     ingvsgas.setear_ingvsgas();
@@ -578,11 +622,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 ingvsgas.setVisible(true);
             }
             if (empleados.isVisible() == true) {
-                empleados.dispatchEvent(new WindowEvent(empleados, WindowEvent.WINDOW_CLOSING));
+                empleados.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 empleados.setVisible(true);
             }
             if (indicadores.isVisible() == true) {
-                indicadores.dispatchEvent(new WindowEvent(indicadores, WindowEvent.WINDOW_CLOSING));
+                indicadores.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 indicadores.setVisible(true);
             }
         } catch (Exception e) {
@@ -591,6 +635,106 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         }
     }
 
+    public static String buscaFlatLaf(String dato) {
+        //busca la direccion en paquete del tema y lo retorna como string
+        String tema = "";
+        switch (dato) {
+            case "Arc Dark":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme";
+                break;
+            case "Arc Dark - Orange":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme";
+                break;
+            case "Carbon":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme";
+                break;
+            case "Cobalt 2":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatCobalt2IJTheme";
+                break;
+            case "Dark Flat":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme";
+                break;
+            case "Dark purple":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme";
+                break;
+            case "Dracula":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme";
+                break;
+            case "Gradianto Deep Ocean":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme";
+                break;
+            case "Gradianto Midnight Blue":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatGradiantoMidnightBlueIJTheme";
+                break;
+            case "Gradianto Nature Green":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatGradiantoNatureGreenIJTheme";
+                break;
+            case "Gruvbox Dark Hard":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkHardIJTheme";
+                break;
+            case "Hiberbee Dark":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatHiberbeeDarkIJTheme";
+                break;
+            case "Material Design Dark":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme";
+                break;
+            case "Monocai":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatMonocaiIJTheme";
+                break;
+            case "Nord":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatNordIJTheme";
+                break;
+            case "One Dark":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme";
+                break;
+            case "Solarized Dark":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme";
+                break;
+            case "Spacegray":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatSpacegrayIJTheme";
+                break;
+            case "Vuesion":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme";
+                break;
+            case "Xcode-Dark":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme";
+                break;
+            case "Arc Dark (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme";
+                break;
+            case "Arc Dark Contrast (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme";
+                break;
+            case "GitHub Dark (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.FlatNordIJTheme";
+                break;
+            case "GitHub Dark Contrast (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkContrastIJTheme";
+                break;
+            case "Monokai Pro (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProIJTheme";
+                break;
+            case "Monokai Pro Contrast (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProContrastIJTheme";
+                break;
+            case "Moonlight Contrast (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMoonlightContrastIJTheme";
+                break;
+            case "Night Owl Contrast (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlContrastIJTheme";
+                break;
+            case "Solarized Dark (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkIJTheme";
+                break;
+            case "Solarized Dark Contrast (Material)":
+                tema = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkContrastIJTheme";
+                break;
+            default:
+                System.err.println("Tema no válido");
+                break;
+        }
+        return tema;
+    }
 
     private void btn_IngVsGasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IngVsGasMouseClicked
         // TODO add your handling code here:  
@@ -607,9 +751,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 ingvsgas.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
             }
-
         } catch (Exception e) {
             System.err.println("Error en btn_IngVsGasMouseClicked (ProjectEvaluator)");
             e.getMessage();
@@ -637,9 +779,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Inicializa el frame indicadores
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
-
                 ((DefaultTableModel) indicadores.getTabla_indicadores().getModel()).setRowCount(0);
-
                 Utilidad.Tabla.inicializar_col(indicadores.getTabla_indicadores());
                 Utilidad.Tabla.importar(indicadores.getIndicadores(), indicadores.getTabla_indicadores());
                 //inicializa ingvsgas
@@ -660,7 +800,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 indicadores.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
             }
         } catch (Exception e) {
             System.err.println("Error en btn_indicadoresMouseclicked (ProjectEvaluator)");
@@ -709,7 +848,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.err.println("Error en btn_EBITDAMouseClicked (ProjectEvaluator)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_EBITDAMouseClicked
 
@@ -758,11 +897,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 empleados.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
             }
         } catch (Exception e) {
             System.err.println("Error en btn_empleadosMouseClicked (ProjectEvaluator)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_empleadosMouseClicked
 
@@ -800,7 +938,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.err.println("Error en btn_impuestosMouseClicked (ProjectEvaluator)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_impuestosMouseClicked
 
@@ -824,7 +962,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Inicializa el frame de Crédito
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
-
+                new File(direccion + "\\Credito").mkdirs();
+                credito.setImp(true);
                 credito.setVisible(true);
                 Utilidad.Tabla.importar(credito.getPagcredito(), credito.getTabla_pagcredito());
                 Utilidad.Tabla.importar(credito.getDatcredito(), credito.getTabla_datcredito());
@@ -973,7 +1112,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Realiza la exportación de nombre proyecto y a su ves Ultimo proyecto utilizado
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
-
                 //cambia la direccion a la correspondiente y realiza las exportaciones
                 direccion = "C:\\Project evaluator\\" + jtf_nombreproyecto.getText() + "\\";
                 new File(direccion).mkdirs();
@@ -1001,8 +1139,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     }//GEN-LAST:event_jtf_nombreproyectoActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-        //hace la importación del nombre y longevidad o escribe valores por defecto.
+        //importa el ultimo tema en el combobox
+        jComboBoxtemas.setSelectedItem(Utilidad.Jcombobox.importar_ult_tema(tema_f));
+        //Realiza la importación del nombre y longevidad o escribe valores por defecto.
         //se le otorga el objeto ebitda y ingvsgas a impuestos
         impuestos.setEBITDA(ebitda);
         impuestos.setIngVsGas(ingvsgas);
@@ -1023,6 +1162,14 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    private void jComboBoxtemasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxtemasItemStateChanged
+        //guarda el tema seleccionado y muestra un mensaje para aplicar cambios
+        if (!jComboBoxtemas.getSelectedItem().equals(Utilidad.Jcombobox.importar_ult_tema(tema_f))) {
+            Utilidad.Jcombobox.exportar_jcombobox(tema_f, jComboBoxtemas);
+            txttemasreinicio.setText("<HTML> Por favor reinicie la aplicación<br> para aplicar los cambios.</HTML>");
+        }
+    }//GEN-LAST:event_jComboBoxtemasItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -1035,21 +1182,24 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private javax.swing.JButton btn_impuestos;
     private javax.swing.JButton btn_indicadores;
     private javax.swing.JButton btn_riesgo;
+    private javax.swing.JComboBox<String> jComboBoxtemas;
     private javax.swing.JTextField jtf_añosvida;
     private javax.swing.JTextField jtf_nombreproyecto;
     private javax.swing.JPanel panel_EBITDA;
     private javax.swing.JPanel panel_IngVsGas;
-    private javax.swing.JPanel panel_azul;
-    private javax.swing.JPanel panel_azul_oscuro;
     private javax.swing.JPanel panel_credito;
     private javax.swing.JPanel panel_empleados;
     private javax.swing.JPanel panel_impuestos;
     private javax.swing.JPanel panel_indicadores;
-    private javax.swing.JPanel panel_negro;
+    private javax.swing.JPanel panel_left;
     private javax.swing.JPanel panel_riesgo;
+    private javax.swing.JPanel panel_top;
+    private javax.swing.JPanel panel_top_left;
+    private javax.swing.JLabel temastxt;
     private javax.swing.JLabel txtTitulo;
     private javax.swing.JLabel txtañosvida;
     private javax.swing.JLabel txtnombreproyecto;
+    private javax.swing.JLabel txttemasreinicio;
     // End of variables declaration//GEN-END:variables
 
 }

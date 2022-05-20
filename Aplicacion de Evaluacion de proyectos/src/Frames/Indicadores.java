@@ -17,7 +17,7 @@ import org.apache.poi.ss.formula.functions.Irr;
  */
 public class Indicadores extends javax.swing.JFrame {
 
-    private File indicadores = new File("C:\\Project evaluator\\indicadores.txt");
+    private File indicadores;
     private File interes = new File("C:\\Project evaluator\\interes.txt");
     private ArrayList van = new ArrayList();
     private ArrayList van_r = new ArrayList();
@@ -40,13 +40,10 @@ public class Indicadores extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
+        getContentPane().setBackground(ProjectEvaluator.fondo);
         this.ebitda = ebitda;
         this.ingvsgas = ingvsgas;
         jtf_interes.setText("0.0");
-        Color b = new Color(26, 29, 34);
-        tabla_indicadores.getTableHeader().setBackground(b);
 
     }
 
@@ -188,13 +185,14 @@ public class Indicadores extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- 
+
     //Getters
     public JTable getTabla_indicadores() {
         return tabla_indicadores;
     }
 
     public File getIndicadores() {
+        indicadores = new File(ProjectEvaluator.direccion + "indicadores.txt");
         return indicadores;
     }
 
@@ -450,7 +448,7 @@ public class Indicadores extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_quitarfila_indActionPerformed
 
     private void jtf_interesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_interesActionPerformed
-       //setea intereses y indicadores,guarda intereses jtf
+        //setea intereses y indicadores,guarda intereses jtf
         try {
             setear_interes();
             añadir_indicadores();

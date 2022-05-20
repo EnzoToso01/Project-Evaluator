@@ -51,19 +51,12 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public IngVsGas(EBITDA ebitda, Impuestos impuestos) {
         initComponents();
-        this.getContentPane().setBackground(Color.LIGHT_GRAY);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //determina el color del fondo y de los headers de columnas
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
-        Color b = new Color(26, 29, 34);
-        tabla_ingresos.getTableHeader().setBackground(b);
-        tabla_egresos.getTableHeader().setBackground(b);
+        getContentPane().setBackground(ProjectEvaluator.fondo);
         //crea el directorio para ingvsgas   
         this.ebitda = ebitda;
         this.impuestos = impuestos;
         jtf_inv.setText("0.0");
-
     }
 
     //Código autogenerado
@@ -88,6 +81,7 @@ public class IngVsGas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IngVsGas");
+        setBackground(new java.awt.Color(0, 51, 102));
         setLocation(new java.awt.Point(0, 0));
         setSize(new java.awt.Dimension(900, 690));
         addWindowListener(new java.awt.event.WindowAdapter() {

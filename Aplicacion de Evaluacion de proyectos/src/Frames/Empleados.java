@@ -31,12 +31,7 @@ public class Empleados extends javax.swing.JFrame {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
-        Color b = new Color(26, 29, 34);
-        tabla_sueldos.getTableHeader().setBackground(b);
-        tabla_tasas.getTableHeader().setBackground(b);
-
+        getContentPane().setBackground(ProjectEvaluator.fondo);
         this.ingvsgas = ingvsgas;
     }
 

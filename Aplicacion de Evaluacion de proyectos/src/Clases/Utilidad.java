@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -62,7 +63,7 @@ public class Utilidad {
                     archivo.createNewFile();
                 } catch (Exception ex) {
                     System.err.println("Error en exportar,Utilidad");
-                    ex.printStackTrace();
+                    ex.getMessage();
                 }
             }
             try {
@@ -133,7 +134,7 @@ public class Utilidad {
                     } else {
                         Utilidad.Tabla.get_modelo(tabla).addRow(arraylist.toArray());
                     }
-                }  
+                }
             } catch (IndexOutOfBoundsException e) {
                 System.err.println("Error en check_insert_fila (Utilidad)");
             }
@@ -168,13 +169,52 @@ public class Utilidad {
                 try {
                     archivo.createNewFile();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    ex.getMessage();
                 }
             }
             try {
                 FileWriter fw = new FileWriter(archivo);
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(jtf.getText());
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public static class Jcombobox {
+
+        public static String importar_ult_tema(File archivo) {
+            //importa el ultimo item seleccionado del combobox
+            String dato = "";
+            if (archivo.exists()) {
+                try {
+                    FileReader fr = new FileReader(archivo);
+                    BufferedReader br = new BufferedReader(fr);
+                    dato = br.readLine();
+                } catch (IOException ex) {
+                    Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return dato;
+        }
+
+        public static void exportar_jcombobox(File archivo, JComboBox jcombobox) {
+            //exporta el ultimo item seleccionado del combobox
+            // crea el archivo si no existe
+            if (!archivo.exists()) {
+                try {
+                    archivo.createNewFile();
+                } catch (Exception ex) {
+                    ex.getMessage();
+                }
+            }
+            try {
+                FileWriter fw = new FileWriter(archivo);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(jcombobox.getSelectedItem().toString());
                 bw.close();
                 fw.close();
             } catch (IOException ex) {

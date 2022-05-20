@@ -16,18 +16,15 @@ import javax.swing.table.DefaultTableModel;
 public class Credito extends javax.swing.JFrame {
 
     //declara el archivo a importar o exportar por los métodos de Tabla
-    private File pagcredito = new File("C:\\Project evaluator\\credito.txt");
-    private File datcredito = new File("C:\\Project evaluator\\datos credito.txt");
+    private File pagcredito;
+    private File datcredito;
+    private boolean imp = false;
 
     public Credito() {
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //determina el color del fondo
-        Color a = new Color(40, 44, 52);
-        getContentPane().setBackground(a);
-        Color b = new Color(26, 29, 34);
-        tabla_datcredito.getTableHeader().setBackground(b);
-        tabla_pagcredito.getTableHeader().setBackground(b);
+        getContentPane().setBackground(ProjectEvaluator.fondo);
     }
 
     //Código autogenerado
@@ -67,6 +64,11 @@ public class Credito extends javax.swing.JFrame {
         ));
         tabla_pagcredito.setFocusable(false);
         tabla_pagcredito.setShowGrid(true);
+        tabla_pagcredito.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabla_pagcreditoPropertyChange(evt);
+            }
+        });
         scrollcredito.setViewportView(tabla_pagcredito);
         if (tabla_pagcredito.getColumnModel().getColumnCount() > 0) {
             tabla_pagcredito.getColumnModel().getColumn(1).setHeaderValue("Pago interés");
@@ -86,6 +88,11 @@ public class Credito extends javax.swing.JFrame {
         ));
         tabla_datcredito.setFocusable(false);
         tabla_datcredito.setShowGrid(true);
+        tabla_datcredito.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tabla_datcreditoPropertyChange(evt);
+            }
+        });
         scrolldatcredito.setViewportView(tabla_datcredito);
 
         txtdatcredito.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
@@ -192,10 +199,12 @@ public class Credito extends javax.swing.JFrame {
     }
 
     public File getPagcredito() {
+        pagcredito = new File(ProjectEvaluator.direccion + "\\Credito\\credito.txt");
         return pagcredito;
     }
 
     public File getDatcredito() {
+        datcredito = new File(ProjectEvaluator.direccion + "\\Credito\\datos credito.txt");
         return datcredito;
     }
 
@@ -205,6 +214,11 @@ public class Credito extends javax.swing.JFrame {
 
     public JTable getTabla_pagcredito() {
         return tabla_pagcredito;
+    }
+
+    //Setters
+    public void setImp(boolean imp) {
+        this.imp = imp;
     }
 
     //Métodos
@@ -266,6 +280,28 @@ public class Credito extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btn_quitarfila_datcredActionPerformed
+
+    private void tabla_pagcreditoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_pagcreditoPropertyChange
+        // Guarda pagcredito
+        if (imp == true) {
+            try {
+                Utilidad.Tabla.exportar(pagcredito, tabla_pagcredito);
+            } catch (Exception e) {
+                System.out.println("Error en guardado de datos pagcredito (Crédito)");
+            }
+        }
+    }//GEN-LAST:event_tabla_pagcreditoPropertyChange
+
+    private void tabla_datcreditoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabla_datcreditoPropertyChange
+        // Guarda datcredito
+        if (imp == true) {
+            try {
+                Utilidad.Tabla.exportar(datcredito, tabla_datcredito);
+            } catch (Exception e) {
+                System.out.println("Error en guardado de datos datcredito (Crédito)");
+            }
+        }
+    }//GEN-LAST:event_tabla_datcreditoPropertyChange
 
     /**
      * @param args the command line arguments
