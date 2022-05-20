@@ -139,87 +139,98 @@ public class Utilidad {
                 System.err.println("Error en check_insert_fila (Utilidad)");
             }
         }
-    }
-    //CLASS JTEXTFIELD
 
-    public static class JtextField {
+        public static ArrayList getarraylist_col(JTable tabla) {
+            //retorna un arraylist con todas las columnas de la tabla.
+            ArrayList columnas = new ArrayList();
 
-        public static void importar_jtf(File archivo, JTextField jtf) {
-            //IMPORTAR TXT A DATOS DE Jtextfield
-
-            if (archivo.exists()) {
-                try {
-                    FileReader fr = new FileReader(archivo);
-                    BufferedReader br = new BufferedReader(fr);
-                    String dato = br.readLine();
-                    jtf.setText(dato);
-
-                } catch (IOException ex) {
-                    Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
+            for (int i = 0; i <= tabla.getColumnCount()-1; i++) {
+            columnas.add(tabla.getColumnName(i));    
+            }        
+                return columnas;
             }
+
         }
+        //CLASS JTEXTFIELD
 
-        public static void exportar_jtf(File archivo, JTextField jtf) {
+        public static class JtextField {
 
-            //EXPORTAR DATOS DE Jtextfield A TXT
-            // crea el archivo si no existe
-            if (!archivo.exists()) {
-                try {
-                    archivo.createNewFile();
-                } catch (Exception ex) {
-                    ex.getMessage();
+            public static void importar_jtf(File archivo, JTextField jtf) {
+                //IMPORTAR TXT A DATOS DE Jtextfield
+
+                if (archivo.exists()) {
+                    try {
+                        FileReader fr = new FileReader(archivo);
+                        BufferedReader br = new BufferedReader(fr);
+                        String dato = br.readLine();
+                        jtf.setText(dato);
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
             }
-            try {
-                FileWriter fw = new FileWriter(archivo);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(jtf.getText());
-                bw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
 
-    public static class Jcombobox {
+            public static void exportar_jtf(File archivo, JTextField jtf) {
 
-        public static String importar_ult_tema(File archivo) {
-            //importa el ultimo item seleccionado del combobox
-            String dato = "";
-            if (archivo.exists()) {
+                //EXPORTAR DATOS DE Jtextfield A TXT
+                // crea el archivo si no existe
+                if (!archivo.exists()) {
+                    try {
+                        archivo.createNewFile();
+                    } catch (Exception ex) {
+                        ex.getMessage();
+                    }
+                }
                 try {
-                    FileReader fr = new FileReader(archivo);
-                    BufferedReader br = new BufferedReader(fr);
-                    dato = br.readLine();
+                    FileWriter fw = new FileWriter(archivo);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(jtf.getText());
+                    bw.close();
+                    fw.close();
                 } catch (IOException ex) {
                     Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            return dato;
         }
 
-        public static void exportar_jcombobox(File archivo, JComboBox jcombobox) {
-            //exporta el ultimo item seleccionado del combobox
-            // crea el archivo si no existe
-            if (!archivo.exists()) {
-                try {
-                    archivo.createNewFile();
-                } catch (Exception ex) {
-                    ex.getMessage();
+        public static class Jcombobox {
+
+            public static String importar_ult_tema(File archivo) {
+                //importa el ultimo item seleccionado del combobox
+                String dato = "";
+                if (archivo.exists()) {
+                    try {
+                        FileReader fr = new FileReader(archivo);
+                        BufferedReader br = new BufferedReader(fr);
+                        dato = br.readLine();
+                    } catch (IOException ex) {
+                        Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                return dato;
             }
-            try {
-                FileWriter fw = new FileWriter(archivo);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(jcombobox.getSelectedItem().toString());
-                bw.close();
-                fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+
+            public static void exportar_jcombobox(File archivo, JComboBox jcombobox) {
+                //exporta el ultimo item seleccionado del combobox
+                // crea el archivo si no existe
+                if (!archivo.exists()) {
+                    try {
+                        archivo.createNewFile();
+                    } catch (Exception ex) {
+                        ex.getMessage();
+                    }
+                }
+                try {
+                    FileWriter fw = new FileWriter(archivo);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(jcombobox.getSelectedItem().toString());
+                    bw.close();
+                    fw.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(IngVsGas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
-}

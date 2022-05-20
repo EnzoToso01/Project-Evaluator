@@ -5,7 +5,9 @@
  */
 package Frames;
 
+import Clases.Conector;
 import Clases.Utilidad;
+import static Frames.ProjectEvaluator.con;
 import static Frames.ProjectEvaluator.direccion;
 import static Frames.ProjectEvaluator.import_ingeg;
 import java.awt.Color;
@@ -43,9 +45,10 @@ public class IngVsGas extends javax.swing.JFrame {
     private EBITDA ebitda;
     private Impuestos impuestos;
     private Indicadores indicadores;
+    
     public File inversion;
     public double inv;
-
+    
     public IngVsGas() {
     }
 
@@ -614,9 +617,13 @@ public class IngVsGas extends javax.swing.JFrame {
                 }
                 indicadores.añadir_indicadores();
             }
+            //Conexión a DB 
+            con.saveTabla(tabla_ingresos, "ingresos");
         } catch (Exception e) {
+            e.getStackTrace();
             System.err.println("Error en tabla_ingresosPropertyChange,IngVsGas");
             e.getMessage();
+
         }
     }//GEN-LAST:event_tabla_ingresosPropertyChange
 
@@ -715,9 +722,5 @@ public class IngVsGas extends javax.swing.JFrame {
     private javax.swing.JLabel txtingresos;
     private javax.swing.JLabel txtinv;
     // End of variables declaration//GEN-END:variables
-
-    private Object get_modelo(JTable tabla) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

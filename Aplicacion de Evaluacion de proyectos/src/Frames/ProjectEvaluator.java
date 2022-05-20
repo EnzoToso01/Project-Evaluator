@@ -1,20 +1,14 @@
 package Frames;
 
+import Clases.Conector;
 import Clases.Utilidad;
-import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
-import com.formdev.flatlaf.intellijthemes.*;
-import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -37,8 +31,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private File nombredelproyecto_f;
     private File añosvidaproyecto_f;
     private File ult_proyecto;
+    public static Conector con = new Conector();
     private static File tema_f = new File("C:\\Project evaluator\\Cache\\tema.txt");
     private static String tema_str = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkContrastIJTheme";
+    public static String nombreproyecto_str;
     public static String direccion;
     public static Color fondo;
 
@@ -63,6 +59,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
+
         //crea la carpeta cache para archivos temporales
         File cache = new File("C:\\Project evaluator\\Cache\\");
         if (!cache.exists()) {
@@ -76,6 +73,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             FlatGitHubDarkContrastIJTheme.setup();
             e.getMessage();
         }
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 ProjectEvaluator p = new ProjectEvaluator();
@@ -1109,10 +1107,12 @@ public class ProjectEvaluator extends javax.swing.JFrame {
 
     private void jtf_nombreproyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_nombreproyectoActionPerformed
         // TODO add your handling code here:
+
         //Realiza la exportación de nombre proyecto y a su ves Ultimo proyecto utilizado
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
                 //cambia la direccion a la correspondiente y realiza las exportaciones
+                nombreproyecto_str = jtf_nombreproyecto.getText();
                 direccion = "C:\\Project evaluator\\" + jtf_nombreproyecto.getText() + "\\";
                 new File(direccion).mkdirs();
                 new File("C:\\Project evaluator\\" + jtf_nombreproyecto.getText() + "\\IngVsGas").mkdirs();
@@ -1139,7 +1139,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     }//GEN-LAST:event_jtf_nombreproyectoActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        //importa el ultimo tema en el combobox
+        nombreproyecto_str = jtf_nombreproyecto.getText();
+        //Conexión a DB   
+        con.connect();
+        con.close();
+//importa el ultimo tema en el combobox
         jComboBoxtemas.setSelectedItem(Utilidad.Jcombobox.importar_ult_tema(tema_f));
         //Realiza la importación del nombre y longevidad o escribe valores por defecto.
         //se le otorga el objeto ebitda y ingvsgas a impuestos
