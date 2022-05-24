@@ -803,7 +803,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.err.println("Error en btn_indicadoresMouseclicked (ProjectEvaluator)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_indicadoresMouseClicked
 

@@ -61,6 +61,7 @@ public class Indicadores extends javax.swing.JFrame {
         jtf_interes = new javax.swing.JTextField();
         txtpayback = new javax.swing.JLabel();
         jtf_payback = new javax.swing.JTextField();
+        txtmensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Indicadores");
@@ -80,8 +81,14 @@ public class Indicadores extends javax.swing.JFrame {
             }
         ));
         tabla_indicadores.setFocusable(false);
+        tabla_indicadores.setRowSelectionAllowed(true);
         tabla_indicadores.setSelectionBackground(new java.awt.Color(0, 51, 102));
         tabla_indicadores.setShowGrid(true);
+        tabla_indicadores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_indicadoresMouseClicked(evt);
+            }
+        });
         tabla_indicadores.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 tabla_indicadoresPropertyChange(evt);
@@ -139,33 +146,29 @@ public class Indicadores extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scroll_indicadores)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtinteres)
-                            .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtpayback)
-                            .addComponent(jtf_payback, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtinteres)
+                                    .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(71, 71, 71)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_payback, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtpayback))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtmensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(btn_añadirfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 275, Short.MAX_VALUE)))
+                        .addComponent(btn_quitarfila_ind, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(txtinteres)
-                        .addGap(1, 1, 1)
-                        .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -175,10 +178,20 @@ public class Indicadores extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtindicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtpayback)
-                                .addGap(1, 1, 1)
-                                .addComponent(jtf_payback, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtpayback)
+                                        .addGap(25, 25, 25))
+                                    .addComponent(txtmensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(txtinteres)
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_interes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_payback, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)))
                 .addComponent(scroll_indicadores, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
@@ -429,6 +442,74 @@ public class Indicadores extends javax.swing.JFrame {
         }
     }
 
+    public void setmensaje(int fila_selecionada) {
+        // Establece la conclusión del indicador en un texto.
+        switch (fila_selecionada) {
+            case 0:
+                if ((double) van.get(van.size() - 1) < 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del VAN (Sin riesgo)<br>el proyecto no es recomendable.</HTML>");
+                } else if ((double) van.get(van.size() - 1) == 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del VAN (Sin riesgo)<br>el proyecto tiene el mismo beneficio que su alternativa.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del VAN (Sin riesgo)<br>el proyecto es recomendable.</HTML>");
+                }
+                break;
+            case 1:
+                if ((double) van.get(van.size() - 1) < 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del VAN (Con riesgo)<br>el proyecto no es recomendable,verifique los riesgos.</HTML>");
+                } else if ((double) van.get(van.size() - 1) == 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del VAN (Con riesgo)<br>el proyecto tiene el mismo beneficio que su alternativa.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del VAN (Con riesgo)<br>el proyecto es recomendable.</HTML>");
+                }
+                break;
+            case 2:
+                if ((double) ivan.get(ivan.size() - 1) < 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del IVAN (Sin riesgo)<br>el beneficio no compensa la inversión.</HTML>");
+                } else if ((double) ivan.get(ivan.size() - 1) == 0) {
+                    txtmensaje.setText("<HTML> El VAN (Sin riesgo) esta en 0,por lo tanto la relación es 0.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del IVAN (Sin riesgo)<br>el beneficio si compensa la inversión.</HTML>");
+                }
+                break;
+            case 3:
+                if ((double) ivan_r.get(ivan_r.size() - 1) < 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del IVAN (Con riesgo)<br>el beneficio no compensa la inversión,verifique los riesgos.</HTML>");
+                } else if ((double) ivan.get(ivan_r.size() - 1) == 0) {
+                    txtmensaje.setText("<HTML>El VAN (Con riesgo) esta en 0,por lo tanto la relación es 0.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista del IVAN (Con riesgo)<br>el beneficio si compensa la inversión.</HTML>");
+                }
+                break;
+            case 4:
+                if ((double) tir.get(tir.size() - 1) <= 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista de la TIR (Sin riesgo)<br>el proyecto no es rentable.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista de la TIR (Sin riesgo)<br>el proyecto si es rentable.</HTML>");
+                }
+                break;
+            case 5:
+                if ((double) tir_r.get(tir_r.size() - 1) <= 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista de la TIR (Con riesgo)<br>el proyecto no es rentable,verifique los riesgos.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista de la TIR (Con riesgo)<br>el proyecto si es rentable.</HTML>");
+                }
+                break;
+            case 8:
+                if ((double) razonbc.get(razonbc.size() - 1) <= 0) {
+                    txtmensaje.setText("<HTML> Desde el punto de vista de la Razón B/C <br>el beneficio no compensa los costos.</HTML>");
+                } else {
+                    txtmensaje.setText("<HTML> Desde el punto de vista de la Razón B/C <br>el beneficio si compensa los costos.</HTML>");
+                }
+                break;
+            default:
+                txtmensaje.setText("");
+                System.err.println("Fila selecionada invalida.");
+                break;
+        }
+
+    }
+
     //Eventos
     private void btn_añadirfila_indActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_indActionPerformed
         //Añade filas a ingresos
@@ -448,14 +529,15 @@ public class Indicadores extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_quitarfila_indActionPerformed
 
     private void jtf_interesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_interesActionPerformed
-        //setea intereses y indicadores,guarda intereses jtf
+        //setea intereses y indicadores,guarda intereses jtf, tambien setea el texto mensaje vacio
         try {
             setear_interes();
             añadir_indicadores();
             Utilidad.JtextField.exportar_jtf(interes, jtf_interes);
+            txtmensaje.setText("");
         } catch (Exception e) {
             System.err.println("Error en jtf_interesActionPerformed (Indicadores)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_jtf_interesActionPerformed
 
@@ -480,6 +562,11 @@ public class Indicadores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabla_indicadoresPropertyChange
 
+    private void tabla_indicadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_indicadoresMouseClicked
+        // TODO add your handling code here:
+        setmensaje(tabla_indicadores.getSelectedRow());
+    }//GEN-LAST:event_tabla_indicadoresMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -493,6 +580,7 @@ public class Indicadores extends javax.swing.JFrame {
     private javax.swing.JTable tabla_indicadores;
     private javax.swing.JLabel txtindicadores;
     private javax.swing.JLabel txtinteres;
+    private javax.swing.JLabel txtmensaje;
     private javax.swing.JLabel txtpayback;
     // End of variables declaration//GEN-END:variables
 }
