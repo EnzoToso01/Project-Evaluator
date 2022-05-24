@@ -796,6 +796,8 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 indicadores.añadir_indicadores();
                 //añade filas por defecto si no hay ninguna en la tabla
                 Utilidad.Tabla.filas_defecto(indicadores.getTabla_indicadores(), 5);
+                //pasa el payback de indicadores a EBITDA
+                ebitda.setPayback(indicadores.getArr_payback());
                 indicadores.setImp(true);
                 indicadores.setVisible(true);
             } else {
@@ -839,6 +841,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 try {
                     Utilidad.Tabla.get_modelo(ebitda.getTabla_ebitda()).setRowCount(0);
                     ingvsgas.setear_ebitda_imp();
+                    //calcula y pasa el payback de indicadores a EBITDA
+                    indicadores.calculo_payback();
+                    ebitda.setPayback(indicadores.getArr_payback());
                     ebitda.setVisible(true);
                 } catch (Exception e) {
                     System.err.println("Error en calculo de EBITDA");

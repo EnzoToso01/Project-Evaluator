@@ -28,6 +28,7 @@ public class Indicadores extends javax.swing.JFrame {
     private ArrayList vpi = new ArrayList();
     private ArrayList vac = new ArrayList();
     private ArrayList razonbc = new ArrayList();
+    private ArrayList arr_payback = new ArrayList();
     private double tasa_interes;
     private EBITDA ebitda;
     private IngVsGas ingvsgas;
@@ -229,6 +230,10 @@ public class Indicadores extends javax.swing.JFrame {
         return txtindicadores;
     }
 
+    public ArrayList getArr_payback() {
+        return arr_payback;
+    }
+
     //Setters
     public void setear_interes() {
         try {
@@ -243,29 +248,6 @@ public class Indicadores extends javax.swing.JFrame {
     }
 
     //Métodos
-    public ArrayList calculo_van(ArrayList flujos, String titulo) {
-        //hace el calculo van
-        ArrayList resultado = new ArrayList();
-        try {
-            double acum = 0;
-            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                //suma todos los VA correspondiendo a la cantidad de años
-                for (int t = 1; t <= i; t++) {
-                    acum = acum + Double.parseDouble(String.valueOf(flujos.get(t))) / Math.pow(1 + (tasa_interes / 100), t);
-                }
-                //resta la inv
-                acum = acum - ingvsgas.inv;
-                resultado.add(acum);
-                acum = 0;
-            }
-            resultado.add(0, titulo);
-        } catch (Exception e) {
-            System.err.println("Error en calculo_van (Indicadores)");
-            e.getMessage();
-        }
-        return resultado;
-    }
-
     public void añadir_indicadores() {
         try {
             //Añade los indicadores a la tabla
@@ -301,12 +283,12 @@ public class Indicadores extends javax.swing.JFrame {
 
             //se añade el vpi
             vpi.clear();
-            vpi.addAll(calculo_van(ingvsgas.getSuma_totales_ing(), "VPI"));
+            vpi.addAll(calculo_va(ingvsgas.getSuma_totales_ing(), "VPI"));
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 7, vpi);
 
             //se añade el vac
             vac.clear();
-            vac.addAll(calculo_van(ingvsgas.getSuma_totales_eg(), "VAC"));
+            vac.addAll(calculo_va(ingvsgas.getSuma_totales_eg(), "VAC"));
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 8, vac);
 
             //se añade razon b/c
@@ -315,7 +297,8 @@ public class Indicadores extends javax.swing.JFrame {
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 9, razonbc);
 
             //se añade el payback
-            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 10, ebitda.getArr_payback());
+            calculo_payback();
+            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 10, arr_payback);
 
             //se añade el payback (tiempo)
             payback_tiempo();
@@ -323,7 +306,42 @@ public class Indicadores extends javax.swing.JFrame {
         } catch (Exception e) {
             System.err.println("Error en añadir_valores_actuales (Indicadores)");
             e.getMessage();
+            e.printStackTrace();
         }
+    }
+
+    public ArrayList calculo_va(ArrayList flujos, String titulo) {
+        //hace los valores actuales de un arraylist
+        ArrayList resultado = new ArrayList();
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+            resultado.add(Double.parseDouble(String.valueOf(flujos.get(i))) / Math.pow(1 + (tasa_interes / 100), i));
+        }
+        resultado.add(0, titulo);
+        return resultado;
+    }
+
+    public ArrayList calculo_van(ArrayList flujos, String titulo) {
+        //hace el calculo van
+        ArrayList resultado = new ArrayList();
+        try {
+            double acum = 0;
+            for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+                //suma todos los VA correspondiendo a la cantidad de años
+                for (int t = 1; t <= i; t++) {
+                    acum = acum + Double.parseDouble(String.valueOf(flujos.get(t))) / Math.pow(1 + (tasa_interes / 100), t);
+                }
+                //resta la inv
+                acum = acum - ingvsgas.inv;
+                resultado.add(acum);
+                acum = 0;
+            }
+            resultado.add(0, titulo);
+            //System.out.println(resultado);
+        } catch (NumberFormatException e) {
+            System.err.println("Error en calculo_van (Indicadores)");
+            e.getMessage();
+        }
+        return resultado;
     }
 
     public ArrayList calculo_ivan(ArrayList flujos, String titulo) {
@@ -382,11 +400,31 @@ public class Indicadores extends javax.swing.JFrame {
         return resultado;
     }
 
+    public void calculo_payback() {
+        //Hace el arraylist de payback y lo añade a la tabla (lo hace descontando a valor actual el arraylist arr_total)
+        arr_payback.clear();
+        double acum = (-ingvsgas.inv);
+        System.out.println(acum);
+        if (arr_payback.isEmpty() == true) {
+            arr_payback.add(0, "Payback");
+        }
+        //se crea un arraylist del arr_total pero en valor actual
+        ArrayList arr_total_descontado = new ArrayList();
+        arr_total_descontado.addAll(calculo_va(ebitda.getArr_total(), "Total descontado"));
+        System.out.println("Array descontado");
+        System.out.println(arr_total_descontado);
+        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+            System.out.println(acum);
+            acum = acum + Double.valueOf(String.valueOf(arr_total_descontado.get(i)));
+            arr_payback.add(acum);
+        }
+    }
+
     public int buscar_periodo_payback() {
         //busca el periodo en el que el payback da 0 o positivo
         int periodo = -1;
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            if ((double) ebitda.getArr_payback().get(i) >= 0) {
+            if ((double) arr_payback.get(i) >= 0) {
                 periodo = i;
                 break;
             }
@@ -405,7 +443,7 @@ public class Indicadores extends javax.swing.JFrame {
             double tiempo;
             double diferencia = -(double) ebitda.getArr_ebitda().get(periodo_ant) + (double) ebitda.getArr_ebitda().get(periodo);
             try {
-                tiempo = 12 * -(double) ebitda.getArr_payback().get(periodo_ant) / diferencia;
+                tiempo = 12 * -(double) arr_payback.get(periodo_ant) / diferencia;
                 //Años
                 String años;
                 if (periodo == 1) {

@@ -3,6 +3,7 @@ package Frames;
 import Clases.Utilidad;
 import java.awt.Color;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JFrame;
@@ -24,11 +25,11 @@ public class EBITDA extends javax.swing.JFrame {
     private ArrayList arr_amort = new ArrayList();
     private ArrayList arr_sub_c_amort = new ArrayList();
     private ArrayList arr_total = new ArrayList();
-    private ArrayList arr_payback = new ArrayList();
     private ArrayList arr_riesgo = new ArrayList();
     private ArrayList arr_r_neto = new ArrayList();
     private Riesgo riesgo;
     private Impuestos impuestos;
+    private Indicadores indicadores;
 
     public EBITDA() {
 
@@ -174,10 +175,6 @@ public class EBITDA extends javax.swing.JFrame {
         return arr_sub_c_amort;
     }
 
-    public ArrayList getArr_payback() {
-        return arr_payback;
-    }
-
     public ArrayList getArr_riesgo() {
         return arr_riesgo;
     }
@@ -201,6 +198,11 @@ public class EBITDA extends javax.swing.JFrame {
         aux = (ArrayList) this.egresos.clone();
         aux.add(0, "Egresos");
         Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 2, aux);
+    }
+
+    public void setPayback(ArrayList arr_payback) {
+        //añade el payback a ebitda
+        Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 14, arr_payback);
     }
 
     //Métodos
@@ -284,20 +286,27 @@ public class EBITDA extends javax.swing.JFrame {
         Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 11, arr_total);
     }
 
-    public void calculo_payback() {
-        //Hace el arraylist de payback y lo añade a la tabla
+    /*  public void calculo_payback() {
+        //Hace el arraylist de payback y lo añade a la tabla (lo hace descontando a valor actual el arraylist arr_total)
         arr_payback.clear();
         double acum = 0;
         if (arr_payback.isEmpty() == true) {
             arr_payback.add(0, "Payback");
         }
-        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            acum = acum + Double.valueOf(String.valueOf(arr_total.get(i)));
+        //se crea un arraylist del arr_total pero en valor actual
+        ArrayList arr_total_copy = new ArrayList();
+        arr_total_copy.addAll(arr_total);
+        //arr_total_copy.remove(0);
+        ArrayList arr_total_descontado = new ArrayList();
+       System.out.println(indicadores.calculo_van(arr_total_copy, "Total descontado"));
+      //  System.out.println("Array descontado");
+        //System.out.println(arr_total_descontado);
+          for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
+            acum = acum + Double.valueOf(String.valueOf(arr_total_descontado.get(i)));
             arr_payback.add(acum);
-        }
+        }  
         Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 12, arr_payback);
-    }
-
+    } */
     public void calculo_riesgo() {
         //Hace el arraylist de arr_riesgo y lo inserta en la tabla
         arr_riesgo.clear();

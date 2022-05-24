@@ -503,13 +503,13 @@ public class IngVsGas extends javax.swing.JFrame {
             ebitda.calculo_sub_c_amort();
             impuestos.calculo_ganancias();
             ebitda.calculo_total();
-            ebitda.calculo_payback();
             ebitda.calculo_riesgo();
-            ebitda.calculo_r_neto();
+            ebitda.calculo_r_neto();   
             impuestos.calculo_total_imp();
         } catch (Exception e) {
             System.err.println("Error en setear_ebitda_imp (IngVsGas)");
             e.getMessage();
+            e.printStackTrace();
         }
     }
 
