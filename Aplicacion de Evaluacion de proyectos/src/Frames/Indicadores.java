@@ -296,11 +296,7 @@ public class Indicadores extends javax.swing.JFrame {
             razonbc.addAll(calculo_razonBC());
             Utilidad.Tabla.check_insert_fila(tabla_indicadores, 9, razonbc);
 
-            //se añade el payback
-            calculo_payback();
-            Utilidad.Tabla.check_insert_fila(tabla_indicadores, 10, arr_payback);
-
-            //se añade el payback (tiempo)
+            //se añade el payback descontado (tiempo)
             payback_tiempo();
 
         } catch (Exception e) {
@@ -400,31 +396,11 @@ public class Indicadores extends javax.swing.JFrame {
         return resultado;
     }
 
-    public void calculo_payback() {
-        //Hace el arraylist de payback y lo añade a la tabla (lo hace descontando a valor actual el arraylist arr_total)
-        arr_payback.clear();
-        double acum = (-ingvsgas.inv);
-        System.out.println(acum);
-        if (arr_payback.isEmpty() == true) {
-            arr_payback.add(0, "Payback");
-        }
-        //se crea un arraylist del arr_total pero en valor actual
-        ArrayList arr_total_descontado = new ArrayList();
-        arr_total_descontado.addAll(calculo_va(ebitda.getArr_total(), "Total descontado"));
-        System.out.println("Array descontado");
-        System.out.println(arr_total_descontado);
-        for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            System.out.println(acum);
-            acum = acum + Double.valueOf(String.valueOf(arr_total_descontado.get(i)));
-            arr_payback.add(acum);
-        }
-    }
-
     public int buscar_periodo_payback() {
         //busca el periodo en el que el payback da 0 o positivo
         int periodo = -1;
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            if ((double) arr_payback.get(i) >= 0) {
+            if ((double) van.get(i) >= 0) {
                 periodo = i;
                 break;
             }
@@ -441,9 +417,10 @@ public class Indicadores extends javax.swing.JFrame {
                 periodo_ant = periodo - 1;
             }
             double tiempo;
-            double diferencia = -(double) ebitda.getArr_ebitda().get(periodo_ant) + (double) ebitda.getArr_ebitda().get(periodo);
+            double diferencia = -(double) van.get(periodo_ant) + (double) van.get(periodo);
             try {
-                tiempo = 12 * -(double) arr_payback.get(periodo_ant) / diferencia;
+                tiempo = 12 * -(double) van.get(periodo_ant) / diferencia;
+                System.out.println(tiempo);
                 //Años
                 String años;
                 if (periodo == 1) {

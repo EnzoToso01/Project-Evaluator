@@ -200,11 +200,6 @@ public class EBITDA extends javax.swing.JFrame {
         Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 2, aux);
     }
 
-    public void setPayback(ArrayList arr_payback) {
-        //añade el payback a ebitda
-        Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 14, arr_payback);
-    }
-
     //Métodos
     public void calculo_ebitda() {
         try {
