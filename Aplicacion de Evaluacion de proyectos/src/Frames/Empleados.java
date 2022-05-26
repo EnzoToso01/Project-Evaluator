@@ -424,7 +424,7 @@ public class Empleados extends javax.swing.JFrame {
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).removeRow(ingvsgas.getTabla_egresos().getRowCount() - 3);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).insertRow(ingvsgas.getTabla_egresos().getRowCount() - 2, sueldos.toArray());
             }
-            ingvsgas.calculo_totales(ingvsgas.getTabla_egresos(), ingvsgas.getTotal_eg(), ingvsgas.getTotal_eg_iva(), ingvsgas.getSuma_totales_eg(), ingvsgas.getjComboBoxivaeg());
+            ingvsgas.calculo_total_eg();
             combo_años.setSelectedIndex(selecteditem);
         } catch (Exception e) {
             System.err.println("Error en arr_sueldos (Empleados)");

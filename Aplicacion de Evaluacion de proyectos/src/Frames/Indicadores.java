@@ -332,7 +332,6 @@ public class Indicadores extends javax.swing.JFrame {
                 acum = 0;
             }
             resultado.add(0, titulo);
-            //System.out.println(resultado);
         } catch (NumberFormatException e) {
             System.err.println("Error en calculo_van (Indicadores)");
             e.getMessage();
@@ -420,7 +419,6 @@ public class Indicadores extends javax.swing.JFrame {
             double diferencia = -(double) van.get(periodo_ant) + (double) van.get(periodo);
             try {
                 tiempo = 12 * -(double) van.get(periodo_ant) / diferencia;
-                System.out.println(tiempo);
                 //Años
                 String años;
                 if (periodo == 1) {
