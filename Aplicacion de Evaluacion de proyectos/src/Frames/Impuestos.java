@@ -317,7 +317,7 @@ public class Impuestos extends javax.swing.JFrame {
                 arr_ing_br.add(0, "Ingresos Brutos");
             }
             for (int i = 0; i < ProjectEvaluator.longevidad; i++) {
-                arr_ing_br.add(ebitda.ingresos.get(i) * ing_b);
+                arr_ing_br.add(ingvsgas.getTotal_ing_iva().get(i) * ing_b);
             }
             Utilidad.Tabla.check_insert_fila(tabla_impuestos, 5, arr_ing_br);
             Utilidad.Tabla.check_insert_fila(ebitda.getTabla_ebitda(), 4, arr_ing_br);
