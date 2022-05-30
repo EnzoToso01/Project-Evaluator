@@ -82,7 +82,6 @@ public class Indicadores extends javax.swing.JFrame {
             }
         ));
         tabla_indicadores.setFocusable(false);
-        tabla_indicadores.setRowSelectionAllowed(true);
         tabla_indicadores.setSelectionBackground(new java.awt.Color(0, 51, 102));
         tabla_indicadores.setShowGrid(true);
         tabla_indicadores.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,7 +97,7 @@ public class Indicadores extends javax.swing.JFrame {
         scroll_indicadores.setViewportView(tabla_indicadores);
 
         btn_añadirfila_ind.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_ind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_ind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_ind.setAutoscrolls(true);
         btn_añadirfila_ind.setDefaultCapable(false);
         btn_añadirfila_ind.setFocusable(false);
@@ -109,7 +108,7 @@ public class Indicadores extends javax.swing.JFrame {
         });
 
         btn_quitarfila_ind.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_ind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_ind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_ind.setDefaultCapable(false);
         btn_quitarfila_ind.setFocusable(false);
         btn_quitarfila_ind.addActionListener(new java.awt.event.ActionListener() {

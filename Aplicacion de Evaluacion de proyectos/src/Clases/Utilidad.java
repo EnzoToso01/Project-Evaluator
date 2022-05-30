@@ -32,7 +32,6 @@ public class Utilidad {
 
         public static void importar(File archivo, JTable tabla) {
             //IMPORTAR TXT A DATOS DE TABLA 
-
             if (archivo.exists()) {
                 try {
                     FileReader fr = new FileReader(archivo);
@@ -99,6 +98,7 @@ public class Utilidad {
         }
 
         public static int buscar_indice_fila(String nombre_fila, JTable tabla) {
+            //Busca el num de indice de la fila
             int num_fila = -1;
             for (int i = 0; i <= tabla.getRowCount() - 1; i++) {
                 try {
@@ -113,11 +113,13 @@ public class Utilidad {
         }
 
         public static DefaultTableModel get_modelo(JTable tabla) {
+            //retorna el modelo de la tabla
             DefaultTableModel tblmodel = (DefaultTableModel) tabla.getModel();
             return tblmodel;
         }
 
         public static ArrayList get_fila(JTable tabla, int num_fila) {
+            //devuelve en un arraylist la fila solicitada
             ArrayList fila = new ArrayList();
             for (int i = 0; i < tabla.getColumnCount(); i++) {
                 fila.add(tabla.getValueAt(num_fila, i));
@@ -126,6 +128,7 @@ public class Utilidad {
         }
 
         public static void check_insert_fila(JTable tabla, int index, ArrayList arraylist) {
+            //chequea si existe la fila, la reemplaza o añade una nueva según corresponda
             try {
                 if (index > 0) {
                     if (tabla.getRowCount() >= index) {
@@ -146,7 +149,6 @@ public class Utilidad {
 
         public static void importar_jtf(File archivo, JTextField jtf) {
             //IMPORTAR TXT A DATOS DE Jtextfield
-
             if (archivo.exists()) {
                 try {
                     FileReader fr = new FileReader(archivo);
@@ -162,7 +164,6 @@ public class Utilidad {
         }
 
         public static void exportar_jtf(File archivo, JTextField jtf) {
-
             //EXPORTAR DATOS DE Jtextfield A TXT
             // crea el archivo si no existe
             if (!archivo.exists()) {

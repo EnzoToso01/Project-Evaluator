@@ -81,7 +81,7 @@ public class EBITDA extends javax.swing.JFrame {
         scroll_ebitda.setViewportView(tabla_EBITDA);
 
         btn_añadirfila_ebitda.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_ebitda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_ebitda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_ebitda.setAutoscrolls(true);
         btn_añadirfila_ebitda.setDefaultCapable(false);
         btn_añadirfila_ebitda.setFocusable(false);
@@ -92,7 +92,7 @@ public class EBITDA extends javax.swing.JFrame {
         });
 
         btn_quitarfila_ebitda.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_ebitda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_ebitda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_ebitda.setDefaultCapable(false);
         btn_quitarfila_ebitda.setFocusable(false);
         btn_quitarfila_ebitda.addActionListener(new java.awt.event.ActionListener() {
@@ -281,27 +281,6 @@ public class EBITDA extends javax.swing.JFrame {
         Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 11, arr_total);
     }
 
-    /*  public void calculo_payback() {
-        //Hace el arraylist de payback y lo añade a la tabla (lo hace descontando a valor actual el arraylist arr_total)
-        arr_payback.clear();
-        double acum = 0;
-        if (arr_payback.isEmpty() == true) {
-            arr_payback.add(0, "Payback");
-        }
-        //se crea un arraylist del arr_total pero en valor actual
-        ArrayList arr_total_copy = new ArrayList();
-        arr_total_copy.addAll(arr_total);
-        //arr_total_copy.remove(0);
-        ArrayList arr_total_descontado = new ArrayList();
-       System.out.println(indicadores.calculo_van(arr_total_copy, "Total descontado"));
-      //  System.out.println("Array descontado");
-        //System.out.println(arr_total_descontado);
-          for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-            acum = acum + Double.valueOf(String.valueOf(arr_total_descontado.get(i)));
-            arr_payback.add(acum);
-        }  
-        Utilidad.Tabla.check_insert_fila(tabla_EBITDA, 12, arr_payback);
-    } */
     public void calculo_riesgo() {
         //Hace el arraylist de arr_riesgo y lo inserta en la tabla
         arr_riesgo.clear();

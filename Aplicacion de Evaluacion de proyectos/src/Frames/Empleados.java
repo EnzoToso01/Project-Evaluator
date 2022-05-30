@@ -144,7 +144,7 @@ public class Empleados extends javax.swing.JFrame {
         scroll_tasas.setViewportView(tabla_tasas);
 
         btn_añadirfila_sueld.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_sueld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_sueld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_sueld.setAutoscrolls(true);
         btn_añadirfila_sueld.setDefaultCapable(false);
         btn_añadirfila_sueld.setFocusable(false);
@@ -155,7 +155,7 @@ public class Empleados extends javax.swing.JFrame {
         });
 
         btn_quitarfila_sueld.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_sueld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_sueld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_sueld.setDefaultCapable(false);
         btn_quitarfila_sueld.setFocusable(false);
         btn_quitarfila_sueld.addActionListener(new java.awt.event.ActionListener() {
@@ -254,10 +254,6 @@ public class Empleados extends javax.swing.JFrame {
         return jtf_total_sueldos;
     }
 
-    public void setImp_sueldos(boolean imp_s) {
-        this.imp_s = imp_s;
-    }
-
     public JComboBox<String> getCombo_años() {
         return combo_años;
     }
@@ -266,6 +262,10 @@ public class Empleados extends javax.swing.JFrame {
         return txtsueldos;
     }
 
+    //setters
+    public void setImp_sueldos(boolean imp_s) {
+        this.imp_s = imp_s;
+    }
     //Métodos
     public void importar_emp() {
         //importa empleados
@@ -332,7 +332,9 @@ public class Empleados extends javax.swing.JFrame {
         //calcula el sueldo bruto
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + 
+                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + 
+                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
                 Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
             } catch (NullPointerException | NumberFormatException e) {
                 e.getMessage();
@@ -368,10 +370,13 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void total_desc() {
-
+        //Realiza el total de descuento
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + 
+                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + 
+                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + 
+                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
                 Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
             } catch (NullPointerException | NumberFormatException e) {
                 e.getMessage();
@@ -381,10 +386,11 @@ public class Empleados extends javax.swing.JFrame {
     }
 
     public void total_neto() {
-
+        //Realiza el calculo total neto
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) - Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) -
+                 Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
                 Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
             } catch (NullPointerException | NumberFormatException e) {
                 e.getMessage();

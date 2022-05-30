@@ -121,7 +121,7 @@ public class Impuestos extends javax.swing.JFrame {
         txtimpuestos.setText("Impuestos");
 
         btn_añadirfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_imp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_imp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_imp.setAutoscrolls(true);
         btn_añadirfila_imp.setDefaultCapable(false);
         btn_añadirfila_imp.setFocusable(false);
@@ -132,7 +132,7 @@ public class Impuestos extends javax.swing.JFrame {
         });
 
         btn_quitarfila_imp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_imp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_imp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_imp.setDefaultCapable(false);
         btn_quitarfila_imp.setFocusable(false);
         btn_quitarfila_imp.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +142,7 @@ public class Impuestos extends javax.swing.JFrame {
         });
 
         btn_añadirfila_indimp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_indimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_indimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_indimp.setAutoscrolls(true);
         btn_añadirfila_indimp.setDefaultCapable(false);
         btn_añadirfila_indimp.setFocusable(false);
@@ -153,7 +153,7 @@ public class Impuestos extends javax.swing.JFrame {
         });
 
         btn_quitarfila_indimp.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_indimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_indimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_indimp.setDefaultCapable(false);
         btn_quitarfila_indimp.setFocusable(false);
         btn_quitarfila_indimp.addActionListener(new java.awt.event.ActionListener() {
@@ -195,7 +195,7 @@ public class Impuestos extends javax.swing.JFrame {
                         .addComponent(btn_añadirfila_imp)
                         .addComponent(btn_quitarfila_imp, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addComponent(scroll_impuestos, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)

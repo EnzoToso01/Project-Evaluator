@@ -68,7 +68,7 @@ public class Riesgo extends javax.swing.JFrame {
         txtriesgos.setText("Riesgos");
 
         btn_añadirfila_riesg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_riesg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_riesg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_riesg.setAutoscrolls(true);
         btn_añadirfila_riesg.setDefaultCapable(false);
         btn_añadirfila_riesg.setFocusable(false);
@@ -79,7 +79,7 @@ public class Riesgo extends javax.swing.JFrame {
         });
 
         btn_quitarfila_riesg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_riesg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_riesg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_riesg.setDefaultCapable(false);
         btn_quitarfila_riesg.setFocusable(false);
         btn_quitarfila_riesg.addActionListener(new java.awt.event.ActionListener() {

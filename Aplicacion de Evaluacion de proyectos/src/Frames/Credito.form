@@ -47,10 +47,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_quitarfila_cred" min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="scrollcredito" alignment="0" pref="783" max="32767" attributes="0"/>
+                  <Component id="scrollcredito" alignment="0" max="32767" attributes="0"/>
                   <Component id="scrolldatcredito" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,7 +66,7 @@
                   </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="scrollcredito" pref="239" max="32767" attributes="0"/>
+              <Component id="scrollcredito" pref="223" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="txtdatcredito" min="-2" max="-2" attributes="0"/>
@@ -76,8 +76,8 @@
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="scrolldatcredito" pref="239" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+              <Component id="scrolldatcredito" pref="222" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -215,7 +215,7 @@
           <Font name="Roboto" size="12" style="0"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/agregar-fila.png"/>
+          <Image iconType="3" name="/imagenes/icono_agregar_fila.png"/>
         </Property>
         <Property name="autoscrolls" type="boolean" value="true"/>
         <Property name="defaultCapable" type="boolean" value="false"/>
@@ -231,7 +231,7 @@
           <Font name="Roboto" size="12" style="0"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/quitar-fila.png"/>
+          <Image iconType="3" name="/imagenes/icono_quitar_fila.png"/>
         </Property>
         <Property name="defaultCapable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>
@@ -246,7 +246,7 @@
           <Font name="Roboto" size="12" style="0"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/agregar-fila.png"/>
+          <Image iconType="3" name="/imagenes/icono_agregar_fila.png"/>
         </Property>
         <Property name="autoscrolls" type="boolean" value="true"/>
         <Property name="defaultCapable" type="boolean" value="false"/>
@@ -262,7 +262,7 @@
           <Font name="Roboto" size="12" style="0"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/quitar-fila.png"/>
+          <Image iconType="3" name="/imagenes/icono_quitar_fila.png"/>
         </Property>
         <Property name="defaultCapable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>

@@ -177,7 +177,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         btn_IngVsGas.setBackground(new java.awt.Color(0, 0, 0));
         btn_IngVsGas.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_IngVsGas.setForeground(new java.awt.Color(255, 255, 255));
-        btn_IngVsGas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Ingresos_y_Egresos.png"))); // NOI18N
+        btn_IngVsGas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_ingvsgas.png"))); // NOI18N
         btn_IngVsGas.setText("Ingresos y Egresos");
         btn_IngVsGas.setBorder(null);
         btn_IngVsGas.setBorderPainted(false);
@@ -251,7 +251,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         btn_empleados.setBackground(new java.awt.Color(0, 0, 0));
         btn_empleados.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_empleados.setForeground(new java.awt.Color(255, 255, 255));
-        btn_empleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono empleados.png"))); // NOI18N
+        btn_empleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_empleados.png"))); // NOI18N
         btn_empleados.setText("Empleados");
         btn_empleados.setBorder(null);
         btn_empleados.setBorderPainted(false);
@@ -288,7 +288,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         btn_impuestos.setBackground(new java.awt.Color(0, 0, 0));
         btn_impuestos.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_impuestos.setForeground(new java.awt.Color(255, 255, 255));
-        btn_impuestos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono impuestos.png"))); // NOI18N
+        btn_impuestos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_impuestos.png"))); // NOI18N
         btn_impuestos.setText("Impuestos");
         btn_impuestos.setBorder(null);
         btn_impuestos.setBorderPainted(false);
@@ -361,7 +361,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         btn_riesgo.setBackground(new java.awt.Color(0, 0, 0));
         btn_riesgo.setFont(new java.awt.Font("Roboto", 0, 11)); // NOI18N
         btn_riesgo.setForeground(new java.awt.Color(255, 255, 255));
-        btn_riesgo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono riesgo.png"))); // NOI18N
+        btn_riesgo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_riesgo.png"))); // NOI18N
         btn_riesgo.setActionCommand("Riesgo");
         btn_riesgo.setBorder(null);
         btn_riesgo.setBorderPainted(false);

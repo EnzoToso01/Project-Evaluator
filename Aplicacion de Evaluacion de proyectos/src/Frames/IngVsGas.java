@@ -169,7 +169,7 @@ public class IngVsGas extends javax.swing.JFrame {
         });
 
         btn_añadirfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_ing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_ing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_ing.setAutoscrolls(true);
         btn_añadirfila_ing.setDefaultCapable(false);
         btn_añadirfila_ing.setFocusable(false);
@@ -180,7 +180,7 @@ public class IngVsGas extends javax.swing.JFrame {
         });
 
         btn_quitarfila_ing.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_ing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_ing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_ing.setDefaultCapable(false);
         btn_quitarfila_ing.setFocusable(false);
         btn_quitarfila_ing.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +190,7 @@ public class IngVsGas extends javax.swing.JFrame {
         });
 
         btn_añadirfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_añadirfila_eg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar-fila.png"))); // NOI18N
+        btn_añadirfila_eg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_agregar_fila.png"))); // NOI18N
         btn_añadirfila_eg.setAutoscrolls(true);
         btn_añadirfila_eg.setDefaultCapable(false);
         btn_añadirfila_eg.setFocusable(false);
@@ -201,7 +201,7 @@ public class IngVsGas extends javax.swing.JFrame {
         });
 
         btn_quitarfila_eg.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        btn_quitarfila_eg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/quitar-fila.png"))); // NOI18N
+        btn_quitarfila_eg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono_quitar_fila.png"))); // NOI18N
         btn_quitarfila_eg.setDefaultCapable(false);
         btn_quitarfila_eg.setFocusable(false);
         btn_quitarfila_eg.addActionListener(new java.awt.event.ActionListener() {
