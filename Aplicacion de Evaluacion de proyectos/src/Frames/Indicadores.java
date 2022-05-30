@@ -17,8 +17,8 @@ import org.apache.poi.ss.formula.functions.Irr;
  */
 public class Indicadores extends javax.swing.JFrame {
 
-    private File indicadores;
-    private File interes = new File("C:\\Project evaluator\\interes.txt");
+    private File indicadores = new File(ProjectEvaluator.direccion+"\\indicadores.txt");;
+    private File interes = new File(ProjectEvaluator.direccion+"\\interes.txt");
     private ArrayList van = new ArrayList();
     private ArrayList van_r = new ArrayList();
     private ArrayList ivan = new ArrayList();
@@ -210,6 +210,7 @@ public class Indicadores extends javax.swing.JFrame {
     }
 
     public File getInteres() {
+        interes = new File(ProjectEvaluator.direccion+"\\interes.txt");
         return interes;
     }
 
