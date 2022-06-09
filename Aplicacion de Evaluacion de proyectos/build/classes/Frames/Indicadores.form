@@ -157,7 +157,7 @@
           <Font name="Roboto" size="12" style="0"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/agregar-fila.png"/>
+          <Image iconType="3" name="/imagenes/icono_agregar_fila.png"/>
         </Property>
         <Property name="autoscrolls" type="boolean" value="true"/>
         <Property name="defaultCapable" type="boolean" value="false"/>
@@ -173,7 +173,7 @@
           <Font name="Roboto" size="12" style="0"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/quitar-fila.png"/>
+          <Image iconType="3" name="/imagenes/icono_quitar_fila.png"/>
         </Property>
         <Property name="defaultCapable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>

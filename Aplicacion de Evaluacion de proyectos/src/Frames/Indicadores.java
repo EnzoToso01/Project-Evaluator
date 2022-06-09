@@ -17,8 +17,9 @@ import org.apache.poi.ss.formula.functions.Irr;
  */
 public class Indicadores extends javax.swing.JFrame {
 
-    private File indicadores = new File(ProjectEvaluator.direccion+"\\indicadores.txt");;
-    private File interes = new File(ProjectEvaluator.direccion+"\\interes.txt");
+    private File indicadores = new File(ProjectEvaluator.direccion + "\\indicadores.txt");
+    ;
+    private File interes = new File(ProjectEvaluator.direccion + "\\interes.txt");
     private ArrayList van = new ArrayList();
     private ArrayList van_r = new ArrayList();
     private ArrayList ivan = new ArrayList();
@@ -210,7 +211,7 @@ public class Indicadores extends javax.swing.JFrame {
     }
 
     public File getInteres() {
-        interes = new File(ProjectEvaluator.direccion+"\\interes.txt");
+        interes = new File(ProjectEvaluator.direccion + "\\interes.txt");
         return interes;
     }
 
@@ -416,9 +417,16 @@ public class Indicadores extends javax.swing.JFrame {
                 periodo_ant = periodo - 1;
             }
             double tiempo;
-            double diferencia = -(double) van.get(periodo_ant) + (double) van.get(periodo);
+            ArrayList va  = calculo_va(ebitda.getArr_total(), "VA");
+            double diferencia = -(double) van.get(periodo_ant);
+            System.out.println(diferencia);
+            System.out.println(va.get(periodo));
             try {
-                tiempo = 12 * -(double) van.get(periodo_ant) / diferencia;
+                System.out.println(va);
+                System.out.println(periodo_ant);
+                System.out.println(va.get(periodo));
+                System.out.println(diferencia /(double) va.get(periodo));
+                tiempo = 12 *(diferencia /(double) va.get(periodo)) ;
                 //Años
                 String años;
                 if (periodo == 1) {
