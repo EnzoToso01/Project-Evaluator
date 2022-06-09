@@ -419,13 +419,7 @@ public class Indicadores extends javax.swing.JFrame {
             double tiempo;
             ArrayList va  = calculo_va(ebitda.getArr_total(), "VA");
             double diferencia = -(double) van.get(periodo_ant);
-            System.out.println(diferencia);
-            System.out.println(va.get(periodo));
             try {
-                System.out.println(va);
-                System.out.println(periodo_ant);
-                System.out.println(va.get(periodo));
-                System.out.println(diferencia /(double) va.get(periodo));
                 tiempo = 12 *(diferencia /(double) va.get(periodo)) ;
                 //Años
                 String años;
