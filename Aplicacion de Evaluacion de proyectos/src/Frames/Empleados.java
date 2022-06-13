@@ -290,7 +290,8 @@ public class Empleados extends javax.swing.JFrame {
         try {
             for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
                 try {
-                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
+                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + 
+                    Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
                     Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
                 } catch (NullPointerException | NumberFormatException e) {
 

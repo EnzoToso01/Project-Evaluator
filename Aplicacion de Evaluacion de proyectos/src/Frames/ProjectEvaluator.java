@@ -481,7 +481,10 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         txtTitulo.setBackground(new java.awt.Color(204, 204, 204));
         txtTitulo.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
         txtTitulo.setForeground(new java.awt.Color(85, 135, 184));
+        txtTitulo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtTitulo.setText("Project Evaluator");
+        txtTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        txtTitulo.setMaximumSize(new java.awt.Dimension(1000, 500));
 
         panel_top_left.setBackground(new java.awt.Color(37, 53, 75));
 
@@ -502,9 +505,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             panel_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_topLayout.createSequentialGroup()
                 .addComponent(panel_top_left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panel_topLayout.setVerticalGroup(
             panel_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
