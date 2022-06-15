@@ -319,6 +319,15 @@ public class IngVsGas extends javax.swing.JFrame {
         return inv;
     }
 
+    public File getInversion() {
+        return inversion;
+    }
+
+    public void setInversion(File inversion) {
+        this.inversion = inversion;
+    }
+
+    
     public JTable getTabla_egresos() {
         return tabla_egresos;
     }

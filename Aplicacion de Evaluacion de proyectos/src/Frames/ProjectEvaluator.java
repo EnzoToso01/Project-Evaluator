@@ -592,23 +592,23 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //reabre los frames en caso de cambiar el nombre del proyecto para cargar los nuevos datos.
         try {
             if (credito.isVisible() == true) {
-                credito.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                credito.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 credito.setVisible(true);
             }
             if (riesgo.isVisible() == true) {
-                riesgo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                riesgo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 riesgo.setVisible(true);
             }
             if (impuestos.isVisible() == true) {
-                impuestos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                impuestos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 impuestos.setVisible(true);
             }
             if (ebitda.isVisible() == true) {
-                ebitda.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                ebitda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 ebitda.setVisible(true);
             }
             if (ingvsgas.isVisible() == true) {
-                ingvsgas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                ingvsgas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 //inicializa ingvsgas
                 if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
                     //inicializa ingvsgas
@@ -625,11 +625,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 ingvsgas.setVisible(true);
             }
             if (empleados.isVisible() == true) {
-                empleados.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                empleados.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 empleados.setVisible(true);
             }
             if (indicadores.isVisible() == true) {
-                indicadores.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                indicadores.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 indicadores.setVisible(true);
             }
         } catch (Exception e) {
@@ -1126,9 +1126,13 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //En caso de cambiar de proyecto, se importa la longevidad correspondiente
                 Utilidad.JtextField.importar_jtf(añosvidaproyecto_f, jtf_añosvida);
                 setear_titulos();
+                //se setea la inversión, ingvsgas y ebitda del nuevo proyecto cargado.
+                ingvsgas.setear_inv();
+                Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
                 ingvsgas.setear_ingvsgas();
                 ingvsgas.setear_ebitda_imp();
                 reabrir_frames();
+
             } else {
                 jtf_nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
                 Color c = new Color(151, 159, 173);
