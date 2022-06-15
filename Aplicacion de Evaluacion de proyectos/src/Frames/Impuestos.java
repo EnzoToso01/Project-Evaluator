@@ -351,9 +351,10 @@ public class Impuestos extends javax.swing.JFrame {
             if (arr_ganancias.isEmpty() == true) {
                 arr_ganancias.add(0, "Impuesto a las ganancias");
             }
+
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                if ((double) ebitda.getArr_sub_c_amort().get(i) > 0) {
-                    arr_ganancias.add((double) ebitda.getArr_sub_c_amort().get(i) * gan);
+                if ((double) ebitda.getArr_sub_c_amort().get(i)> 0) {
+                    arr_ganancias.add(((double) ebitda.getArr_sub_c_amort().get(i)) * gan);
                 } else {
                     arr_ganancias.add(0.0);
                 }
@@ -364,6 +365,7 @@ public class Impuestos extends javax.swing.JFrame {
         } catch (Exception e) {
             System.err.println("Error en calculo_ganancias (Impuestos)");
             e.getMessage();
+
         }
     }
 

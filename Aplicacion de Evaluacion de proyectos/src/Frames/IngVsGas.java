@@ -35,6 +35,7 @@ public class IngVsGas extends javax.swing.JFrame {
     private ArrayList suma_totales_ing = new ArrayList();
     private ArrayList suma_totales_eg = new ArrayList();
     private ArrayList arr_sueldos = new ArrayList();
+    private ArrayList saldo_caja = new ArrayList();
     private File directorio;
     private File ingresos;
     private File ingresosiva;
@@ -316,6 +317,7 @@ public class IngVsGas extends javax.swing.JFrame {
     }
 
     public double getInv() {
+        inv = Double.parseDouble(jtf_inv.getText());
         return inv;
     }
 
@@ -327,7 +329,6 @@ public class IngVsGas extends javax.swing.JFrame {
         this.inversion = inversion;
     }
 
-    
     public JTable getTabla_egresos() {
         return tabla_egresos;
     }
@@ -358,6 +359,12 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public ArrayList<Double> getTotal_eg_iva() {
         return total_eg_iva;
+    }
+
+    public ArrayList getSaldo_caja() {
+
+        saldo_caja_inicial();
+        return saldo_caja;
     }
 
     public JLabel getTxtegresos() {
@@ -401,7 +408,7 @@ public class IngVsGas extends javax.swing.JFrame {
                         Utilidad.Tabla.get_modelo(tabla).setValueAt("", j, 0);
                     }
                     if (tabla.getValueAt(j, i) != null) {
-                        if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total")) {
+                        if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total") && !tabla.getValueAt(j, 0).equals("Inversión inicial")&& !tabla.getValueAt(j, 0).equals("Saldo inicial de caja disponible")) {
                             try {
                                 total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
                             } catch (NumberFormatException e) {
@@ -453,7 +460,11 @@ public class IngVsGas extends javax.swing.JFrame {
         //Si se produce una excepción de index se añaden valores con 0 por defecto. (Esto ocurre especialmente al añadir columnas)
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             try {
-                suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
+                if (i == 1) {
+                    suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
+                } else {
+                    suma_totales_ing.set(i, total_ing.get(i - 1) + total_ing_iva.get(i - 1));
+                }
             } catch (IndexOutOfBoundsException e) {
                 suma_totales_ing.add(0.0);
             }
@@ -586,11 +597,11 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public void saldo_caja_inicial() {
         //añade el saldo inicial en los ingresos
-        ArrayList saldo_caja = new ArrayList();
-        saldo_caja.addAll(ebitda.getArr_total());
+        saldo_caja.clear();       
+        saldo_caja.addAll(suma_totales_ing);
         saldo_caja.remove(0);
-        saldo_caja.add(0, "Saldo inicial de caja disponible");
-        saldo_caja.add(1, 0.0);
+        saldo_caja.add(0,"Saldo inicial de caja disponible");
+        saldo_caja.add(1,0);
         int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
         if (fila_caja == -1) {
             Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
