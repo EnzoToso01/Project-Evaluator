@@ -1127,7 +1127,6 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 Utilidad.JtextField.importar_jtf(añosvidaproyecto_f, jtf_añosvida);
                 setear_titulos();
                 //se setea la inversión, ingvsgas y ebitda del nuevo proyecto cargado.
-                ingvsgas.setear_inv();
                 Utilidad.JtextField.importar_jtf(ingvsgas.getInversion(), ingvsgas.getJtf_inv());
                 ingvsgas.setear_ingvsgas();
                 ingvsgas.setear_ebitda_imp();
