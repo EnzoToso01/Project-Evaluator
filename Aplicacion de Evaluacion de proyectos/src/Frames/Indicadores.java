@@ -426,7 +426,7 @@ public class Indicadores extends javax.swing.JFrame {
                 if (periodo == 1) {
                     años = "1 Año";
                 } else {
-                    años = periodo + " Años";
+                    años = Math.abs(periodo) + " Años";
                 }
                 //calculo parte decimal del tiempo      
                 double parteDecimal = tiempo % 1;
@@ -437,7 +437,7 @@ public class Indicadores extends javax.swing.JFrame {
                 if (parteEntera == 1) {
                     meses = String.valueOf("1 Mes");
                 } else {
-                    meses = String.valueOf(parteEntera + " Meses");
+                    meses = String.valueOf(Math.abs(parteEntera) + " Meses");
                 }
                 //Días
                 String dias;
@@ -445,7 +445,7 @@ public class Indicadores extends javax.swing.JFrame {
                     dias = "1 Día";
                 } else {
                     //redondea a techo el decimal
-                    dias = (int) Math.ceil(parteDecimal * 30) + " Días";
+                    dias = (int) Math.abs(Math.ceil(parteDecimal * 30)) + " Días";
                 }
                 String payback = años + "," + meses + " y " + dias;
                 jtf_payback.setText(payback);
