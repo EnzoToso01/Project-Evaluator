@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -275,6 +278,7 @@ public class Empleados extends javax.swing.JFrame {
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
                 if (combo_años.getSelectedIndex() + 1 == i) {
                     File sueldos = new File(ProjectEvaluator.direccion + "\\Sueldos\\sueldos año " + i + ".txt");
+
                     Utilidad.Tabla.importar(sueldos, tabla_sueldos);
 
                 }
@@ -420,9 +424,10 @@ public class Empleados extends javax.swing.JFrame {
             sueldos.add("Sueldos");
             int selecteditem = combo_años.getSelectedIndex();
             for (int i = 1; i <= combo_años.getItemCount(); i++) {
+
                 combo_años.setSelectedItem("Año " + i);
-                importar_emp();
-                sueldos.add(calculo_total_sueldos());
+                /*   importar_emp();
+                 sueldos.add(calculo_total_sueldos());*/
             }
 
             if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
@@ -441,6 +446,7 @@ public class Empleados extends javax.swing.JFrame {
 
     public void inicializar_combo() {
         //setea el combo_años
+        combo_años.removeAllItems();
         for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
             combo_años.addItem("Año " + i);
         }
@@ -506,6 +512,7 @@ public class Empleados extends javax.swing.JFrame {
                 total_desc();
                 total_neto();
                 jtf_total_sueldos.setText(String.valueOf(calculo_total_sueldos()));
+                // CREA WARNING DE SORTING
                 arr_sueldos();
             }
         } catch (Exception e) {
