@@ -252,12 +252,17 @@ public class Credito extends javax.swing.JFrame {
     private void btn_quitarfila_credActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_credActionPerformed
         // TODO add your handling code here:
         //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
-        if (tabla_pagcredito.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
-            } while (tabla_pagcredito.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
+        try {
+            if (tabla_pagcredito.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getSelectedRow());
+                } while (tabla_pagcredito.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_pagcredito).removeRow(tabla_pagcredito.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_credActionPerformed
 
@@ -271,12 +276,17 @@ public class Credito extends javax.swing.JFrame {
     private void btn_quitarfila_datcredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_datcredActionPerformed
         // TODO add your handling code here:
         //Quita filas a datcred, si no se selecciona una fila,se elimina la ultima
-        if (tabla_datcredito.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_datcredito).removeRow(tabla_pagcredito.getSelectedRow());
-            } while (tabla_pagcredito.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_datcredito).removeRow(tabla_datcredito.getRowCount() - 1);
+        try {
+            if (tabla_datcredito.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_datcredito).removeRow(tabla_datcredito.getSelectedRow());
+                } while (tabla_datcredito.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_datcredito).removeRow(tabla_datcredito.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
 
     }//GEN-LAST:event_btn_quitarfila_datcredActionPerformed

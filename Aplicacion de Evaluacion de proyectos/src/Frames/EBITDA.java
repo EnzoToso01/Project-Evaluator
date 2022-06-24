@@ -332,12 +332,17 @@ public class EBITDA extends javax.swing.JFrame {
 
     private void btn_quitarfila_ebitdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ebitdaActionPerformed
         //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
-        if (tabla_EBITDA.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
-            } while (tabla_EBITDA.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
+        try {
+            if (tabla_EBITDA.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getSelectedRow());
+                } while (tabla_EBITDA.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_EBITDA).removeRow(tabla_EBITDA.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_ebitdaActionPerformed
 

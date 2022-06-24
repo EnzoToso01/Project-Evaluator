@@ -353,7 +353,7 @@ public class Impuestos extends javax.swing.JFrame {
             }
 
             for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                if ((double) ebitda.getArr_sub_c_amort().get(i)> 0) {
+                if ((double) ebitda.getArr_sub_c_amort().get(i) > 0) {
                     arr_ganancias.add(((double) ebitda.getArr_sub_c_amort().get(i)) * gan);
                 } else {
                     arr_ganancias.add(0.0);
@@ -397,7 +397,7 @@ public class Impuestos extends javax.swing.JFrame {
 
         } catch (Exception e) {
             System.err.println("Error en tabla_indimpuestosPropertyChange (Impuestos)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }//GEN-LAST:event_tabla_indimpuestosPropertyChange
 
@@ -435,21 +435,40 @@ public class Impuestos extends javax.swing.JFrame {
     private void btn_quitarfila_impActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_impActionPerformed
         // TODO add your handling code here:
         //Quita filas a cred, si no se selecciona una fila,se elimina la ultima
-        if (tabla_impuestos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
-            } while (tabla_impuestos.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
+        try {
+            if (tabla_impuestos.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getSelectedRow());
+                } while (tabla_impuestos.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_impuestos).removeRow(tabla_impuestos.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_impActionPerformed
 
     private void btn_añadirfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirfila_indimpActionPerformed
         // TODO add your handling code here:
+        Vector<?> rowData = null;
+        Utilidad.Tabla.get_modelo(tabla_indimpuestos).insertRow(0, rowData);
     }//GEN-LAST:event_btn_añadirfila_indimpActionPerformed
 
     private void btn_quitarfila_indimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indimpActionPerformed
         // TODO add your handling code here:
+        try {
+            if (tabla_indimpuestos.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getSelectedRow());
+                } while (tabla_indimpuestos.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_indimpuestos).removeRow(tabla_indimpuestos.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
+        }
     }//GEN-LAST:event_btn_quitarfila_indimpActionPerformed
 
     public void iva_ventas(ArrayList ing_iva) {

@@ -420,7 +420,7 @@ public class Indicadores extends javax.swing.JFrame {
             ArrayList va  = calculo_va(ebitda.getArr_total(), "VA");
             double diferencia = -(double) van.get(periodo_ant);
             try {
-                tiempo = 12 *(diferencia /(double) va.get(periodo)) ;
+                tiempo = 12 * (diferencia / (double) va.get(periodo));
                 //Años
                 String años;
                 if (periodo == 1) {
@@ -534,12 +534,17 @@ public class Indicadores extends javax.swing.JFrame {
 
     private void btn_quitarfila_indActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_indActionPerformed
         //Quita filas a idicadores, si no se selecciona una fila,se elimina la ultima
-        if (tabla_indicadores.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getSelectedRow());
-            } while (tabla_indicadores.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getRowCount() - 1);
+        try {
+            if (tabla_indicadores.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getSelectedRow());
+                } while (tabla_indicadores.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_indicadores).removeRow(tabla_indicadores.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_indActionPerformed
 

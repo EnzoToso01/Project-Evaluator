@@ -408,7 +408,7 @@ public class IngVsGas extends javax.swing.JFrame {
                         Utilidad.Tabla.get_modelo(tabla).setValueAt("", j, 0);
                     }
                     if (tabla.getValueAt(j, i) != null) {
-                        if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total") && !tabla.getValueAt(j, 0).equals("Inversión inicial")&& !tabla.getValueAt(j, 0).equals("Saldo inicial de caja disponible")) {
+                        if (!tabla.getValueAt(j, i).equals("") && !tabla.getValueAt(j, 0).equals("Total") && !tabla.getValueAt(j, 0).equals("Inversión inicial") && !tabla.getValueAt(j, 0).equals("Saldo inicial de caja disponible")) {
                             try {
                                 total = total + Double.parseDouble(String.valueOf(tabla.getValueAt(j, i)));
                             } catch (NumberFormatException e) {
@@ -597,11 +597,11 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public void saldo_caja_inicial() {
         //añade el saldo inicial en los ingresos
-        saldo_caja.clear();       
+        saldo_caja.clear();
         saldo_caja.addAll(suma_totales_ing);
         saldo_caja.remove(0);
-        saldo_caja.add(0,"Saldo inicial de caja disponible");
-        saldo_caja.add(1,0);
+        saldo_caja.add(0, "Saldo inicial de caja disponible");
+        saldo_caja.add(1, 0);
         int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
         if (fila_caja == -1) {
             Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
@@ -727,12 +727,17 @@ public class IngVsGas extends javax.swing.JFrame {
 
     private void btn_quitarfila_ingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_ingActionPerformed
         //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
-        if (tabla_ingresos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
-            } while (tabla_ingresos.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(0);
+        try {
+            if (tabla_ingresos.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(tabla_ingresos.getSelectedRow());
+                } while (tabla_ingresos.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(0);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_ingActionPerformed
 
@@ -746,12 +751,17 @@ public class IngVsGas extends javax.swing.JFrame {
     private void btn_quitarfila_egActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_egActionPerformed
         // TODO add your handling code here:
         //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
-        if (tabla_egresos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
-            } while (tabla_egresos.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(0);
+        try {
+            if (tabla_egresos.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(tabla_egresos.getSelectedRow());
+                } while (tabla_egresos.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_egresos).removeRow(0);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_egActionPerformed
 

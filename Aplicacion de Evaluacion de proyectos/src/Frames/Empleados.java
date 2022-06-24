@@ -74,7 +74,6 @@ public class Empleados extends javax.swing.JFrame {
                 "Nombre y apellido", "Basico Jornada  Completa", "Comision  ", "Total Sueldo  ", "Antiguedad  ", "Ad/ Antiguedad  ", "Ad/Presentismo ", "Bruto  ", "Jubiliacion", "Obra Social ", "Ley 19032 ", "SEC ", "Total descuentos", "Total neto"
             }
         ));
-        tabla_sueldos.setCellSelectionEnabled(true);
         tabla_sueldos.setFocusable(false);
         tabla_sueldos.setShowGrid(true);
         tabla_sueldos.setSurrendersFocusOnKeystroke(true);
@@ -266,6 +265,7 @@ public class Empleados extends javax.swing.JFrame {
     public void setImp_sueldos(boolean imp_s) {
         this.imp_s = imp_s;
     }
+
     //Métodos
     public void importar_emp() {
         //importa empleados
@@ -290,8 +290,8 @@ public class Empleados extends javax.swing.JFrame {
         try {
             for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
                 try {
-                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1))) + 
-                    Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
+                    double result = Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 1)))
+                            + Double.valueOf(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 2)));
                     Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 3);
                 } catch (NullPointerException | NumberFormatException e) {
 
@@ -333,9 +333,9 @@ public class Empleados extends javax.swing.JFrame {
         //calcula el sueldo bruto
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3))) + 
-                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5))) + 
-                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 3)))
+                        + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 5)))
+                        + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 6)));
                 Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 7);
             } catch (NullPointerException | NumberFormatException e) {
                 e.getMessage();
@@ -374,10 +374,10 @@ public class Empleados extends javax.swing.JFrame {
         //Realiza el total de descuento
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8))) + 
-                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9))) + 
-                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10))) + 
-                Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 8)))
+                        + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 9)))
+                        + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 10)))
+                        + Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 11)));
                 Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 12);
             } catch (NullPointerException | NumberFormatException e) {
                 e.getMessage();
@@ -390,8 +390,8 @@ public class Empleados extends javax.swing.JFrame {
         //Realiza el calculo total neto
         for (int i = 0; i < tabla_sueldos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7))) -
-                 Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
+                double result = Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 7)))
+                        - Double.parseDouble(String.valueOf(Utilidad.Tabla.get_modelo(tabla_sueldos).getValueAt(i, 12)));
                 Utilidad.Tabla.get_modelo(tabla_sueldos).setValueAt(result, i, 13);
             } catch (NullPointerException | NumberFormatException e) {
                 e.getMessage();
@@ -547,12 +547,17 @@ public class Empleados extends javax.swing.JFrame {
 
     private void btn_quitarfila_sueldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_sueldActionPerformed
         //Quita filas a sueldos, si no se selecciona una fila,se elimina la ultima
-        if (tabla_sueldos.getSelectedRowCount() >= 1) {
-            do {
-                Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
-            } while (tabla_sueldos.getSelectedRowCount() >= 1);
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
+        try {
+            if (tabla_sueldos.getSelectedRowCount() >= 1) {
+                do {
+                    Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getSelectedRow());
+                } while (tabla_sueldos.getSelectedRowCount() >= 1);
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_sueldos).removeRow(tabla_sueldos.getRowCount() - 1);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_sueldActionPerformed
 

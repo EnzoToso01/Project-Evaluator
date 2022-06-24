@@ -148,16 +148,14 @@ public class Riesgo extends javax.swing.JFrame {
     public void valor_riesgo() {
         //Hace los calculos de valor_riesgo
 
-        for (int i = 0; i < tabla_riesgos.getRowCount(); i++) {
             try {
-                double result = Double.parseDouble(String.valueOf(tabla_riesgos.getValueAt(i, 5))) / 100 * Double.parseDouble(String.valueOf(tabla_riesgos.getValueAt(i, 7)));
-                tabla_riesgos.setValueAt(result, i, 9);
+                double result = Double.parseDouble(String.valueOf(tabla_riesgos.getValueAt(tabla_riesgos.getSelectedRow(), 5))) / 
+                        100 * Double.parseDouble(String.valueOf(tabla_riesgos.getValueAt(tabla_riesgos.getSelectedRow(), 7)));
+                tabla_riesgos.setValueAt(result, tabla_riesgos.getSelectedRow(), 9);
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                //hace que los valores tengan 0 por defecto para evitar errores
-                tabla_riesgos.setValueAt(0, i, 5);
-                tabla_riesgos.setValueAt(0, i, 7);
-            }
-        }
+              //  e.getMessage();
+          }
+    
     }
 
     //Eventos
@@ -182,12 +180,17 @@ public class Riesgo extends javax.swing.JFrame {
 
     private void btn_quitarfila_riesgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarfila_riesgActionPerformed
         //Quita filas a ing, si no se selecciona una fila,se elimina la ultima
+        try{
         if (tabla_riesgos.getSelectedRowCount() >= 1) {
             do {
                 Utilidad.Tabla.get_modelo(tabla_riesgos).removeRow(tabla_riesgos.getSelectedRow());
             } while (tabla_riesgos.getSelectedRowCount() >= 1);
         } else {
             Utilidad.Tabla.get_modelo(tabla_riesgos).removeRow(0);
+        }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No se pueden remover mas filas.");
+            e.getMessage();
         }
     }//GEN-LAST:event_btn_quitarfila_riesgActionPerformed
 
