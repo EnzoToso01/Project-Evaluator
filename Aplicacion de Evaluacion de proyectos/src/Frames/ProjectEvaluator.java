@@ -7,6 +7,7 @@ import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Enzo
  */
 public class ProjectEvaluator extends javax.swing.JFrame {
-    
+
     public static int longevidad = 5;
     public static boolean import_ingeg = false;
     private Credito credito;
@@ -41,7 +42,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private static String tema_str = "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkContrastIJTheme";
     public static String direccion;
     public static Color fondo;
-    
+
     public ProjectEvaluator() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -61,7 +62,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         panel_top.setBackground(this.getBackground().darker().darker());
         panel_top_left.setBackground(this.getBackground().darker());
     }
-    
+
     public static void main(String args[]) {
         //crea la carpeta cache para archivos temporales
         File cache = new File("C:\\Project evaluator\\Cache\\");
@@ -80,11 +81,11 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             public void run() {
                 ProjectEvaluator p = new ProjectEvaluator();
                 p.setVisible(true);
-                
+
             }
-            
+
         });
-        
+
     }
 
     //Código autogenerado
@@ -547,7 +548,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     public JTextField getJtf_añosvida() {
         return jtf_añosvida;
     }
-    
+
     public JTextField getJtf_nombreproyecto() {
         return jtf_nombreproyecto;
     }
@@ -556,7 +557,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
     private void importar_ult_p() {
         //importa el nombre y la longevidad del ultimo proyecto usado.
         try {
-            
+
             ult_proyecto = new File("C:\\Project evaluator\\Cache\\Ultimo proyecto.txt");
             Utilidad.JtextField.importar_jtf(ult_proyecto, jtf_nombreproyecto);
             direccion = "C:\\Project evaluator\\" + jtf_nombreproyecto.getText() + "\\";
@@ -568,7 +569,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             e.getMessage();
         }
     }
-    
+
     private void setear_titulos() {
         //setea el nombre del proyecto en los titulos de los jframes
         try {
@@ -587,57 +588,52 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             e.getMessage();
         }
     }
-    
+
     private void reabrir_frames() {
         //reabre los frames en caso de cambiar el nombre del proyecto para cargar los nuevos datos.
         try {
             if (credito.isVisible() == true) {
                 credito.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                credito.setVisible(true);
+                MouseEvent ev = null;
+                btn_creditoMouseClicked(ev);
             }
             if (riesgo.isVisible() == true) {
                 riesgo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                riesgo.setVisible(true);
+                MouseEvent ev = null;
+                btn_riesgoMouseClicked(ev);
             }
             if (impuestos.isVisible() == true) {
                 impuestos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                impuestos.setVisible(true);
+                MouseEvent ev = null;
+                btn_impuestosMouseClicked(ev);
             }
             if (ebitda.isVisible() == true) {
                 ebitda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                ebitda.setVisible(true);
+                MouseEvent ev = null;
+                btn_EBITDAMouseClicked(ev);
             }
             if (ingvsgas.isVisible() == true) {
                 ingvsgas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                //inicializa ingvsgas
-                if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
-                    //inicializa ingvsgas
-                    ingvsgas.setear_ingvsgas();
-                    //Realiza los valores para ebitda e impuestos
-                    ingvsgas.setear_ebitda_imp();
-                    //importa el jtextfield
-                    ingvsgas.inversion = new File(direccion + "IngVsGas\\inversion.txt");
-                    Utilidad.JtextField.importar_jtf(ingvsgas.inversion, ingvsgas.getJtf_inv());
-                    ingvsgas.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                }
-                ingvsgas.setVisible(true);
+                MouseEvent ev = null;
+                btn_IngVsGasMouseClicked(ev);
             }
             if (empleados.isVisible() == true) {
                 empleados.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                empleados.setVisible(true);
+                MouseEvent ev = null;
+                btn_empleadosMouseClicked(ev);
             }
             if (indicadores.isVisible() == true) {
                 indicadores.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                indicadores.setVisible(true);
+                MouseEvent ev = null;
+                btn_indicadoresMouseClicked(ev);
             }
+            ingvsgas.setear_ebitda_imp();
         } catch (Exception e) {
             System.err.println("Error en importar_ult_p (ProjectEvaluator)");
             e.getMessage();
         }
     }
-    
+
     public static String buscaFlatLaf(String dato) {
         //busca la direccion en paquete del tema y lo retorna como string
         String tema = "";
@@ -815,7 +811,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Pone el fondo blanco cuando se pasa el mouse encima
         btn_indicadores.setForeground(Color.BLACK);
         panel_indicadores.setBackground(Color.WHITE);
-        
+
 
     }//GEN-LAST:event_btn_indicadoresMouseEntered
 
@@ -826,7 +822,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         panel_indicadores.setBackground(Color.BLACK);
 
     }//GEN-LAST:event_btn_indicadoresMouseExited
-    
+
 
     private void btn_EBITDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EBITDAMouseClicked
         // TODO add your handling code here:
@@ -867,7 +863,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Pone el fondo por defecto cuando se quita el mouse de encima
         btn_EBITDA.setForeground(Color.WHITE);
         panel_EBITDA.setBackground(Color.BLACK);
-        
+
 
     }//GEN-LAST:event_btn_EBITDAMouseExited
 
@@ -927,7 +923,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         //Inicializa el frame de impuestos
         try {
             if (!jtf_nombreproyecto.getText().equals(" Ingrese el nombre de su proyecto...") && jtf_nombreproyecto.getText().trim().length() > 0) {
-                
+
                 Utilidad.Tabla.inicializar_col(impuestos.getTabla_impuestos());
                 Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_impuestos());
                 Utilidad.Tabla.importar(impuestos.getImpuestos_f(), impuestos.getTabla_indimpuestos());
@@ -937,7 +933,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 impuestos.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                
+
             }
         } catch (Exception e) {
             System.err.println("Error en btn_impuestosMouseClicked (ProjectEvaluator)");
@@ -974,7 +970,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 credito.filas_datos(credito.getTabla_datcredito(), credito.getTabla_pagcredito());
             } else {
                 JOptionPane.showMessageDialog(null, "Ingrese un nombre válido para su proyecto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                
+
             }
         } catch (Exception e) {
             System.err.println("Error en btn_creditoMouseClicked (ProjectEvaluator)");
@@ -996,7 +992,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         panel_credito.setBackground(Color.BLACK);
 
     }//GEN-LAST:event_btn_creditoMouseExited
-    
+
 
     private void jtf_añosvidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_añosvidaActionPerformed
         // TODO add your handling code here:
@@ -1011,7 +1007,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //Inicializa INGVSGAS
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_ingresos()).setColumnCount(1);
                 Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).setColumnCount(1);
-                
+
                 ((DefaultTableModel) ingvsgas.getTabla_ingresos().getModel()).setRowCount(0);
                 ((DefaultTableModel) ingvsgas.getTabla_egresos().getModel()).setRowCount(0);
 
@@ -1027,9 +1023,9 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 //imp ing y eg
                 ingvsgas.getjComboBoxivaing().setSelectedItem("Sin IVA");
                 ingvsgas.getjComboBoxivaeg().setSelectedItem("Sin IVA");
-                
+
                 import_ingeg = true;
-                
+
                 Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_ingresos(), 11);
                 Utilidad.Tabla.filas_defecto(ingvsgas.getTabla_egresos(), 11);
 
@@ -1092,7 +1088,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
             Color c = new Color(151, 159, 173);
             jtf_añosvida.setForeground(c);
             jtf_nombreproyecto.setForeground(Color.WHITE);
-            
+
         }
     }//GEN-LAST:event_jtf_nombreproyectoMousePressed
 
@@ -1132,13 +1128,13 @@ public class ProjectEvaluator extends javax.swing.JFrame {
                 ingvsgas.setear_ingvsgas();
                 ingvsgas.setear_ebitda_imp();
                 reabrir_frames();
-                
+
             } else {
                 jtf_nombreproyecto.setText(" Ingrese el nombre de su proyecto...");
                 Color c = new Color(151, 159, 173);
                 jtf_nombreproyecto.setForeground(c);
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -1154,7 +1150,7 @@ public class ProjectEvaluator extends javax.swing.JFrame {
         impuestos.setIngVsGas(ingvsgas);
         try {
             importar_ult_p();
-            
+
         } catch (Exception e) {
             e.getMessage();
         }

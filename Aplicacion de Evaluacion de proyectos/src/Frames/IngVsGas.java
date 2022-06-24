@@ -467,6 +467,7 @@ public class IngVsGas extends javax.swing.JFrame {
                 }
             } catch (IndexOutOfBoundsException e) {
                 suma_totales_ing.add(0.0);
+
             }
         }
         //añade los totales a las tablas
@@ -597,17 +598,19 @@ public class IngVsGas extends javax.swing.JFrame {
 
     public void saldo_caja_inicial() {
         //añade el saldo inicial en los ingresos
-        saldo_caja.clear();
-        saldo_caja.addAll(suma_totales_ing);
-        saldo_caja.remove(0);
-        saldo_caja.add(0, "Saldo inicial de caja disponible");
-        saldo_caja.add(1, 0);
-        int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
-        if (fila_caja == -1) {
-            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
-        } else {
-            Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_caja);
-            Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_caja, saldo_caja.toArray());
+        if (jComboBoxivaing.getSelectedItem().equals("Sin IVA")) {
+            saldo_caja.clear();
+            saldo_caja.addAll(suma_totales_ing);
+            saldo_caja.remove(0);
+            saldo_caja.add(0, "Saldo inicial de caja disponible");
+            saldo_caja.add(1, 0);
+            int fila_caja = Utilidad.Tabla.buscar_indice_fila("Saldo inicial de caja disponible", tabla_ingresos);
+            if (fila_caja == -1) {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(0, saldo_caja.toArray());
+            } else {
+                Utilidad.Tabla.get_modelo(tabla_ingresos).removeRow(fila_caja);
+                Utilidad.Tabla.get_modelo(tabla_ingresos).insertRow(fila_caja, saldo_caja.toArray());
+            }
         }
     }
 
@@ -664,14 +667,9 @@ public class IngVsGas extends javax.swing.JFrame {
                     ingresosiva = new File(ProjectEvaluator.direccion + "IngVsGas\\ingresos (IVA).txt");
                     Utilidad.Tabla.exportar(ingresosiva, tabla_ingresos);
                 }
-                //hace varias veces los seteos para actualizar total ebitda con saldo caja inicial en (CON IVA)
-                if (jComboBoxivaing.getSelectedIndex() == 0) {
-                    for (int i = 1; i <= ProjectEvaluator.longevidad; i++) {
-                        calculo_total_ing();
-                        setear_ebitda_imp();
-                        saldo_caja_inicial();
-                    }
-                }
+                calculo_total_ing();
+                setear_ebitda_imp();
+                saldo_caja_inicial();
                 indicadores.añadir_indicadores();
             }
         } catch (Exception e) {
