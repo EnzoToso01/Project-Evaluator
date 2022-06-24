@@ -426,8 +426,8 @@ public class Empleados extends javax.swing.JFrame {
             for (int i = 1; i <= combo_años.getItemCount(); i++) {
 
                 combo_años.setSelectedItem("Año " + i);
-                /*   importar_emp();
-                 sueldos.add(calculo_total_sueldos());*/
+                importar_emp();
+                sueldos.add(calculo_total_sueldos());
             }
 
             if (Utilidad.Tabla.get_modelo(ingvsgas.getTabla_egresos()).getRowCount() <= 2) {
@@ -440,7 +440,7 @@ public class Empleados extends javax.swing.JFrame {
             combo_años.setSelectedIndex(selecteditem);
         } catch (Exception e) {
             System.err.println("Error en arr_sueldos (Empleados)");
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
